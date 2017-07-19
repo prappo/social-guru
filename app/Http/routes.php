@@ -103,8 +103,9 @@ Route::group(['middleware' => 'web'], function () {
         // delete tumblr post
         Route::post('/tudel', 'Write@tuDelete');
         Route::post('/tureblog', 'Write@tuReblog');
-
+//        Image upload
         Route::post('/iup', 'ImageUpload@iup');
+        Route::post('/content/upload','ImageUpload@contentUpload');
 
         Route::post('/addschedule', 'ScheduleController@addSchedule');
         Route::get('/schedules', 'ScheduleController@index');
