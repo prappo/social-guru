@@ -34,8 +34,8 @@
                                             <div class="PreviewPoster">
                                                 <img src="{{url('/images/optimus/social/logo.png')}}"
                                                      style="vertical-align:top;">
-                                                <span class="userFullName">Optimus Prime</span>
-                                                <span class="postPreviewDetails">Published by Optimsu Prime</span>
+                                                <span class="userFullName">Social Guru</span>
+                                                <span class="postPreviewDetails">Published by Social Guru</span>
 
                                                 <div class="clear"></div>
                                             </div>
@@ -144,6 +144,27 @@
                                     <br>
                                 </div>
 
+                                <div style="display: none" id="urlOption"
+                                     class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            @if($boards == 'Not available')
+                                                {{$boards}}
+                                            @else
+                                                Select
+                                                <Board></Board>
+                                                <select id="boardId">
+                                                    @foreach($boards as $board)
+                                                        <option value="{{$board['id']}}">{{$board['name']}}</option>
+                                                    @endforeach
+                                                </select>
+                                            @endif
+                                        </div>
+
+                                    </div>
+                                    <br>
+                                </div>
+
 
                                 <div data-step="7"
                                      data-intro="Select your post type. Image post is not available for wordpress, skype, linkedin. And link post is available only for facebook & linkedin. Maybe later we can add link post feature for others"
@@ -183,69 +204,91 @@
                             <div data-step="9" data-intro="Options available according to your settings"
                                  style="padding-left: 10px" class="form-group">
                                 <div class="btn-group btn-group-xs" data-toggle="buttons">
+                                    @if(\App\Http\Controllers\Data::myPackage('fb'))
+                                        @if(!empty(\App\Http\Controllers\Data::get('fbAppId')))
+                                            <label class="btn btn-primary bg-blue">
+                                                <input id="fbCheck" type="checkbox" autocomplete="off"><i
+                                                        class="fa fa-facebook"></i>
+                                                Facebook page
+                                            </label>
 
-                                    @if(!empty(\App\Http\Controllers\Data::get('fbAppId')))
-                                        <label class="btn btn-primary bg-blue">
-                                            <input id="fbCheck" type="checkbox" autocomplete="off"><i
-                                                    class="fa fa-facebook"></i>
-                                            Facebook page
-                                        </label>
-
-                                        <label class="btn btn-primary bg-blue">
-                                            <input id="fbgCheck" type="checkbox" autocomplete="off"><i
-                                                    class="fa fa-users"></i>
-                                            Facebook group
-                                        </label>
+                                            <label class="btn btn-primary bg-blue">
+                                                <input id="fbgCheck" type="checkbox" autocomplete="off"><i
+                                                        class="fa fa-users"></i>
+                                                Facebook group
+                                            </label>
+                                        @endif
                                     @endif
 
-
-                                    @if(!empty(\App\Http\Controllers\Data::get('twTokenSec')))
-                                        <label class="btn btn-primary bg-light-blue">
-                                            <input id="twCheck" type="checkbox" autocomplete="off"><i
-                                                    class="fa fa-twitter"></i>
-                                            Twitter
-                                        </label>
+                                    @if(\App\Http\Controllers\Data::myPackage('tw'))
+                                        @if(!empty(\App\Http\Controllers\Data::get('twTokenSec')))
+                                            <label class="btn btn-primary bg-light-blue">
+                                                <input id="twCheck" type="checkbox" autocomplete="off"><i
+                                                        class="fa fa-twitter"></i>
+                                                Twitter
+                                            </label>
+                                        @endif
                                     @endif
 
-                                    @if(!empty(\App\Http\Controllers\Data::get('inPass')))
-                                        <label class="btn btn-primary bg-light-blue">
-                                            <input id="iCheck" type="checkbox" autocomplete="off"><i
-                                                    class="fa fa-instagram"></i>
-                                            Instagram
-                                        </label>
+                                    @if(\App\Http\Controllers\Data::myPackage('in'))
+                                        @if(!empty(\App\Http\Controllers\Data::get('inPass')))
+                                            <label class="btn btn-danger bg-red-gradient">
+                                                <input id="iCheck" type="checkbox" autocomplete="off"><i
+                                                        class="fa fa-instagram"></i>
+                                                Instagram
+                                            </label>
+                                        @endif
                                     @endif
 
+                                    @if(\App\Http\Controllers\Data::myPackage('wp'))
 
-                                    @if(!empty(\App\Http\Controllers\Data::get('wpPassword')))
-                                        <label class="btn btn-primary bg-blue-gradient">
-                                            <input id="wpCheck" type="checkbox" autocomplete="off"><i
-                                                    class="fa fa-wordpress"></i>
-                                            Wordpress
-                                        </label>
+                                        @if(!empty(\App\Http\Controllers\Data::get('wpPassword')))
+                                            <label class="btn btn-primary bg-blue-gradient">
+                                                <input id="wpCheck" type="checkbox" autocomplete="off"><i
+                                                        class="fa fa-wordpress"></i>
+                                                Wordpress
+                                            </label>
+                                        @endif
+
                                     @endif
 
-                                    @if(!empty(\App\Http\Controllers\Data::get('tuTokenSec')))
-                                        <label class="btn btn-primary bg-gray">
-                                            <input id="tuCheck" type="checkbox" autocomplete="off"><i
-                                                    class="fa fa-tumblr"></i>
-                                            Tumblr
-                                        </label>
+                                    @if(\App\Http\Controllers\Data::myPackage('tu'))
+                                        @if(!empty(\App\Http\Controllers\Data::get('tuTokenSec')))
+                                            <label class="btn btn-primary bg-gray">
+                                                <input id="tuCheck" type="checkbox" autocomplete="off"><i
+                                                        class="fa fa-tumblr"></i>
+                                                Tumblr
+                                            </label>
+                                        @endif
                                     @endif
 
-                                    @if(!empty(\App\Http\Controllers\Data::get('skypePass')))
-                                        <label class="btn btn-primary bg-light-blue">
-                                            <input id="skypeCheck" type="checkbox" autocomplete="off"><i
-                                                    class="fa fa-skype"></i>
-                                            Skype
-                                        </label>
+                                    {{--@if(!empty(\App\Http\Controllers\Data::get('skypePass')))--}}
+                                    {{--<label class="btn btn-primary bg-light-blue">--}}
+                                    {{--<input id="skypeCheck" type="checkbox" autocomplete="off"><i--}}
+                                    {{--class="fa fa-skype"></i>--}}
+                                    {{--Skype--}}
+                                    {{--</label>--}}
+                                    {{--@endif--}}
+
+                                    @if(\App\Http\Controllers\Data::myPackage('ln'))
+
+                                        @if(!empty(\App\Http\Controllers\Data::get('liAccessToken')))
+                                            <label class="btn btn-primary bg-light-blue-active">
+                                                <input id="linkedinCheck" type="checkbox" autocomplete="off"><i
+                                                        class="fa fa-linkedin"></i>
+                                                Linkedin
+                                            </label>
+                                        @endif
                                     @endif
 
-                                    @if(!empty(\App\Http\Controllers\Data::get('liAccessToken')))
-                                        <label class="btn btn-primary bg-light-blue-active">
-                                            <input id="linkedinCheck" type="checkbox" autocomplete="off"><i
-                                                    class="fa fa-linkedin"></i>
-                                            Linkedin
-                                        </label>
+                                    @if(\App\Http\Controllers\Data::myPackage('pinterest'))
+                                        @if(!empty(\App\Http\Controllers\Data::get('pinPass')))
+                                            <label class="btn btn-danger bg-red">
+                                                <input id="pinCheck" type="checkbox" autocomplete="off"><i
+                                                        class="fa fa-pinterest"></i>
+                                                Pinterest
+                                            </label>
+                                        @endif
                                     @endif
 
                                 </div>
@@ -276,6 +319,9 @@
                                             class="fa fa-skype"></i> Skype selected</span>
                                 <span style="display: none" id="linkedinl" class="label label-default"><i
                                             class="fa fa-linkedin"></i> Linkedin selected</span>
+
+                                <span style="display: none" id="pinl" class="label label-default"><i
+                                            class="fa fa-pinterest"></i> Pinterest selected</span>
                             </div>
                             <div class="form-group" style="padding-left:10px">
 
@@ -348,21 +394,34 @@
 
                             <div style="padding-left: 10px" class="form-group">
                                 <br>
-                                <button data-step="10" data-intro="Hit me to give me permission for posting" id="write"
-                                        class="btn btn-success"><i class="fa fa-send"></i>
-                                    Post
-                                </button>
+                                <div class="btn-group">
+                                    <button data-step="10" data-intro="Hit me to give me permission for posting"
+                                            id="write"
+                                            class="btn btn-success"><i class="fa fa-send"></i>
+                                        Post
+                                    </button>
 
-                                <button data-step="11" data-intro="Click here to schedule your post" id="addschedule"
-                                        class="btn btn-default"><i class="fa fa-calendar"></i> Add
-                                    to
-                                    schedule
-                                </button>
+                                    <button data-step="11" data-intro="Click here to schedule your post"
+                                            id="addschedule"
+                                            class="btn btn-default"><i class="fa fa-calendar"></i> Add
+                                        to
+                                        schedule
+                                    </button>
+                                </div>
+                                <br><br>
+                                <div class="btn-group">
 
-                                <button data-step="13" data-toggle="modal" data-target="#creatorModal"
-                                        data-intro="Click here to To create content" id="contentCreator"
-                                        class="btn btn-primary"><i class="fa fa-image"></i> Create Content
-                                </button>
+                                    <button data-step="13" data-toggle="modal" data-target="#creatorModal"
+                                            data-intro="Click here to To create content" id="contentCreator"
+                                            class="btn btn-primary"><i class="fa fa-image"></i> Create Content
+                                    </button>
+
+
+                                    <button data-step="13" data-toggle="modal" data-target="#contentListModal"
+                                            data-intro="Click here to See the contents" id="btnContentList"
+                                            class="btn btn-warning"><i class="fa fa-list"></i> Created Contents
+                                    </button>
+                                </div>
                             </div>
                             <div id="ss" style="display: none;" class="form-group">
                                 <div style="padding-left: 10px">
@@ -435,6 +494,10 @@
                                                   class="label label-success"><i
                                                         class="fa fa-linkedin"></i> Successfully wrote on linkedin</span>
 
+                                            <span id="pinMsgSu" style="display: none"
+                                                  class="label label-success"><i
+                                                        class="fa fa-pinterest"></i> Successfully posted on Pinterest</span>
+
                                             <span id="fbMsgEr" style="display: none"
                                                   class="label label-danger"><i
                                                         class="fa fa-facebook"></i> Error occurred while trying to write on facebook page</span>
@@ -460,11 +523,15 @@
 
                                             <span id="tuMsgEr" style="display: none"
                                                   class="label label-danger"><i
-                                                        class="fa fa-tumblr"></i> Error occurred while trying to write on tumblr</span>
+                                                        class="fa fa-tumblr"></i> Error occurred while trying to write on Tumblr</span>
 
                                             <span id="liMsgEr" style="display: none"
                                                   class="label label-danger"><i
-                                                        class="fa fa-linkedin"></i> Error occurred while trying to write on linkedin</span>
+                                                        class="fa fa-linkedin"></i> Error occurred while trying to write on Pinterest</span>
+
+                                            <span id="pinMsgEr" style="display: none"
+                                                  class="label label-danger"><i
+                                                        class="fa fa-pinterest"></i> Error occurred while trying to write on Pinterest</span>
                                         </div>
                                     </div>
                                 </div>
@@ -492,188 +559,218 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">Content creator</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <canvas height="600" width="500" id="c"></canvas>
-                        </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <canvas height="600" width="500" id="c"></canvas>
+                            </div>
 
-                        <div class="col-md-6">
-                            {{-- canvas properties --}}
+                            <div class="col-md-6">
+                                {{-- canvas properties --}}
 
-                            <div class="row" style="margin-right:10px">
-                                <div class="box box-primary">
-                                    <div class="box-header with-border">
-                                        <h3 class="box-title">Tools</h3>
-                                    </div>
-                                    <!-- /.box-header -->
-                                    <!-- form start -->
-                                    <form role="form">
-                                        <div class="box-body">
-
-
-                                            {{-- here --}}
-
-
-                                            <div class="panel-group" id="accordion" role="tablist"
-                                                 aria-multiselectable="true">
-                                                <div class="panel panel-default">
-                                                    <div class="panel-heading" role="tab" id="headingOne">
-                                                        <h4 class="panel-title">
-                                                            <a role="button" data-toggle="collapse"
-                                                               data-parent="#accordion" href="#collapseOne"
-                                                               aria-expanded="true" aria-controls="collapseOne">
-                                                                <i class="fa fa-file-o"></i> Background
-                                                            </a>
-                                                        </h4>
-                                                    </div>
-                                                    <div id="collapseOne" class="panel-collapse collapse in"
-                                                         role="tabpanel" aria-labelledby="headingOne">
-                                                        <div class="panel-body">
-                                                            <label for="cColor">Background Color</label>
-                                                            <input type="color" id="cColor">
-                                                            <button type="button" id="btnCColorChange"
-                                                                    class="btn btn-primary btn-xs">Change
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="panel panel-default">
-                                                    <div class="panel-heading" role="tab" id="headingTwo">
-                                                        <h4 class="panel-title">
-                                                            <a class="collapsed" role="button" data-toggle="collapse"
-                                                               data-parent="#accordion" href="#collapseTwo"
-                                                               aria-expanded="false" aria-controls="collapseTwo">
-                                                                <i class="fa fa-paint-brush"></i> Draw
-                                                            </a>
-                                                        </h4>
-                                                    </div>
-                                                    <div id="collapseTwo" class="panel-collapse collapse"
-                                                         role="tabpanel" aria-labelledby="headingTwo">
-                                                        <div class="panel-body">
-                                                            <label><input type="checkbox" id="enableDrawing">
-                                                                Enable</label>
-                                                            <input type="color" id="drawingColor">
-                                                            <input type="text" value="10" id="drawingSize">
-                                                            <input type="button" class="btn btn-primary btn-xs"
-                                                                   value="Done" id="drawingChange">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="panel panel-default">
-                                                    <div class="panel-heading" role="tab" id="headingThree">
-                                                        <h4 class="panel-title">
-                                                            <a class="collapsed" role="button" data-toggle="collapse"
-                                                               data-parent="#accordion" href="#collapseThree"
-                                                               aria-expanded="false" aria-controls="collapseThree">
-                                                                <i class="fa fa-image"></i> Add Image
-                                                            </a>
-                                                        </h4>
-                                                    </div>
-                                                    <div id="collapseThree" class="panel-collapse collapse"
-                                                         role="tabpanel" aria-labelledby="headingThree">
-                                                        <div class="panel-body">
-                                                            <input class="form-control" type="file" id="imageLoader"
-                                                                   name="imageLoader"/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="panel panel-default">
-                                                    <div class="panel-heading" role="tab" id="headingThree">
-                                                        <h4 class="panel-title">
-                                                            <a class="collapsed" role="button" data-toggle="collapse"
-                                                               data-parent="#accordion" href="#collapseFour"
-                                                               aria-expanded="false" aria-controls="collapseThree">
-                                                                <i class="fa fa-font"></i> Add Text
-                                                            </a>
-                                                        </h4>
-                                                    </div>
-                                                    <div id="collapseFour" class="panel-collapse collapse"
-                                                         role="tabpanel" aria-labelledby="headingThree">
-                                                        <div class="panel-body">
-                                                            Text <input type="text" value="Hellow world" id="cText"><br>
-                                                            Select color <input type="color" id="cTextColor"><br>
-                                                            Size <input type="text" id="cTextSize" value="30"><br>
-                                                            <input type="button" id="cTextAdd" value="Add text"
-                                                                   class="btn btn-primary btn-xs">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="panel panel-default">
-                                                    <div class="panel-heading" role="tab" id="headingThree">
-                                                        <h4 class="panel-title">
-                                                            <a class="collapsed" role="button" data-toggle="collapse"
-                                                               data-parent="#accordion" href="#collapseFive"
-                                                               aria-expanded="false" aria-controls="collapseThree">
-                                                                <i class="fa fa-stop"></i> Add Rectangle
-                                                            </a>
-                                                        </h4>
-                                                    </div>
-                                                    <div id="collapseFive" class="panel-collapse collapse"
-                                                         role="tabpanel" aria-labelledby="headingThree">
-                                                        <div class="panel-body">
-                                                            Select Color <input type="color" id="rectColor"><br>
-                                                            <input type="button" id="makeRect" value="Create"
-                                                                   class="btn btn-xs btn-primary">
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="panel panel-default">
-                                                    <div class="panel-heading" role="tab" id="headingThree">
-                                                        <h4 class="panel-title">
-                                                            <a class="collapsed" role="button" data-toggle="collapse"
-                                                               data-parent="#accordion" href="#collapseSix"
-                                                               aria-expanded="false" aria-controls="collapseThree">
-                                                                <i class="fa fa-circle-o"></i> Add Circle
-                                                            </a>
-                                                        </h4>
-                                                    </div>
-                                                    <div id="collapseSix" class="panel-collapse collapse"
-                                                         role="tabpanel" aria-labelledby="headingThree">
-                                                        <div class="panel-body">
-                                                            Select Color <input type="color" id="circleColor"><br>
-                                                            <input type="button" id="makeCircle" value="Create"
-                                                                   class="btn btn-xs btn-primary">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <input type="button" class="btn btn-danger btn-xs"
-                                                   value="Delete selected Object" id="delete">
-
+                                <div class="row" style="margin-right:10px">
+                                    <div class="box box-primary">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Tools</h3>
                                         </div>
-                                        <!-- /.box-body -->
+                                        <!-- /.box-header -->
+                                        <!-- form start -->
+                                        <form role="form">
+                                            <div class="box-body">
 
 
-                                    </form>
+                                                {{-- here --}}
+
+
+                                                <div class="panel-group" id="accordion" role="tablist"
+                                                     aria-multiselectable="true">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading" role="tab" id="headingOne">
+                                                            <h4 class="panel-title">
+                                                                <a role="button" data-toggle="collapse"
+                                                                   data-parent="#accordion" href="#collapseOne"
+                                                                   aria-expanded="true" aria-controls="collapseOne">
+                                                                    <i class="fa fa-file-o"></i> Background
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseOne" class="panel-collapse collapse in"
+                                                             role="tabpanel" aria-labelledby="headingOne">
+                                                            <div class="panel-body">
+                                                                <label for="cColor">Background Color</label>
+                                                                <input type="color" id="cColor">
+                                                                <button type="button" id="btnCColorChange"
+                                                                        class="btn btn-primary btn-xs">Change
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading" role="tab" id="headingTwo">
+                                                            <h4 class="panel-title">
+                                                                <a class="collapsed" role="button"
+                                                                   data-toggle="collapse"
+                                                                   data-parent="#accordion" href="#collapseTwo"
+                                                                   aria-expanded="false" aria-controls="collapseTwo">
+                                                                    <i class="fa fa-paint-brush"></i> Draw
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseTwo" class="panel-collapse collapse"
+                                                             role="tabpanel" aria-labelledby="headingTwo">
+                                                            <div class="panel-body">
+                                                                <label><input type="checkbox" id="enableDrawing">
+                                                                    Enable</label>
+                                                                <input type="color" id="drawingColor">
+                                                                <input type="text" value="10" id="drawingSize">
+                                                                <input type="button" class="btn btn-primary btn-xs"
+                                                                       value="Done" id="drawingChange">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading" role="tab" id="headingThree">
+                                                            <h4 class="panel-title">
+                                                                <a class="collapsed" role="button"
+                                                                   data-toggle="collapse"
+                                                                   data-parent="#accordion" href="#collapseThree"
+                                                                   aria-expanded="false" aria-controls="collapseThree">
+                                                                    <i class="fa fa-image"></i> Add Image
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseThree" class="panel-collapse collapse"
+                                                             role="tabpanel" aria-labelledby="headingThree">
+                                                            <div class="panel-body">
+                                                                <input class="form-control" type="file" id="imageLoader"
+                                                                       name="imageLoader"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading" role="tab" id="headingThree">
+                                                            <h4 class="panel-title">
+                                                                <a class="collapsed" role="button"
+                                                                   data-toggle="collapse"
+                                                                   data-parent="#accordion" href="#collapseFour"
+                                                                   aria-expanded="false" aria-controls="collapseThree">
+                                                                    <i class="fa fa-font"></i> Add Text
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseFour" class="panel-collapse collapse"
+                                                             role="tabpanel" aria-labelledby="headingThree">
+                                                            <div class="panel-body">
+                                                                Text <input type="text" value="Hellow world" id="cText"><br>
+                                                                Select color <input type="color" id="cTextColor"><br>
+                                                                Size <input type="text" id="cTextSize" value="30"><br>
+                                                                <input type="button" id="cTextAdd" value="Add text"
+                                                                       class="btn btn-primary btn-xs">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading" role="tab" id="headingThree">
+                                                            <h4 class="panel-title">
+                                                                <a class="collapsed" role="button"
+                                                                   data-toggle="collapse"
+                                                                   data-parent="#accordion" href="#collapseFive"
+                                                                   aria-expanded="false" aria-controls="collapseThree">
+                                                                    <i class="fa fa-stop"></i> Add Rectangle
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseFive" class="panel-collapse collapse"
+                                                             role="tabpanel" aria-labelledby="headingThree">
+                                                            <div class="panel-body">
+                                                                Select Color <input type="color" id="rectColor"><br>
+                                                                <input type="button" id="makeRect" value="Create"
+                                                                       class="btn btn-xs btn-primary">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading" role="tab" id="headingThree">
+                                                            <h4 class="panel-title">
+                                                                <a class="collapsed" role="button"
+                                                                   data-toggle="collapse"
+                                                                   data-parent="#accordion" href="#collapseSix"
+                                                                   aria-expanded="false" aria-controls="collapseThree">
+                                                                    <i class="fa fa-circle-o"></i> Add Circle
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseSix" class="panel-collapse collapse"
+                                                             role="tabpanel" aria-labelledby="headingThree">
+                                                            <div class="panel-body">
+                                                                Select Color <input type="color" id="circleColor"><br>
+                                                                <input type="button" id="makeCircle" value="Create"
+                                                                       class="btn btn-xs btn-primary">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <input type="button" class="btn btn-danger btn-xs"
+                                                       value="Delete selected Object" id="delete">
+
+                                            </div>
+                                            <!-- /.box-body -->
+
+
+                                        </form>
+                                    </div>
+
                                 </div>
 
-                            </div>
 
-
-                            <div class="row">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                <button type="button" id="imageSaver" class="btn btn-primary">Download Image</button>
-                                <button type="button" id="createContent" class="btn btn-success">Create</button>
+                                <div class="row">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    <button type="button" id="imageSaver" class="btn btn-primary">Download Image
+                                    </button>
+                                    <button type="button" id="createContent" class="btn btn-success">Create</button>
+                                </div>
                             </div>
                         </div>
+
+
                     </div>
 
-
                 </div>
-
             </div>
         </div>
     </div>
 
     {{-- Content creator end--}}
+    <div class="modal fade modal-fullscreen" id="contentListModal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Created content list</h4>
+                    <div class="modal-body">
+                        <div id="contentList">
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- Content list start--}}
+
+
+
+    {{-- Content List end--}}
 @endsection
 @section('css')
 
@@ -869,28 +966,44 @@
             $('#createContent').click(function () {
                 var dataURL = canvas.toDataURL();
                 $.ajax({
-                   type:'POST',
-                    url:"{{url('/content/upload')}}",
-                    data:{
-                        imageData:dataURL
+                    type: 'POST',
+                    url: "{{url('/content/upload')}}",
+                    data: {
+                        imageData: dataURL
                     },
-                    success:function (data) {
-                        if(data['status']=="success"){
-                            $('#imgPreview').attr('src','{{url('/uploads')}}/'+data['fileName']);
+                    success: function (data) {
+                        if (data['status'] == "success") {
+                            $('#imgPreview').attr('src', '{{url('/uploads')}}/' + data['fileName']);
                             $('#image').val(data['fileName']);
-                            $('#imagetype').prop('checked',true);
+                            $('#imagetype').prop('checked', true);
                             $('#creatorModal').modal('toggle');
-                        }else{
+                        } else {
                             alert(data);
                         }
 
                     },
-                    error:function(data){
+                    error: function (data) {
                         alert("Something went wrong, Please check the console message");
                         console.log(data.responseText);
                     }
                 });
             });
+
+            $('#btnContentList').click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '{{url('/content/list')}}',
+                    data: {},
+                    success: function (data) {
+                        $('#contentList').html(data);
+                    },
+                    error: function (data) {
+                        alert("Can't load Content list,Something went wrong, Please check console message");
+                        console.log(data.responseText);
+                    }
+                });
+            });
+
 
 //========================================================================
 //            Content creator end

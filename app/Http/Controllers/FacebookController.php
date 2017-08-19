@@ -32,6 +32,9 @@ class FacebookController extends Controller
 
     public function index()
     {
+        if(!Data::myPackage('fb')){
+            return view('errors.404');
+        }
 //        check if fbAppSec exists
 
 
@@ -82,6 +85,10 @@ class FacebookController extends Controller
      */
     public function fbGroupIndex()
     {
+        if(!Data::myPackage('fb')){
+            return view('errors.404');
+        }
+
         $message = "";
         if (facebookGroups::where('userId', Auth::user()->id)->count() <= 0) {
             $message = "nogroup";
@@ -238,6 +245,10 @@ class FacebookController extends Controller
      */
     public function fbComment(Request $re)
     {
+        if(!Data::myPackage('fb')){
+            return view('errors.404');
+        }
+
         $id = $re->id;
         $token = $re->pageToken;
         $message = $re->comment;
@@ -294,6 +305,10 @@ class FacebookController extends Controller
      */
     public function fbReport()
     {
+        if(!Data::myPackage('fb')){
+            return view('errors.404');
+        }
+
         if (Setting::where('userId', Auth::user()->id)->value('fbAppSec') == "") {
             return redirect('/settings');
         }
@@ -336,6 +351,10 @@ class FacebookController extends Controller
 
     public function fbReportSingle($pageId)
     {
+        if(!Data::myPackage('fb')){
+            return view('errors.404');
+        }
+
         if (Setting::where('userId', Auth::user()->id)->value('fbAppSec') == "") {
             return redirect('/settings');
         }
@@ -383,6 +402,11 @@ class FacebookController extends Controller
      */
     public function fbReportView()
     {
+
+        if(!Data::myPackage('fb')){
+            return view('errors.404');
+        }
+
         $datas = FacebookPages::where('userId', Auth::user()->id)->get();
         return view('facebookreport', compact('datas'));
     }
@@ -393,6 +417,11 @@ class FacebookController extends Controller
      */
     public function massSend($pageId)
     {
+
+        if(!Data::myPackage('fb')){
+            return view('errors.404');
+        }
+
         $fb = new \Facebook\Facebook([
             'app_id' => Data::get('fbAppId'),
             'app_secret' => Data::get('fbAppSec'),
@@ -417,6 +446,10 @@ class FacebookController extends Controller
      */
     public function massSendIndex()
     {
+
+        if(!Data::myPackage('fb')){
+            return view('errors.404');
+        }
 
         if (Setting::where('userId', Auth::user()->id)->value('fbAppSec') == "") {
             return redirect('/settings');
@@ -462,7 +495,7 @@ class FacebookController extends Controller
         $msgCount = 0;
 
         try {
-            $response = $fb->get($pageId . '?fields=conversations', $token)->getDecodedBody();
+            $response = $fb->get($pageId . '?fields=conversations.limit(2000)', $token)->getDecodedBody();
             foreach ($response['conversations']['data'] as $conNo => $conversation) {
                 $conId = $conversation['id'];
                 try {
@@ -995,6 +1028,10 @@ class FacebookController extends Controller
      */
     public function massComment()
     {
+        if(!Data::myPackage('fb')){
+            return view('errors.404');
+        }
+
         $pages = FacebookPublicPages::where('userId', Auth::user()->id)->get();
         return view('fbmasspage', compact('pages'));
     }
@@ -1047,7 +1084,7 @@ class FacebookController extends Controller
         $token = Data::get('fbAppToken');
         $pageCount = 0;
         $commentCount = 0;
-        $publicPages = FacebookPublicPages::user('userId', Auth::user()->id)->get();
+        $publicPages = FacebookPublicPages::where('userId', Auth::user()->id)->get();
         foreach ($publicPages as $page) {
             $pageCount++;
             $data = $fb->get($page->pageId . '/feed?limit=1', $token)->getDecodedBody();
@@ -1090,6 +1127,12 @@ class FacebookController extends Controller
      */
     public static function comment($id, $text)
     {
+
+        if(!Data::myPackage('fb')){
+            return view('errors.404');
+        }
+
+
         $fb = new Facebook([
             'app_id' => Data::get('fbAppId'),
             'app_secret' => Data::get('fbAppSec'),

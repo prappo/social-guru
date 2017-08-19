@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Profile | Optimus')
+@section('title','Edit user | Optimus')
 
 @section('content')
     <div class="wrapper">
@@ -14,7 +14,8 @@
                     <div class="col-md-6">
                         <div class="box box-primary">
                             <div class="box-header with-border" align="center">
-                                <h3 class="box-title"><i class="fa fa-refresh"></i> Update User</h3>
+                                <h3 class="box-title"><i class="fa fa-refresh"></i> Update User
+                                    Information/Packages/Features</h3>
                             </div><!-- /.box-header -->
                             <!-- form start -->
 
@@ -26,7 +27,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="name">Name</label>
-                                    <input class="form-control"  id="name"
+                                    <input class="form-control" id="name"
                                            placeholder="Your Name" value="{{$name}}" type="text">
                                 </div>
 
@@ -43,9 +44,14 @@
                                         <label>Packages</label>
                                     </div>
 
+                                    <div class="form-group">
+                                        <label>Select packages for this user</label>
+                                    </div>
+
                                     <div class="checkbox">
                                         <label>
-                                            <input id="fb" type="checkbox" @if(\App\Http\Controllers\Data::hasPackage($id,'fb')) checked @endif>
+                                            <input id="fb" type="checkbox"
+                                                   @if(\App\Http\Controllers\Data::hasPackage($id,'fb')) checked @endif>
                                             <i class="fa fa-facebook"></i> Facebook
                                         </label>
                                     </div>
@@ -53,58 +59,113 @@
 
                                     <div class="checkbox">
                                         <label>
-                                            <input id="tw" type="checkbox" @if(\App\Http\Controllers\Data::hasPackage($id,'tw')) checked @endif>
+                                            <input id="tw" type="checkbox"
+                                                   @if(\App\Http\Controllers\Data::hasPackage($id,'tw')) checked @endif>
                                             <i class="fa fa-twitter"></i> Twitter
                                         </label>
-                                    </div><div class="checkbox">
+                                    </div>
+                                    {{--<div class="checkbox">--}}
+                                        {{--<label>--}}
+                                            {{--<input id="tu" type="checkbox"--}}
+                                                   {{--@if(\App\Http\Controllers\Data::hasPackage($id,'tu')) checked @endif>--}}
+                                            {{--<i class="fa fa-tumblr"></i> Tumblr--}}
+                                        {{--</label>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="checkbox">--}}
+                                        {{--<label>--}}
+                                            {{--<input id="wp" type="checkbox"--}}
+                                                   {{--@if(\App\Http\Controllers\Data::hasPackage($id,'wp')) checked @endif>--}}
+                                            {{--<i class="fa fa-wordpress"></i> Wordpress--}}
+                                        {{--</label>--}}
+                                    {{--</div>--}}
+                                    <div class="checkbox">
                                         <label>
-                                            <input id="tu" type="checkbox" @if(\App\Http\Controllers\Data::hasPackage($id,'tu')) checked @endif>
-                                            <i class="fa fa-tumblr"></i> Tumblr
-                                        </label>
-                                    </div><div class="checkbox">
-                                        <label>
-                                            <input id="wp" type="checkbox" @if(\App\Http\Controllers\Data::hasPackage($id,'wp')) checked @endif>
-                                            <i class="fa fa-wordpress"></i> Wordpress
-                                        </label>
-                                    </div><div class="checkbox">
-                                        <label>
-                                            <input id="ln" type="checkbox" @if(\App\Http\Controllers\Data::hasPackage($id,'ln')) checked @endif>
+                                            <input id="ln" type="checkbox"
+                                                   @if(\App\Http\Controllers\Data::hasPackage($id,'ln')) checked @endif>
                                             <i class="fa fa-linkedin"></i> Linkedin
-                                        </label>
-                                    </div><div class="checkbox">
-                                        <label>
-                                            <input id="in" type="checkbox" @if(\App\Http\Controllers\Data::hasPackage($id,'in')) checked @endif>
-                                            <i class="fa fa-instagram"></i> Instagram
                                         </label>
                                     </div>
                                     <div class="checkbox">
                                         <label>
-                                            <input id="fbBot" type="checkbox" @if(\App\Http\Controllers\Data::hasPackage($id,'fbBot')) checked @endif>
-                                            <i class="fa fa-comment"></i> Facebook Messenger Bot
+                                            <input id="in" type="checkbox"
+                                                   @if(\App\Http\Controllers\Data::hasPackage($id,'in')) checked @endif>
+                                            <i class="fa fa-instagram"></i> Instagram
                                         </label>
                                     </div>
 
                                     <div class="checkbox">
                                         <label>
-                                            <input id="slackBot" type="checkbox" @if(\App\Http\Controllers\Data::hasPackage($id,'slackBot')) checked @endif>
-                                            <i class="fa fa-slack"></i> Slack Bot
+                                            <input id="pinterest" type="checkbox"
+                                                   @if(\App\Http\Controllers\Data::hasPackage($id,'pinterest')) checked @endif>
+                                            <i class="fa fa-pinterest"></i> Pinterest
                                         </label>
                                     </div>
 
                                     {{--<div class="checkbox">--}}
                                         {{--<label>--}}
-                                            {{--<input id="contacts" type="checkbox" @if(\App\Http\Controllers\Data::hasPackage($id,'contacts')) checked @endif>--}}
-                                            {{--<i class="fa fa-list-alt"></i> Contacts--}}
+                                            {{--<input id="fbBot" type="checkbox"--}}
+                                                   {{--@if(\App\Http\Controllers\Data::hasPackage($id,'fbBot')) checked @endif>--}}
+                                            {{--<i class="fa fa-comment"></i> Facebook Messenger Bot--}}
                                         {{--</label>--}}
                                     {{--</div>--}}
+
+                                    {{--<div class="checkbox">--}}
+                                        {{--<label>--}}
+                                            {{--<input id="slackBot" type="checkbox"--}}
+                                                   {{--@if(\App\Http\Controllers\Data::hasPackage($id,'slackBot')) checked @endif>--}}
+                                            {{--<i class="fa fa-slack"></i> Slack Bot--}}
+                                        {{--</label>--}}
+                                    {{--</div>--}}
+
+                                    {{--<div class="checkbox">--}}
+                                    {{--<label>--}}
+                                    {{--<input id="contacts" type="checkbox" @if(\App\Http\Controllers\Data::hasPackage($id,'contacts')) checked @endif>--}}
+                                    {{--<i class="fa fa-list-alt"></i> Contacts--}}
+                                    {{--</label>--}}
+                                    {{--</div>--}}
+
+                                </div>
+                                <div class="box-footer">
+                                    <button id="save" class="btn btn-success"><i class="fa fa-save"></i> Save Packages
+                                    </button>
+                                </div>
+
+                                {{-- Available plugins list--}}
+                                <hr>
+                                <div id="plugins" class="form-group">
+                                    <div class="form-group">
+                                        <label>Available features</label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Select more Packages/features for this users</label>
+                                    </div>
+                                    @foreach($plugins as $plugin)
+                                        <div class="box @if(\App\Http\Controllers\Plugins::check($plugin['name'],$id)) box-success @endif">
+
+
+                                            <div class="box-header">
+
+                                                <kbd>{{$plugin['name']}}</kbd> <br>
+                                            </div>
+
+                                            <div class="box-body">
+                                                {!! $plugin['description'] !!}
+                                            </div>
+                                            <div class="box-footer">
+
+                                                <div class="btn-group-xs">
+                                                    <button data-id="{{$plugin['name']}}" @if(!\App\Http\Controllers\Plugins::check($plugin['name'],$id)) disabled @endif class="btn btn-danger btn-disable">Disable</button>
+                                                    <button data-id="{{$plugin['name']}}" @if(\App\Http\Controllers\Plugins::check($plugin['name'],$id)) disabled @endif class="btn btn-primary btn-enable">Enable</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
 
                                 </div>
 
                             </div><!-- /.box-body -->
 
-                            <div class="box-footer">
-                                <button id="save" class="btn btn-primary">Save</button>
-                            </div>
 
                         </div>
                     </div>
@@ -122,141 +183,208 @@
 @endsection
 @section('js')
     <script>
-        var fb="no",tw="no",tu="no",wp="no",ln="no",ins="no",fbBot="no",slackBot = "no",contacts="no";
-        if($('#fb').is(':checked')){
+        var fb = "no", tw = "no", tu = "no", wp = "no", ln = "no", ins = "no", fbBot = "no", slackBot = "no", contacts = "no", pinterest = "no";
+        if ($('#fb').is(':checked')) {
             fb = 'yes';
         }
-        if($('#tw').is(':checked')){
+        if ($('#tw').is(':checked')) {
             tw = 'yes';
         }
-        if($('#tu').is(':checked')){
+        if ($('#tu').is(':checked')) {
             tu = 'yes';
         }
-        if($('#wp').is(':checked')){
+        if ($('#wp').is(':checked')) {
             wp = 'yes';
         }
-        if($('#in').is(':checked')){
+        if ($('#in').is(':checked')) {
             ins = 'yes';
         }
-        if($('#ln').is(':checked')){
+        if ($('#ln').is(':checked')) {
             ln = 'yes';
         }
-        if($('#fbBot').is(':checked')){
+        if ($('#fbBot').is(':checked')) {
             fbBot = 'yes';
         }
-        if($('#slackBot').is(':checked')){
+        if ($('#slackBot').is(':checked')) {
             slackBot = 'yes';
         }
-        if($('#contacts').is(':checked')){
+        if ($('#contacts').is(':checked')) {
             contacts = "yes";
         }
+        if ($('#pinterest').is(':checked')) {
+            pinterest = "yes";
+        }
 
-//        changing stuff
-        $('#fb').on('change',function () {
-           if(this.checked){
-               fb = 'yes';
-           }else{
-               fb='no';
-           }
+        //        changing stuff
+        $('#fb').on('change', function () {
+            if (this.checked) {
+                fb = 'yes';
+            } else {
+                fb = 'no';
+            }
         });
 
-        $('#tw').on('change',function () {
-            if(this.checked){
+        $('#tw').on('change', function () {
+            if (this.checked) {
                 tw = 'yes';
-            }else{
-                tw='no';
+            } else {
+                tw = 'no';
             }
         });
 
-        $('#tu').on('change',function () {
-            if(this.checked){
+        $('#tu').on('change', function () {
+            if (this.checked) {
                 tu = 'yes';
-            }else{
-                tu='no';
+            } else {
+                tu = 'no';
             }
         });
 
-        $('#ln').on('change',function () {
-            if(this.checked){
+        $('#ln').on('change', function () {
+            if (this.checked) {
                 ln = 'yes';
-            }else{
+            } else {
                 ln = 'no';
             }
         });
 
-        $('#in').on('change',function () {
-            if(this.checked){
+        $('#in').on('change', function () {
+            if (this.checked) {
                 ins = 'yes';
-            }else{
+            } else {
                 ins = 'no';
             }
         });
 
-        $('#wp').on('change',function () {
-            if(this.checked){
+        $('#wp').on('change', function () {
+            if (this.checked) {
                 wp = 'yes';
-            }else{
-                wp='no';
+            } else {
+                wp = 'no';
             }
         });
 
-        $('#fbBot').on('change',function () {
-            if(this.checked){
+        $('#fbBot').on('change', function () {
+            if (this.checked) {
                 fbBot = 'yes';
-            }else{
+            } else {
                 fbBot = 'no';
             }
         });
 
-        $('#slackBot').on('change',function () {
-            if(this.checked){
+        $('#slackBot').on('change', function () {
+            if (this.checked) {
                 slackBot = 'yes';
-            }else{
+            } else {
                 slackBot = 'no';
             }
         });
 
-        $('#contacts').on('change',function () {
-            if(this.checked){
+        $('#contacts').on('change', function () {
+            if (this.checked) {
                 contacts = "yes";
-            }else{
+            } else {
                 contacts = "no";
             }
-        })
+        });
+
+        $('#pinterest').on('change', function () {
+            if (this.checked) {
+                pinterest = "yes";
+            } else {
+                pinterest = "no";
+            }
+        });
+
+
+
 
         $('#save').click(function () {
+
             $.ajax({
-                type:'POST',
-                url:'{{url('/user/update')}}',
-                data:{
-                    'id':'{{$id}}',
-                    'name':$('#name').val(),
-                    'email':$('#email').val(),
-                    'password':$('#pass').val(),
-                    'fb':fb,
-                    'tw':tw,
-                    'tu':tu,
-                    'wp':wp,
-                    'in':ins,
-                    'ln':ln,
-                    'fbBot':fbBot,
-                    'slackBot':slackBot,
-                    'contacts':contacts
+                type: 'POST',
+                url: '{{url('/user/update')}}',
+                data: {
+                    'id': '{{$id}}',
+                    'name': $('#name').val(),
+                    'email': $('#email').val(),
+                    'password': $('#pass').val(),
+                    'fb': fb,
+                    'tw': tw,
+                    'tu': tu,
+                    'wp': wp,
+                    'in': ins,
+                    'ln': ln,
+                    'pinterest': pinterest,
+                    'fbBot': fbBot,
+                    'slackBot': slackBot,
+                    'contacts': contacts
 
                 },
-                success:function (data) {
-                    if(data=='success'){
-                        swal('Success','User information updated','success');
+                success: function (data) {
+                    if (data == 'success') {
+                        swal('Success', 'User information updated', 'success');
                         location.reload();
                     }
-                    else{
-                        swal('Error',data,'error');
+                    else {
+                        swal('Error', data, 'error');
+                    }
+                },
+                error: function (data) {
+                    swal('Error', data, 'error');
+                }
+            });
+        });
+        $('.btn-enable').click(function () {
+            var pluginName = $(this).attr('data-id');
+            var userId = "{{$id}}";
+            $.ajax({
+                type:'POST',
+                url:'{{url('/plugin/active/for/user')}}',
+                data:{
+                    'pluginName':pluginName,
+                    'userId':userId,
+                    'action':'enable'
+                },
+                success:function (data) {
+                    if(data=="success"){
+                        swal("Success","Done !","success");
+                        location.reload();
+                    }else{
+                        swal("Error !",data,"error");
                     }
                 },
                 error:function (data) {
-                    swal('Error',data,'error');
+                    swal("Error !","Something went wrong, Please check console message","error");
+                    console.log(data.responseText);
                 }
             });
-        })
+        });
+
+        $('.btn-disable').click(function () {
+            var pluginName = $(this).attr('data-id');
+            var userId = "{{$id}}";
+            $.ajax({
+                type:'POST',
+                url:'{{url('/plugin/active/for/user')}}',
+                data:{
+                    'pluginName':pluginName,
+                    'userId':userId,
+                    'action':'disable'
+                },
+                success:function (data) {
+                    if(data=="success"){
+                        swal("Success","Done !","success");
+                        location.reload();
+                    }else{
+                        swal("Error !",data,"error");
+                    }
+                },
+                error:function (data) {
+                    swal("Error !","Something went wrong, Please check console message","error");
+                    console.log(data.responseText);
+                }
+            });
+        });
     </script>
 @endsection

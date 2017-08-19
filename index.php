@@ -11,7 +11,19 @@
 </head>
 <body>
 <div align="center" style="padding-top: 150px">
-    Social GURU.
+    <div class="shake shake-constant" align="center">
+        <img src="public/images/optimus/social/logomin.png"><br>
+
+    </div>
+    <h1>Optimus Prime</h1>
+    <a href="public" class="shake btn btn-lg btn-default"><i class="fa fa-key"></i> Login </a>
+    <?php
+    if (extension_loaded('sqlite3')) {
+        echo '<br><span class="label label-success">Status Ok</span>';
+    } else {
+        echo '<br><span class="label label-danger">Sqlite Not support in this server</span>';
+    }
+    ?>
 </div>
 </body>
 </html>

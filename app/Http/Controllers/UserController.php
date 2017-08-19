@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Package;
+use App\PluginsRecord;
 use App\Setting;
 use App\User;
 use Illuminate\Http\Request;
@@ -17,13 +18,14 @@ class UserController extends Controller
         \App::setLocale(CoreController::getLang());
 
     }
+
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
      */
     public function userList()
     {
         if (Auth::user()->type != 'admin') {
-            return "forbidden";
+            return view('errors.404');
         }
         $data = User::all();
         return view('userlist', compact('data'));
@@ -35,7 +37,7 @@ class UserController extends Controller
     public function addUserIndex()
     {
         if (Auth::user()->type != 'admin') {
-            return "forbidden";
+            return view('errors.404');
         }
         return view('adduser');
     }
@@ -43,7 +45,7 @@ class UserController extends Controller
     public function adminDashboard()
     {
         if (Auth::user()->type != 'admin') {
-            return "forbidden";
+            return view('errors.404');
         }
         return view('admin');
     }
@@ -111,11 +113,31 @@ class UserController extends Controller
     public function userEdit($id)
     {
         if (Auth::user()->type != 'admin') {
-            return "forbidden";
+            return view('errors.404');
         }
         $name = User::where('id', $id)->value('name');
         $email = User::where('id', $id)->value('email');
-        return view('useredit', compact('name', 'email', 'id'));
+
+//        get plugins list
+
+        if (Auth::user()->type != 'admin') {
+            return view('errors.404');
+        }
+        $plugins = [];
+        $modules = glob(base_path('Modules/') . "*");
+        foreach ($modules as $module) {
+            if (strpos($module, '.') !== false || strpos($module, '__') !== false) {
+//                not folder
+            } else {
+                $content = file_get_contents($module . "/module.json");
+                $json = json_decode($content, true);
+                array_push($plugins, $json);
+            }
+
+
+        }
+
+        return view('useredit', compact('name', 'email', 'id', 'plugins'));
     }
 
     /**
@@ -152,18 +174,22 @@ class UserController extends Controller
             }
         }
 
-
-        Package::where('userId', $request->id)->update([
-            'fb' => $request->fb,
-            'tw' => $request->tw,
-            'tu' => $request->tu,
-            'wp' => $request->wp,
-            'ln' => $request->ln,
-            'in' => $request->in,
-            'fbBot' => $request->fbBot,
-            'slackBot' => $request->slackBot,
-            'contacts' => $request->contacts
-        ]);
+        try {
+            Package::where('userId', $request->id)->update([
+                'fb' => $request->fb,
+                'tw' => $request->tw,
+                'tu' => $request->tu,
+                'wp' => $request->wp,
+                'ln' => $request->ln,
+                'in' => $request->in,
+                'fbBot' => $request->fbBot,
+                'pinterest' => $request->pinterest,
+                'slackBot' => $request->slackBot,
+                'contacts' => $request->contacts
+            ]);
+        } catch (\Exception $exception) {
+            return $exception->getMessage();
+        }
 
 
         return "success";
@@ -199,6 +225,9 @@ class UserController extends Controller
 
     public function adminIndex()
     {
+        if (Auth::user()->type != 'admin') {
+            return view('errors.404');
+        }
         return view('admin');
     }
 }

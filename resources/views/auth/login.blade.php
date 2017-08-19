@@ -1,10 +1,10 @@
 @extends('layouts.auth')
-@section('title', 'Login | Optimus')
+@section('title', 'Login | Social Guru')
 @section('content')
 
     <div class="login-box">
         <div class="login-logo">
-            <a href="{{ url('/') }}"><img src="{{ url('images/optimus/logo-login.png') }}" alt="Optimus"><b>Optimus</b></a>
+            <a href="{{ url('/') }}"><img src="{{ url('images/optimus/logo-login.png') }}" alt="Social Guru"><b>Social Guru</b></a>
         </div>
 
         <div class="login-box-body">
@@ -44,9 +44,9 @@
                     <div class="col-xs-4">
                         <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
                     </div>
-                    {{--<div class="col-xs-4">--}}
-                        {{--<a href="{{ url('/register') }}" class="btn btn-primary btn-block btn-flat">Register</a>--}}
-                    {{--</div>--}}
+                    <div class="col-xs-4">
+                        <a href="{{ url('/register') }}" class="btn btn-primary btn-block btn-flat">Register</a>
+                    </div>
                 </div>
             </form>
         </div>

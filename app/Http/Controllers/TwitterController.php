@@ -16,11 +16,15 @@ class TwitterController extends Controller
         \App::setLocale(CoreController::getLang());
 
     }
+
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function index()
     {
+        if (!Data::myPackage('tw')) {
+            return view('errors.404');
+        }
 
 
         if (Data::get('twTokenSec') == "" || Data::get('twConKey') == "") {
@@ -75,6 +79,10 @@ class TwitterController extends Controller
      */
     public static function retweetnow($id)
     {
+        if (!Data::myPackage('tw')) {
+            return view('errors.404');
+        }
+
 
         $consumerKey = FollowersController::get_value('twConKey');
         $consumerSecret = FollowersController::get_value('twConSec');
@@ -120,6 +128,12 @@ class TwitterController extends Controller
      */
     public static function SendMsg($user, $message)
     {
+
+        if (!Data::myPackage('tw')) {
+            return view('errors.404');
+        }
+
+
         $username = $user;
         $text = $message;
         $consumerKey = FollowersController::get_value('twConKey');
@@ -167,6 +181,12 @@ class TwitterController extends Controller
      */
     public static function twReplyNow($id, $user, $text)
     {
+
+        if (!Data::myPackage('tw')) {
+            return view('errors.404');
+        }
+
+
         $consumerKey = FollowersController::get_value('twConKey');
         $consumerSecret = FollowersController::get_value('twConSec');
         $accessToken = FollowersController::get_value('twToken');
@@ -190,6 +210,11 @@ class TwitterController extends Controller
      */
     public function massSend()
     {
+
+        if (!Data::myPackage('tw')) {
+            return view('errors.404');
+        }
+
         return view('twmasssend');
     }
 
@@ -249,6 +274,10 @@ class TwitterController extends Controller
      */
     public function sendMessage()
     {
+        if (!Data::myPackage('tw')) {
+            return view('errors.404');
+        }
+
         return view('twsendmessage');
     }
 
@@ -257,6 +286,11 @@ class TwitterController extends Controller
      */
     public function autoRetweet()
     {
+
+        if (!Data::myPackage('tw')) {
+            return view('errors.404');
+        }
+
         $consumerKey = FollowersController::get_value('twConKey');
         $consumerSecret = FollowersController::get_value('twConSec');
         $accessToken = FollowersController::get_value('twToken');
@@ -295,6 +329,11 @@ class TwitterController extends Controller
      */
     public function autoRetweetIndex()
     {
+
+        if (!Data::myPackage('tw')) {
+            return view('errors.404');
+        }
+
         return view('retweet');
     }
 
@@ -304,6 +343,11 @@ class TwitterController extends Controller
      */
     public function autoReply(Request $request)
     {
+
+        if (!Data::myPackage('tw')) {
+            return view('errors.404');
+        }
+
         $consumerKey = FollowersController::get_value('twConKey');
         $consumerSecret = FollowersController::get_value('twConSec');
         $accessToken = FollowersController::get_value('twToken');
@@ -386,7 +430,16 @@ class TwitterController extends Controller
      */
     public function autoReplyIndex()
     {
+        if (!Data::myPackage('tw')) {
+            return view('errors.404');
+        }
+
         return view('reply');
+    }
+
+    public function autoLikeIndex()
+    {
+        return view('twAutoLike');
     }
 
 
