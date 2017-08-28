@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Setting;
+use App\TwFollowers;
+use App\TwTags;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -31,17 +33,20 @@ class TwitterController extends Controller
             return redirect('/settings');
         }
 
-        $consumerKey = Data::get('twConKey');
-        $consumerSecret = Data::get('twConSec');
-        $accessToken = Data::get('twToken');
-        $tokenSecret = Data::get('twTokenSec');
+//        $consumerKey = Data::get('twConKey');
+//        $consumerSecret = Data::get('twConSec');
+//        $accessToken = Data::get('twToken');
+//        $tokenSecret = Data::get('twTokenSec');
+//
+//        $twitter = new \Twitter($consumerKey, $consumerSecret, $accessToken, $tokenSecret);
+//
+//        $me = $twitter->load(\Twitter::ME);
+//        $twRep = $twitter->load(\Twitter::REPLIES);
+//        $tw = $twitter->load(\Twitter::ME_AND_FRIENDS);
+//        return view('Twitter', compact('tw', 'twRep', 'me'));
 
-        $twitter = new \Twitter($consumerKey, $consumerSecret, $accessToken, $tokenSecret);
 
-        $me = $twitter->load(\Twitter::ME);
-        $twRep = $twitter->load(\Twitter::REPLIES);
-        $tw = $twitter->load(\Twitter::ME_AND_FRIENDS);
-        return view('Twitter', compact('tw', 'twRep', 'me'));
+        return view('twAutoLike');
     }
 
     public function getInboxIndex()
@@ -439,7 +444,277 @@ class TwitterController extends Controller
 
     public function autoLikeIndex()
     {
-        return view('twAutoLike');
+        $consumerKey = Data::get('twConKey');
+        $consumerSecret = Data::get('twConSec');
+        $accessToken = Data::get('twToken');
+        $tokenSecret = Data::get('twTokenSec');
+
+        $twitter = new \Twitter($consumerKey, $consumerSecret, $accessToken, $tokenSecret);
+//
+//        $me = $twitter->load(\Twitter::ME);
+//        $twRep = $twitter->load(\Twitter::REPLIES);
+//        $tw = $twitter->load(\Twitter::ME_AND_FRIENDS);
+//        return view('Twitter', compact('tw', 'twRep', 'me'));
+
+        try {
+            $results = $twitter->request('users/search', 'GET', array('q' => "prappo", 'count' => 10));
+            print_r($results);
+        } catch (\Exception $exception) {
+            return $exception->getMessage();
+        }
+    }
+
+    public function addTag(Request $request)
+    {
+        if (TwTags::where('userId', Auth::user()->id)->where('tag', $request->tag)->exists()) {
+            return "Tag already added";
+        }
+
+        try {
+            $addTag = new TwTags();
+            $addTag->userId = Auth::user()->id;
+            $addTag->tag = $request->tag;
+            $addTag->conversation = 0;
+            $addTag->save();
+            return "success";
+        } catch (\Exception $exception) {
+            return $exception->getMessage();
+        }
+    }
+
+    public function getTags()
+    {
+        try {
+            $tags = TwTags::where('userId', Auth::user()->id)->get();
+            foreach ($tags as $tag) {
+                echo '
+                <div class="btn-group button-tag">
+                                                    <button type="button" class="btn btn-default label-button">
+                                                        ' . $tag->tag . '
+                                                    </button>
+                                                    <button type="button" class="btn btn-default dropdown-toggle"
+                                                            data-toggle="dropdown" aria-expanded="false"><span
+                                                                class="caret"></span><span class="sr-only">Toggle Dropdown</span>
+                                                    </button>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <li class="no-action"><a href="#"><i
+                                                                        class="fa fa-users text-twitter"></i>
+                                                                ' . $tag->conversion . ' conversions
+                                                            </a></li>
+
+                                                        <li class="divider"></li>
+
+                                                        <li><a  data-id="' . $tag->id . '" class="removeActiveTag"><i
+                                                                        class="fa fa-close text-twitter"></i>
+                                                                Remove Tag
+                                                            </a></li>
+                                                    </ul>
+                                                </div>
+                                                
+                ';
+            }
+            echo '
+            <script>
+            $(".removeActiveTag").click(function () {
+            
+            var id = $(this).attr("data-id");
+            $.ajax({
+                type: "POST",
+                url: "' . url('/twitter/tag/remove') . '",
+                data: {
+                    "id": id
+                },
+                success: function (data) {
+                    if (data == "success") {
+                        getTags();
+                    }
+                },
+                error: function (data) {
+                    alert("Something went wrong");
+                    console.log(data.responseText);
+                }
+            });
+        });
+            </script>
+            ';
+
+        } catch (\Exception $exception) {
+            return "Something went wrong";
+        }
+    }
+
+    public function deleteTag(Request $request)
+    {
+        try {
+            TwTags::where('id', $request->id)->delete();
+            return "success";
+        } catch (\Exception $exception) {
+            return $exception->getMessage();
+        }
+    }
+
+    public function findFollower(Request $request)
+    {
+        $consumerKey = Data::get('twConKey');
+        $consumerSecret = Data::get('twConSec');
+        $accessToken = Data::get('twToken');
+        $tokenSecret = Data::get('twTokenSec');
+
+        $twitter = new \Twitter($consumerKey, $consumerSecret, $accessToken, $tokenSecret);
+
+        try {
+            $results = $twitter->request('users/search', 'GET', array('q' => $request->data, 'count' => 12));
+            foreach ($results as $result) {
+                echo '
+                <li>
+                <img src="' . $result->profile_image_url . '" alt="User Image">
+                <a class="users-list-name" href="#">' . $result->followers_count . ' followers</a>
+                <button data-id="' . $result->screen_name . '" data-followers="' . $result->followers_count . '" data-pic="' . $result->profile_image_url . '" class="btn btn-success btn-xs followUser">
+                <i class="fa fa-user-plus"></i> ' . $result->screen_name . '
+                </button>
+                </li>
+                ';
+            }
+            echo '
+            <script>
+        $(".followUser").click(function () {
+            
+            var username = $(this).attr("data-id");
+            var image = $(this).attr("data-pic");
+            var twFollowers = $(this).attr("data-followers");
+            $.ajax({
+                type: "POST",
+                url: "' . url("/twitter/add/follower") . '",
+                data: {
+                    "username": username,
+                    "image": image,
+                    "followers": twFollowers
+                },
+                success: function (data) {
+                    if(data =="success"){
+                        showFollowers();
+                    }
+                },
+                error:function (data) {
+                    alert("Something went wrong");
+                    console.log(data.responseText);
+                }
+            })
+        });
+            </script>
+            ';
+
+        } catch (\Exception $exception) {
+            return "Something went wrong";
+        }
+    }
+
+    public function getFollowers()
+    {
+
+        try {
+            foreach (TwFollowers::where('userId', Auth::user()->id)->get() as $followers) {
+                echo '
+                 <div class="btn-group button-tag">
+                                                    <button type="button" class="btn btn-default label-button"><img
+                                                                class="img-circle" width="20"
+                                                                src="' . $followers->profile_pic . '"
+                                                                style="margin-right: 5px;">
+                                                        ' . $followers->username . '</button>
+                                                    <button type="button" class="btn btn-default dropdown-toggle"
+                                                            data-toggle="dropdown" aria-expanded="false"
+                                                            style="font-size: 16px;"><span class="caret"></span><span
+                                                                class="sr-only">Toggle Dropdown</span></button>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <li class="no-action"><a href="#"><i
+                                                                        class="fa fa-users text-twitter"></i>
+                                                                ' . $followers->followers . '
+                                                                <!-- react-text: 175 --> <!-- /react-text -->
+                                                                <!-- react-text: 176 -->followers<!-- /react-text -->
+                                                            </a></li>
+                                                        <li class="no-action"><a href="#"><i
+                                                                        class="fa fa-user-plus text-twitter"></i>
+                                                                <!-- react-text: 180 -->' . $followers->conversions . '<!-- /react-text -->
+                                                                <!-- react-text: 181 --> <!-- /react-text -->
+                                                                <!-- react-text: 182 -->conversions<!-- /react-text -->
+                                                            </a></li>
+                                                        <li><a href="https://www.twitter.com/' . $followers->username . '" target="_blank"><i
+                                                                        class="fa fa-external-link text-twitter"></i>
+                                                                <!-- react-text: 186 --> Profile<!-- /react-text --></a>
+                                                        </li>
+                                                        <li class="divider"></li>
+                                                        <li><a href="#" data-id="' . $followers->id . '" class="removeUser"><i
+                                                                        class="fa fa-close text-twitter"></i>
+                                                                <!-- react-text: 191 --> Remove User<!-- /react-text -->
+                                                            </a></li>
+                                                    </ul>
+                                                </div>
+             ';
+            }
+
+            echo '
+            <script>
+            $(".removeUser").click(function() {
+              var id = $(this).attr("data-id");
+              $.ajax({
+                  type:"POST",
+                  url:"' . url('/twitter/follower/delete') . '",
+                  data:{
+                      "id":id
+                  },
+                  success:function(data){
+                  if(data=="success"){
+                  showFollowers();
+                  }
+                  },
+                  error:function(data){
+                    alert("Something went wrong");
+                    console.log(data.responseText);
+                    
+                  }
+              })
+            })
+            </script>
+            ';
+        } catch (\Exception $exception) {
+            return $exception->getMessage();
+        }
+    }
+
+    public function addFollowers(Request $request)
+    {
+        if (!TwFollowers::where('username', $request->username)->where('userId', Auth::user()->id)->exists()) {
+            try {
+
+                $follower = new TwFollowers();
+                $follower->userId = Auth::user()->id;
+                $follower->username = $request->username;
+                $follower->profile_pic = $request->image;
+                $follower->followers = $request->followers;
+                $follower->conversions = 0;
+                $follower->profile_link = "";
+                $follower->is_follow = "no";
+                $follower->save();
+                return "success";
+
+            } catch (\Exception $exception) {
+                return $exception->getMessage();
+            }
+        } else {
+            return "Already exists";
+        }
+
+
+    }
+
+    public function deleteFollower(Request $request)
+    {
+        try {
+            TwFollowers::where('userId', Auth::user()->id)->where('id', $request->id)->delete();
+            return "success";
+        } catch (\Exception $exception) {
+            return $exception->getMessage();
+        }
     }
 
 

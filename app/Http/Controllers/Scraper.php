@@ -47,7 +47,6 @@ class Scraper extends Controller
         }
         return view('twscraper');
 
-
     }
 
     /**

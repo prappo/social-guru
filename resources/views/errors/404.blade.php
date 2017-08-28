@@ -10,7 +10,7 @@
 </head>
 <body>
 <div style="padding: 200px" align="center">
-    <img src="{{url('/images/optimus/logo-login.png')}}">
+    <img height="100" width="100" src="{{url('/images/optimus/logo-login.png')}}">
     <h1>404 </h1>
     <h2>Page not found</h2>
 </div>

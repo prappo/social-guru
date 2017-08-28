@@ -167,7 +167,7 @@
                         {{--</li>--}}
 
                         <li>
-                            <a href="{{ url('/twitter/auto/like') }}"><i class="fa fa-user"></i>
+                            <a href="{{ url('/twitter') }}"><i class="fa fa-user"></i>
                                 <span>{{trans('sidebar.My account')}}</span>
                             </a>
                         </li>
@@ -372,16 +372,14 @@
 
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-youtube"></i>
-                    <span>YouTube</span><i class="fa fa-angle-left pull-right"></i>
+                    <i class="fa fa-instagram"></i>
+                    <span>Instagram</span><i class="fa fa-angle-left pull-right"></i>
 
                 </a>
                 <ul class="treeview-menu" style="display: none;">
-                    <li><a href="{{ url('/notify') }}"><i class="fa fa-bell-o"></i>
-                            <span>{{trans('sidebar.All Notifications')}}</span></a>
+                    <li><a href="{{ url('/twitter/account') }}"><i class="fa fa-user"></i>
+                            <span>My Account</span></a>
                     </li>
-
-                    {!! \App\Http\Controllers\Plugins::menu("notifications") !!}
 
                 </ul>
             </li>
@@ -396,8 +394,8 @@
 
                     <li><a href="{{ url('/settings') }}"><i class="fa fa-gear"></i>
                             <span>{{trans('sidebar.Settings')}}</span></a></li>
-                    <li><a href="{{ url('/settings/notifications') }}"><i class="fa fa-bell"></i>
-                            <span>{{trans('sidebar.Notification')}}</span></a></li>
+                    {{--<li><a href="{{ url('/settings/notifications') }}"><i class="fa fa-bell"></i>--}}
+                            {{--<span>{{trans('sidebar.Notification')}}</span></a></li>--}}
                     {{--<li><a href="{{ url('/settings/config') }}"><i class="fa fa-gears"></i>--}}
                     {{--<span>Configurations</span></a>--}}
                     {{--</li>--}}

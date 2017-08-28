@@ -443,6 +443,7 @@ class InstagramController extends Controller
     public function scraper(Request $request)
     {
         $insta = $this->instagram;
+
         if ($request->type == "tag") {
             $datas = $insta->getHashtagFeed($request->data);
             return view('instaGetHashTagFeed', compact('datas'));
@@ -460,5 +461,7 @@ class InstagramController extends Controller
     {
 
     }
+
+
 
 }

@@ -13,7 +13,7 @@
                 <div class="nav-tabs-custom" style="cursor: move;">
                     <!-- Tabs within a box -->
                     <ul class="nav nav-tabs pull-right ui-sortable-handle">
-                        <li class=""><a href="#reporappt" data-toggle="tab" aria-expanded="false">Report</a></li>
+                        <li class=""><a href="#report" data-toggle="tab" aria-expanded="false">Report</a></li>
                         <li class="active"><a href="#settings" data-toggle="tab" aria-expanded="true">Settings</a>
                         </li>
                         <li class="pull-left header"><i class="fa fa-twitter"></i> Twitter</li>
@@ -35,17 +35,50 @@
 
                                     </div>
                                 </div>
+
+                                <div class="box-body">
+                                    <div>
+                                        <div>
+                                            <div id="tagsSection">
+                                                {{--<div class="btn-group button-tag">--}}
+                                                {{--<button type="button" class="btn btn-default label-button">--}}
+                                                {{--food--}}
+                                                {{--</button>--}}
+                                                {{--<button type="button" class="btn btn-default dropdown-toggle"--}}
+                                                {{--data-toggle="dropdown" aria-expanded="false"><span--}}
+                                                {{--class="caret"></span><span class="sr-only">Toggle Dropdown</span>--}}
+                                                {{--</button>--}}
+                                                {{--<ul class="dropdown-menu" role="menu">--}}
+                                                {{--<li class="no-action"><a href="#"><i--}}
+                                                {{--class="fa fa-users text-twitter"></i>--}}
+                                                {{--0 conversions--}}
+                                                {{--</a></li>--}}
+
+                                                {{--<li class="divider"></li>--}}
+
+                                                {{--<li><a href="#" class="removeTag"><i--}}
+                                                {{--class="fa fa-close text-twitter"></i>--}}
+                                                {{--Remove Tag--}}
+                                                {{--</a></li>--}}
+                                                {{--</ul>--}}
+                                                {{--</div>--}}
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <!-- /.box-header -->
                                 <div class="box-body">
                                     <div class="input-group">
                                         <div class="input-group-btn">
-                                            <button class="btn btn-twitter btn-flat" id="tag"><i
+                                            <button class="btn btn-twitter btn-flat" id="tagBtn"><i
                                                         class="fa fa-tag"></i><!-- react-text: 25 -->
                                                 <!-- /react-text --><!-- react-text: 26 -->Add Tag<!-- /react-text -->
                                                 <!-- react-text: 27 --> <!-- /react-text --><!-- react-text: 28 -->
                                                 <!-- /react-text --></button>
                                         </div>
-                                        <input type="text" class="form-control"
+                                        <input id="tagQuery" type="text" class="form-control"
                                                placeholder="Write one tag and press enter" value=""></div>
                                     <!-- /.table-responsive -->
                                 </div>
@@ -70,7 +103,7 @@
                                 <div>
                                     <div class="box-body">
                                         <div>
-                                            <div>
+                                            <div id="showFollowers">
                                                 <div class="btn-group button-tag">
                                                     <button type="button" class="btn btn-default label-button"><img
                                                                 class="img-circle" width="20"
@@ -105,94 +138,40 @@
                                                             </a></li>
                                                     </ul>
                                                 </div>
-                                                <div class="btn-group button-tag">
-                                                    <button type="button" class="btn btn-default label-button"><img
-                                                                class="img-circle" width="20"
-                                                                src="https://pbs.twimg.com/profile_images/3704055283/7830ca91dc1c7e34a27100568e628a93_normal.png"
-                                                                style="margin-right: 5px;"><!-- react-text: 195 -->
-                                                        TravelLeisure<!-- /react-text --></button>
-                                                    <button type="button" class="btn btn-default dropdown-toggle"
-                                                            data-toggle="dropdown" aria-expanded="false"
-                                                            style="font-size: 16px;"><span class="caret"></span><span
-                                                                class="sr-only">Toggle Dropdown</span></button>
-                                                    <ul class="dropdown-menu" role="menu">
-                                                        <li class="no-action"><a href="#"><i
-                                                                        class="fa fa-users text-twitter"></i>
-                                                                <!-- react-text: 203 -->3.5M<!-- /react-text -->
-                                                                <!-- react-text: 204 --> <!-- /react-text -->
-                                                                <!-- react-text: 205 -->followers<!-- /react-text -->
-                                                            </a></li>
-                                                        <li class="no-action"><a href="#"><i
-                                                                        class="fa fa-user-plus text-twitter"></i>
-                                                                <!-- react-text: 209 -->0<!-- /react-text -->
-                                                                <!-- react-text: 210 --> <!-- /react-text -->
-                                                                <!-- react-text: 211 -->conversions<!-- /react-text -->
-                                                            </a></li>
-                                                        <li><a href="https://www.twitter.com/TravelLeisure"
-                                                               target="_blank"><i
-                                                                        class="fa fa-external-link text-twitter"></i>
-                                                                <!-- react-text: 215 --> Profile<!-- /react-text --></a>
-                                                        </li>
-                                                        <li class="divider"></li>
-                                                        <li><a href="#" class="removeTag"><i
-                                                                        class="fa fa-close text-twitter"></i>
-                                                                <!-- react-text: 220 --> Remove User<!-- /react-text -->
-                                                            </a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="btn-group button-tag">
-                                                    <button type="button" class="btn btn-default label-button"><img
-                                                                class="img-circle" width="20"
-                                                                src="https://pbs.twimg.com/profile_images/661903977244573696/XwtxYjX4_normal.jpg"
-                                                                style="margin-right: 5px;"><!-- react-text: 224 -->
-                                                        prappo_p<!-- /react-text --></button>
-                                                    <button type="button" class="btn btn-default dropdown-toggle"
-                                                            data-toggle="dropdown" aria-expanded="false"
-                                                            style="font-size: 16px;"><span class="caret"></span><span
-                                                                class="sr-only">Toggle Dropdown</span></button>
-                                                    <ul class="dropdown-menu" role="menu">
-                                                        <li class="no-action"><a href="#"><i
-                                                                        class="fa fa-users text-twitter"></i>
-                                                                <!-- react-text: 232 -->33<!-- /react-text -->
-                                                                <!-- react-text: 233 --> <!-- /react-text -->
-                                                                <!-- react-text: 234 -->followers<!-- /react-text -->
-                                                            </a></li>
-                                                        <li class="no-action"><a href="#"><i
-                                                                        class="fa fa-user-plus text-twitter"></i>
-                                                                <!-- react-text: 238 -->0<!-- /react-text -->
-                                                                <!-- react-text: 239 --> <!-- /react-text -->
-                                                                <!-- react-text: 240 -->conversions<!-- /react-text -->
-                                                            </a></li>
-                                                        <li><a href="https://www.twitter.com/prappo_p"
-                                                               target="_blank"><i
-                                                                        class="fa fa-external-link text-twitter"></i>
-                                                                <!-- react-text: 244 --> Profile<!-- /react-text --></a>
-                                                        </li>
-                                                        <li class="divider"></li>
-                                                        <li><a href="#" class="removeTag"><i
-                                                                        class="fa fa-close text-twitter"></i>
-                                                                <!-- react-text: 249 --> Remove User<!-- /react-text -->
-                                                            </a></li>
-                                                    </ul>
-                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
                                     <div class="box-footer">
                                         <div class="targetUserSearch">
-                                            <form>
-                                                <div class="input-group">
-                                                    <div class="input-group-btn">
-                                                        <button class="btn btn-twitter btn-flat" type="submit"
-                                                                id="searchTags"><i class="fa fa-tag"></i>
-                                                            <!-- react-text: 257 --> Search Users <!-- /react-text -->
-                                                        </button>
-                                                    </div>
-                                                    <input type="text" class="form-control"
-                                                           placeholder="Search by usernames" value=""></div>
-                                            </form>
+
+                                            <div class="input-group">
+                                                <div class="input-group-btn">
+                                                    <button class="btn btn-twitter btn-flat"
+                                                            id="searchFollowers"><i class="fa fa-tag"></i>
+                                                        <!-- react-text: 257 --> Search Users <!-- /react-text -->
+                                                    </button>
+                                                </div>
+                                                <input type="text" id="twUserName" class="form-control"
+                                                       placeholder="Search by usernames" value=""></div>
+
                                             <div class="suggestedTargetUsers">
-                                                <ul class="users-list no-height clearfix target-users-list"></ul>
+                                                <div class="box-body no-padding">
+                                                    <ul id="twUserList" class="users-list clearfix">
+
+                                                        {{--<li>--}}
+                                                        {{--<img src="https://pbs.twimg.com/profile_images/661903977244573696/XwtxYjX4_normal.jpg"--}}
+                                                        {{--alt="User Image">--}}
+                                                        {{--<a class="users-list-name" href="#">33 followers</a>--}}
+                                                        {{--<button class="btn btn-success btn-xs"><i--}}
+                                                        {{--class="fa fa-user-plus"></i> prappo_p--}}
+                                                        {{--</button>--}}
+                                                        {{--</li>--}}
+
+
+                                                    </ul>
+                                                    <!-- /.users-list -->
+                                                </div>
                                             </div>
                                             <div class="resetSearch"></div>
                                         </div>
@@ -282,6 +261,7 @@
 
                         </div>
 
+
                         <div class=" tab-pane" id="report">
                             Report
                         </div>
@@ -295,4 +275,84 @@
         </div>{{--End content-wrapper--}}
         @include('components.footer')
     </div>{{--End wrapper--}}
+@endsection
+
+@section('js')
+    <script>
+        {{-- load tags --}}
+
+        function getTags() {
+            $.ajax({
+                type: 'POST',
+                url: '{{url('/twitter/tag/get')}}',
+                data: {},
+                success: function (data) {
+                    $('#tagsSection').html(data);
+                },
+                error: function (data) {
+                    alert("Something went wrong");
+                    console.log(data.responseText);
+                }
+            });
+        }
+
+        getTags();
+        showFollowers();
+
+
+        $('#tagBtn').click(function () {
+            var tagQuery = $('#tagQuery').val();
+            $.ajax({
+                type: 'POST',
+                url: '{{url('/twitter/tag/add')}}',
+                data: {
+                    'tag': tagQuery
+                }, success: function (data) {
+                    getTags();
+                },
+                error: function (data) {
+                    alert("Something went wrong");
+                    console.log(data.responseText);
+                }
+            });
+        });
+
+        $('#searchFollowers').click(function () {
+            var data = $('#twUserName').val();
+            $('#twUserList').html("Please wait ....");
+            $.ajax({
+                type: 'POST',
+                url: '{{url('/twitter/find/follower')}}',
+                data: {
+                    'data': data
+                },
+                success: function (data) {
+                    $('#twUserList').html(data);
+                },
+                error: function (data) {
+                    alert("Something went wrong");
+                    console.log(data.responseText);
+                }
+            })
+        });
+
+
+        function showFollowers() {
+            $('#showFollowers').html("Loading..");
+            $.ajax({
+                type: 'GET',
+                url: '{{url('/twitter/followers/get')}}',
+                data: {},
+                success: function (data) {
+                    $('#showFollowers').html(data);
+                },
+                error: function (data) {
+                    alert("Something went wrong. Can't perform this operation");
+                    console.log(data.responseText);
+                }
+            });
+        }
+
+
+    </script>
 @endsection
