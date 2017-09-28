@@ -221,18 +221,20 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('/language/add', 'AdminController@addLanguage');
         Route::post('/language/change', 'AdminController@changeLanguage');
 
-        Route::get('/instagram/me', 'InstagramController@index');
+        Route::get('/instagram', 'InstagramController@index');
         Route::get('/instagram/followers', 'InstagramController@followers');
         Route::get('/instagram/following', 'InstagramController@following');
         Route::get('/instagram/popular', 'InstagramController@popular');
         Route::get('/instagram/home', 'InstagramController@home');
-        Route::get('/instagram/followers/get', 'InstagramController@getFollowers');
-        Route::get('/instagram/following/get', 'InstagramController@getFollowing');
+//        Route::get('/instagram/followers/get', 'InstagramController@getFollowers');
+//        Route::get('/instagram/following/get', 'InstagramController@getFollowing');
         Route::post('/instagram/write', 'InstagramController@write');
         Route::get('/instagram/following/activity', 'InstagramController@getFollowingUserActivity');
 //        Route::get('/instagram/delete','InstagramController@delete');
 
         Route::get('/instagram/info/{id}', 'InstagramController@getMediaInfo');
+        Route::get('/instagram/followers/get/now', 'InstagramController@getInFollowers');
+
 
         // instagram post
 
@@ -241,6 +243,13 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('/instagram/like', 'InstagramController@like');
         Route::post('/instagram/comment', 'InstagramController@comment');
         Route::post('/instagram/delete', 'InstagramController@delete');
+        Route::post('/instagram/add/follower', 'InstagramController@addFollower');
+        Route::post('/instagram/find/follower', 'InstagramController@findUsers');
+        Route::post('/instagram/tag/remove', 'InstagramController@removeTag');
+        Route::post('/instagram/tag/add', 'InstagramController@addTag');
+        Route::post('/instagram/tag/get', 'InstagramController@getTags');
+        Route::post('/instagram/follower/delete', 'InstagramController@deleteFollower');
+
 
         //auto
 

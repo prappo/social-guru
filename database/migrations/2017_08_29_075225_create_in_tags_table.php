@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTwFollowersTable extends Migration
+class CreateInTagsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,14 +12,11 @@ class CreateTwFollowersTable extends Migration
      */
     public function up()
     {
-        Schema::create('tw_followers', function (Blueprint $table) {
+        Schema::create('in_tags', function (Blueprint $table) {
             $table->increments('id');
             $table->string('userId');
-            $table->string('username');
-            $table->string('followers');
-            $table->string('profile_pic');
-            $table->string('is_follow');
-            $table->string('conversions');
+            $table->string('tag');
+            $table->string('conversation');
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ class CreateTwFollowersTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tw_followers');
+        Schema::drop('in_tags');
     }
 }

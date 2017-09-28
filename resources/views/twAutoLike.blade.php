@@ -179,85 +179,85 @@
                                 </div>
                             </div>
 
-                            <div class="box box-info">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title"><i class="fa fa-ban"></i><!-- react-text: 269 -->
-                                        <!-- /react-text --><!-- react-text: 270 -->Blocked Tags<!-- /react-text -->
-                                        <!-- react-text: 271 --> <!-- /react-text -->
-                                        <small>Any tag added here will prevent any interaction with any tweet/media
-                                            containing them
-                                        </small>
-                                    </h3>
-                                    <div class="box-tools pull-right">
-                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                                                    class="fa fa-plus"></i></button>
-                                    </div>
-                                </div>
-                                <div class="box-body box-tour">
-                                    <div>
-                                        <blockquote><p>You do not have blocked tags yet.</p>
-                                            <small>Add your first one using the form below</small>
-                                        </blockquote>
-                                    </div>
-                                </div>
-                                <div class="box-footer">
-                                    <form>
-                                        <div class="input-group">
-                                            <div class="input-group-btn">
-                                                <button class="btn btn-twitter btn-flat" type="submit" id="searchTags">
-                                                    <i class="fa fa-tag"></i><!-- react-text: 285 -->
-                                                    <!-- /react-text --><!-- react-text: 286 -->Add Negative Tag
-                                                    <!-- /react-text --><!-- react-text: 287 --> <!-- /react-text -->
-                                                </button>
-                                            </div>
-                                            <input type="text" class="form-control"
-                                                   placeholder="Write one keyword and press enter" value=""></div>
-                                    </form>
-                                </div>
-                            </div>
+                            {{--<div class="box box-info">--}}
+                                {{--<div class="box-header with-border">--}}
+                                    {{--<h3 class="box-title"><i class="fa fa-ban"></i><!-- react-text: 269 -->--}}
+                                        {{--<!-- /react-text --><!-- react-text: 270 -->Blocked Tags<!-- /react-text -->--}}
+                                        {{--<!-- react-text: 271 --> <!-- /react-text -->--}}
+                                        {{--<small>Any tag added here will prevent any interaction with any tweet/media--}}
+                                            {{--containing them--}}
+                                        {{--</small>--}}
+                                    {{--</h3>--}}
+                                    {{--<div class="box-tools pull-right">--}}
+                                        {{--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i--}}
+                                                    {{--class="fa fa-plus"></i></button>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--<div class="box-body box-tour">--}}
+                                    {{--<div>--}}
+                                        {{--<blockquote><p>You do not have blocked tags yet.</p>--}}
+                                            {{--<small>Add your first one using the form below</small>--}}
+                                        {{--</blockquote>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--<div class="box-footer">--}}
+                                    {{--<form>--}}
+                                        {{--<div class="input-group">--}}
+                                            {{--<div class="input-group-btn">--}}
+                                                {{--<button class="btn btn-twitter btn-flat" type="submit" id="searchTags">--}}
+                                                    {{--<i class="fa fa-tag"></i><!-- react-text: 285 -->--}}
+                                                    {{--<!-- /react-text --><!-- react-text: 286 -->Add Negative Tag--}}
+                                                    {{--<!-- /react-text --><!-- react-text: 287 --> <!-- /react-text -->--}}
+                                                {{--</button>--}}
+                                            {{--</div>--}}
+                                            {{--<input type="text" class="form-control"--}}
+                                                   {{--placeholder="Write one keyword and press enter" value=""></div>--}}
+                                    {{--</form>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
 
-                            <div class="box box-info">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title"><i class="fa fa-user-times"></i><!-- react-text: 295 -->
-                                        Blocked Users<!-- /react-text --><!-- react-text: 296 --> <!-- /react-text -->
-                                        <small>Add any users you do not want to interact with</small>
-                                    </h3>
-                                    <div class="box-tools pull-right">
-                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                                                    class="fa fa-minus"></i></button>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="box-body">
-                                        <div>
-                                            <div>
-                                                <blockquote><p>You do not have users yet.</p>
-                                                    <small>Add your first one using the form below</small>
-                                                </blockquote>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="box-footer">
-                                        <div class="targetUserSearch">
-                                            <form>
-                                                <div class="input-group">
-                                                    <div class="input-group-btn">
-                                                        <button class="btn btn-twitter btn-flat" type="submit"
-                                                                id="searchTags"><i class="fa fa-tag"></i>
-                                                            <!-- react-text: 315 --> Search Users <!-- /react-text -->
-                                                        </button>
-                                                    </div>
-                                                    <input type="text" class="form-control"
-                                                           placeholder="Search by usernames" value=""></div>
-                                            </form>
-                                            <div class="suggestedTargetUsers">
-                                                <ul class="users-list no-height clearfix target-users-list"></ul>
-                                            </div>
-                                            <div class="resetSearch"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            {{--<div class="box box-info">--}}
+                                {{--<div class="box-header with-border">--}}
+                                    {{--<h3 class="box-title"><i class="fa fa-user-times"></i><!-- react-text: 295 -->--}}
+                                        {{--Blocked Users<!-- /react-text --><!-- react-text: 296 --> <!-- /react-text -->--}}
+                                        {{--<small>Add any users you do not want to interact with</small>--}}
+                                    {{--</h3>--}}
+                                    {{--<div class="box-tools pull-right">--}}
+                                        {{--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i--}}
+                                                    {{--class="fa fa-minus"></i></button>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--<div>--}}
+                                    {{--<div class="box-body">--}}
+                                        {{--<div>--}}
+                                            {{--<div>--}}
+                                                {{--<blockquote><p>You do not have users yet.</p>--}}
+                                                    {{--<small>Add your first one using the form below</small>--}}
+                                                {{--</blockquote>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="box-footer">--}}
+                                        {{--<div class="targetUserSearch">--}}
+                                            {{--<form>--}}
+                                                {{--<div class="input-group">--}}
+                                                    {{--<div class="input-group-btn">--}}
+                                                        {{--<button class="btn btn-twitter btn-flat" type="submit"--}}
+                                                                {{--id="searchTags"><i class="fa fa-tag"></i>--}}
+                                                            {{--<!-- react-text: 315 --> Search Users <!-- /react-text -->--}}
+                                                        {{--</button>--}}
+                                                    {{--</div>--}}
+                                                    {{--<input type="text" class="form-control"--}}
+                                                           {{--placeholder="Search by usernames" value=""></div>--}}
+                                            {{--</form>--}}
+                                            {{--<div class="suggestedTargetUsers">--}}
+                                                {{--<ul class="users-list no-height clearfix target-users-list"></ul>--}}
+                                            {{--</div>--}}
+                                            {{--<div class="resetSearch"></div>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
 
                         </div>
 

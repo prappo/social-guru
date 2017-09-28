@@ -1,204 +1,358 @@
 @extends('layouts.app')
-@section('title','Instagram | My Account')
+@section('title','Instagram')
 
 @section('content')
     <div class="wrapper">
         @include('components.navigation')
         @include('components.sidebar')
 
-        <div id="settingspage"></div>
-
         <div class="content-wrapper">
             <section class="content">
-                @foreach($datas->items as $data)
-                    <div id="{{$data->id}}" class="row">
-                        <div class="col-md-6">
-                            <!-- Box Comment -->
-                            <div class="box box-widget">
+
+                {{-- block 1 start--}}
+                <div class="nav-tabs-custom" style="cursor: move;">
+                    <!-- Tabs within a box -->
+                    <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                        <li class=""><a href="#report" data-toggle="tab" aria-expanded="false">Report</a></li>
+                        <li class="active"><a href="#settings" data-toggle="tab" aria-expanded="true">Settings</a>
+                        </li>
+                        <li class="pull-left header"><i class="fa fa-instagram"></i> Instagram</li>
+                    </ul>
+                    <div class="tab-content no-padding">
+                        <!-- Morris chart - Sales -->
+                        <div style="padding:10px" class="tab-pane active" id="settings">
+
+                            <div class="box box-info">
                                 <div class="box-header with-border">
-                                    <div class="user-block">
-                                        <img class="img-circle" src="{{$data->user->profile_pic_url}}" alt="User Image">
-                                        <span class="username"><a href="#">{{$data->user->full_name}}</a></span>
-                                        {{--<span class="description time">Shared - {{$data->taken_at}}</span>--}}
-                                    </div>
-                                    <!-- /.user-block -->
-                                    <div class="box-tools">
-                                        <button data-id="{{$data->id}}" class="btn btn-xs btn-danger">Delete</button>
-                                        <a target="_blank" href="{{url('/instagram/info')."/".$data->id}}" class="btn btn-xs btn-default">View Details</a>
-                                        <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title=""
-                                                data-original-title="Instagram Post">
-                                            <i class="fa fa-circle-o"></i></button>
+                                    <h3 class="box-title"><i class="fa fa-tags"></i>
+                                        <small>These are the keywords used to look for media to interact with</small>
+                                    </h3>
+
+                                    <div class="box-tools pull-right">
                                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
                                                     class="fa fa-minus"></i>
                                         </button>
 
                                     </div>
-                                    <!-- /.box-tools -->
                                 </div>
+
+                                <div class="box-body">
+                                    <div>
+                                        <div>
+                                            <div id="tagsSection">
+                                                {{--<div class="btn-group button-tag">--}}
+                                                {{--<button type="button" class="btn btn-default label-button">--}}
+                                                {{--food--}}
+                                                {{--</button>--}}
+                                                {{--<button type="button" class="btn btn-default dropdown-toggle"--}}
+                                                {{--data-toggle="dropdown" aria-expanded="false"><span--}}
+                                                {{--class="caret"></span><span class="sr-only">Toggle Dropdown</span>--}}
+                                                {{--</button>--}}
+                                                {{--<ul class="dropdown-menu" role="menu">--}}
+                                                {{--<li class="no-action"><a href="#"><i--}}
+                                                {{--class="fa fa-users text-twitter"></i>--}}
+                                                {{--0 conversions--}}
+                                                {{--</a></li>--}}
+
+                                                {{--<li class="divider"></li>--}}
+
+                                                {{--<li><a href="#" class="removeTag"><i--}}
+                                                {{--class="fa fa-close text-twitter"></i>--}}
+                                                {{--Remove Tag--}}
+                                                {{--</a></li>--}}
+                                                {{--</ul>--}}
+                                                {{--</div>--}}
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <!-- /.box-header -->
                                 <div class="box-body">
-                                    @if($data->media_type == 1)
-                                        <img class="img-responsive pad"
-                                             src="{{$data->image_versions2->candidates[0]->url}}" alt="Photo">
-                                    @elseif($data->media_type == 2)
-                                        <video width="400" controls>
-                                            <source src="{{$data->video_versions[2]->url}}" type="video/mp4">
-
-                                            Your browser does not support HTML5 video.
-                                        </video>
-                                    @endif
-                                    @if($data->caption != "")
-                                        <p>{{$data->caption->text}}</p>
-                                    @endif
-                                    <br>
-
-
-                                    @foreach($data->image_versions2->candidates as $imgs)
-                                        <a target="_blank" href="{{$imgs->url}}" class="label label-default"><i
-                                                    class="fa fa-download"></i> {{$imgs->width." X ".$imgs->height}} <i
-                                                    class="fa fa-image"></i> </a>
-                                    @endforeach
-                                    <br>
-                                    @if($data->media_type == 2)
-
-
-                                        <a target="_blank" href="{{$data->video_versions[0]->url}}"
-                                           class="label label-primary"><i
-                                                    class="fa fa-download"></i> {{$data->video_versions[0]->width." X ".$data->video_versions[0]->height}}
-                                            Download video <i class="fa fa-video-camera"></i>
-                                        </a>
-
-                                    @endif
-
-                                    <br>
-                                    <div class="pull-left"> Top Likers</div>
-                                    <br>
-                                    @foreach($data->top_likers as $liker)
-                                        <span class="pull-left badge bg-blue">{{$liker}}</span>
-                                    @endforeach
-
-                                    <br>
-                                    {{--<button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i>--}}
-                                    {{--Share--}}
-                                    {{--</button>--}}
-                                    {{--<button type="button" class="btn btn-default btn-xs"><i--}}
-                                    {{--class="fa fa-thumbs-o-up"></i>--}}
-                                    {{--Like--}}
-                                    {{--</button>--}}
-                                    <span class="pull-right text-muted">{{$data->like_count}}
-                                        likes - {{$data->comment_count}} comments</span>
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-twitter btn-flat" id="tagBtn"><i
+                                                        class="fa fa-tag"></i><!-- react-text: 25 -->
+                                                <!-- /react-text --><!-- react-text: 26 -->Add Tag<!-- /react-text -->
+                                                <!-- react-text: 27 --> <!-- /react-text --><!-- react-text: 28 -->
+                                                <!-- /react-text --></button>
+                                        </div>
+                                        <input id="tagQuery" type="text" class="form-control"
+                                               placeholder="Write one tag and press enter" value=""></div>
+                                    <!-- /.table-responsive -->
                                 </div>
                                 <!-- /.box-body -->
-                                <div class="box-footer box-comments">
-                                    @foreach($data->preview_comments as $comment)
-                                        <div class="box-comment">
-                                            <!-- User image -->
-                                            <img class="img-circle img-sm" src="{{$comment->user->profile_pic_url}}"
-                                                 alt="User Image">
-
-                                            <div class="comment-text">
-                      <span class="username">
-                       <a href="https://instagram.com/{{$comment->user->username}}" target="_blank">{{$comment->user->full_name}}</a>
-                          <span class="text-muted pull-right"><div class="time">
-                                  {{--{{$comment->created_at}}--}}
-                              </div> </span>
-
-                      </span><!-- /.username -->
-                                                {{$comment->text}}
-                                            </div>
-                                            <!-- /.comment-text -->
-                                        </div>
-                                @endforeach
-
-
-                                <!-- /.box-comment -->
-
-                                    <!-- /.box-comment -->
-                                </div>
-                                <!-- /.box-footer -->
-                                <div class="box-footer">
-
-                                    <img class="img-responsive img-circle img-sm"
-                                         src="{{$data->user->profile_pic_url}}"
-                                         alt="Alt Text">
-                                    <!-- .img-push is used to add margin to elements next to floating images -->
-                                    <div class="img-push">
-                                        <input data-id="{{$data->id}}" type="text" class="form-control input-sm comment"
-                                               placeholder="Press enter to post comment">
-                                    </div>
+                                <div class="box-footer clearfix">
 
                                 </div>
                                 <!-- /.box-footer -->
                             </div>
-                            <!-- /.box -->
+
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title"><i class="fa fa-users"></i><!-- react-text: 153 -->Super
+                                        Targeting<!-- /react-text --><!-- react-text: 154 --> <!-- /react-text -->
+                                        <small>Add any user here to interact with the people who follow them</small>
+                                    </h3>
+                                    <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                                    class="fa fa-minus"></i></button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="box-body">
+                                        <div>
+                                            <div id="showFollowers">
+                                                {{--<div class="btn-group button-tag">--}}
+                                                    {{--<button type="button" class="btn btn-default label-button"><img--}}
+                                                                {{--class="img-circle" width="20"--}}
+                                                                {{--src="https://pbs.twimg.com/profile_images/830129868373266432/a0_asx8X_normal.jpg"--}}
+                                                                {{--style="margin-right: 5px;"><!-- react-text: 166 -->--}}
+                                                        {{--travel<!-- /react-text --></button>--}}
+                                                    {{--<button type="button" class="btn btn-default dropdown-toggle"--}}
+                                                            {{--data-toggle="dropdown" aria-expanded="false"--}}
+                                                            {{--style="font-size: 16px;"><span class="caret"></span><span--}}
+                                                                {{--class="sr-only">Toggle Dropdown</span></button>--}}
+                                                    {{--<ul class="dropdown-menu" role="menu">--}}
+                                                        {{--<li class="no-action"><a href="#"><i--}}
+                                                                        {{--class="fa fa-users text-twitter"></i>--}}
+                                                                {{--<!-- react-text: 174 -->2.8M<!-- /react-text -->--}}
+                                                                {{--<!-- react-text: 175 --> <!-- /react-text -->--}}
+                                                                {{--<!-- react-text: 176 -->followers<!-- /react-text -->--}}
+                                                            {{--</a></li>--}}
+                                                        {{--<li class="no-action"><a href="#"><i--}}
+                                                                        {{--class="fa fa-user-plus text-twitter"></i>--}}
+                                                                {{--<!-- react-text: 180 -->0<!-- /react-text -->--}}
+                                                                {{--<!-- react-text: 181 --> <!-- /react-text -->--}}
+                                                                {{--<!-- react-text: 182 -->conversions<!-- /react-text -->--}}
+                                                            {{--</a></li>--}}
+                                                        {{--<li><a href="https://www.twitter.com/travel" target="_blank"><i--}}
+                                                                        {{--class="fa fa-external-link text-twitter"></i>--}}
+                                                                {{--<!-- react-text: 186 --> Profile<!-- /react-text --></a>--}}
+                                                        {{--</li>--}}
+                                                        {{--<li class="divider"></li>--}}
+                                                        {{--<li><a href="#" class="removeTag"><i--}}
+                                                                        {{--class="fa fa-close text-twitter"></i>--}}
+                                                                {{--<!-- react-text: 191 --> Remove User<!-- /react-text -->--}}
+                                                            {{--</a></li>--}}
+                                                    {{--</ul>--}}
+                                                {{--</div>--}}
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                        <div class="targetUserSearch">
+
+                                            <div class="input-group">
+                                                <div class="input-group-btn">
+                                                    <button class="btn btn-twitter btn-flat"
+                                                            id="searchFollowers"><i class="fa fa-tag"></i>
+                                                        <!-- react-text: 257 --> Search Users <!-- /react-text -->
+                                                    </button>
+                                                </div>
+                                                <input type="text" id="twUserName" class="form-control"
+                                                       placeholder="Search by usernames" value=""></div>
+
+                                            <div class="suggestedTargetUsers">
+                                                <div class="box-body no-padding">
+                                                    <ul id="twUserList" class="users-list clearfix">
+
+                                                        {{--<li>--}}
+                                                        {{--<img src="https://pbs.twimg.com/profile_images/661903977244573696/XwtxYjX4_normal.jpg"--}}
+                                                        {{--alt="User Image">--}}
+                                                        {{--<a class="users-list-name" href="#">33 followers</a>--}}
+                                                        {{--<button class="btn btn-success btn-xs"><i--}}
+                                                        {{--class="fa fa-user-plus"></i> prappo_p--}}
+                                                        {{--</button>--}}
+                                                        {{--</li>--}}
+
+
+                                                    </ul>
+                                                    <!-- /.users-list -->
+                                                </div>
+                                            </div>
+                                            <div class="resetSearch"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{--<div class="box box-info">--}}
+                                {{--<div class="box-header with-border">--}}
+                                    {{--<h3 class="box-title"><i class="fa fa-ban"></i><!-- react-text: 269 -->--}}
+                                        {{--<!-- /react-text --><!-- react-text: 270 -->Blocked Tags<!-- /react-text -->--}}
+                                        {{--<!-- react-text: 271 --> <!-- /react-text -->--}}
+                                        {{--<small>Any tag added here will prevent any interaction with any tweet/media--}}
+                                            {{--containing them--}}
+                                        {{--</small>--}}
+                                    {{--</h3>--}}
+                                    {{--<div class="box-tools pull-right">--}}
+                                        {{--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i--}}
+                                                    {{--class="fa fa-plus"></i></button>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--<div class="box-body box-tour">--}}
+                                    {{--<div>--}}
+                                        {{--<blockquote><p>You do not have blocked tags yet.</p>--}}
+                                            {{--<small>Add your first one using the form below</small>--}}
+                                        {{--</blockquote>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--<div class="box-footer">--}}
+                                    {{--<form>--}}
+                                        {{--<div class="input-group">--}}
+                                            {{--<div class="input-group-btn">--}}
+                                                {{--<button class="btn btn-twitter btn-flat" type="submit" id="searchTags">--}}
+                                                    {{--<i class="fa fa-tag"></i><!-- react-text: 285 -->--}}
+                                                    {{--<!-- /react-text --><!-- react-text: 286 -->Add Negative Tag--}}
+                                                    {{--<!-- /react-text --><!-- react-text: 287 --> <!-- /react-text -->--}}
+                                                {{--</button>--}}
+                                            {{--</div>--}}
+                                            {{--<input type="text" class="form-control"--}}
+                                                   {{--placeholder="Write one keyword and press enter" value=""></div>--}}
+                                    {{--</form>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+
+                            {{--<div class="box box-info">--}}
+                                {{--<div class="box-header with-border">--}}
+                                    {{--<h3 class="box-title"><i class="fa fa-user-times"></i><!-- react-text: 295 -->--}}
+                                        {{--Blocked Users<!-- /react-text --><!-- react-text: 296 --> <!-- /react-text -->--}}
+                                        {{--<small>Add any users you do not want to interact with</small>--}}
+                                    {{--</h3>--}}
+                                    {{--<div class="box-tools pull-right">--}}
+                                        {{--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i--}}
+                                                    {{--class="fa fa-minus"></i></button>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--<div>--}}
+                                    {{--<div class="box-body">--}}
+                                        {{--<div>--}}
+                                            {{--<div>--}}
+                                                {{--<blockquote><p>You do not have users yet.</p>--}}
+                                                    {{--<small>Add your first one using the form below</small>--}}
+                                                {{--</blockquote>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="box-footer">--}}
+                                        {{--<div class="targetUserSearch">--}}
+                                            {{--<form>--}}
+                                                {{--<div class="input-group">--}}
+                                                    {{--<div class="input-group-btn">--}}
+                                                        {{--<button class="btn btn-twitter btn-flat" type="submit"--}}
+                                                                {{--id="searchTags"><i class="fa fa-tag"></i>--}}
+                                                            {{--<!-- react-text: 315 --> Search Users <!-- /react-text -->--}}
+                                                        {{--</button>--}}
+                                                    {{--</div>--}}
+                                                    {{--<input type="text" class="form-control"--}}
+                                                           {{--placeholder="Search by usernames" value=""></div>--}}
+                                            {{--</form>--}}
+                                            {{--<div class="suggestedTargetUsers">--}}
+                                                {{--<ul class="users-list no-height clearfix target-users-list"></ul>--}}
+                                            {{--</div>--}}
+                                            {{--<div class="resetSearch"></div>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+
                         </div>
+
+
+                        <div class=" tab-pane" id="report">
+                            Report
+                        </div>
+
                     </div>
-                @endforeach
+                </div>
+
+                {{-- block 1 end--}}
+
             </section>{{--End content--}}
         </div>{{--End content-wrapper--}}
         @include('components.footer')
     </div>{{--End wrapper--}}
 @endsection
+
 @section('js')
-<script>
-    $('.btn-danger').click(function () {
-        var id = $(this).attr('data-id');
-        var del = confirm("Do you want to delete ?");
-        if(del){
+    <script>
+        {{-- load tags --}}
+
+        function getTags() {
             $.ajax({
-                type:'POST',
-                url:'{{url('/instagram/delete')}}',
-                data:{
-                    'id':id
+                type: 'POST',
+                url: '{{url('/instagram/tag/get')}}',
+                data: {},
+                success: function (data) {
+                    $('#tagsSection').html(data);
                 },
-                success:function (data) {
-                    if(data=="success"){
-                        swal('Success','Deleted','success');
-                        $('#'+id).hide(200);
-                    }else{
-                        swal('Error',data,'error');
-                    }
-                },
-                error:function (data) {
-                    swal('Error','Something went wrong check console messgae','error');
+                error: function (data) {
+                    alert("Something went wrong");
                     console.log(data.responseText);
                 }
             });
         }
-    });
-    $(".comment").on( "keydown", function(event) {
-        if(event.which == 13){
 
-            var id = $(this).attr('data-id');
-            var text = $(this).val();
-            $.toast('Wait trying to post comment');
+        getTags();
+        showFollowers();
+
+
+        $('#tagBtn').click(function () {
+            var tagQuery = $('#tagQuery').val();
             $.ajax({
-                type:'POST',
-                url:'{{url('/instagram/comment')}}',
-                data:{
-                    'id':id,
-                    'text':text
+                type: 'POST',
+                url: '{{url('/instagram/tag/add')}}',
+                data: {
+                    'tag': tagQuery
+                }, success: function (data) {
+                    getTags();
                 },
-                success:function (data) {
-                    if(data=="success"){
-                        $.toast('Success ! Comment posted');
-                    }else{
-                        $.toast(data);
-                    }
+                error: function (data) {
+                    alert("Something went wrong");
+                    console.log(data.responseText);
+                }
+            });
+        });
+
+        $('#searchFollowers').click(function () {
+            var data = $('#twUserName').val();
+            $('#twUserList').html("Please wait ....");
+            $.ajax({
+                type: 'POST',
+                url: '{{url('/instagram/find/follower')}}',
+                data: {
+                    'data': data
                 },
-                error:function (data) {
-                    swal('Error','Something went wrong please check console message','error');
+                success: function (data) {
+                    $('#twUserList').html(data);
+                },
+                error: function (data) {
+                    alert("Something went wrong");
                     console.log(data.responseText);
                 }
             })
+        });
 
+
+        function showFollowers() {
+            $('#showFollowers').html("Loading..");
+            $.ajax({
+                type: 'GET',
+                url: '{{url('/instagram/followers/get/now')}}',
+                data: {},
+                success: function (data) {
+                    $('#showFollowers').html(data);
+                },
+                error: function (data) {
+                    alert("Something went wrong. Can't perform this operation");
+                    console.log(data.responseText);
+                }
+            });
         }
 
-    });
-</script>
+
+    </script>
 @endsection
-
-
-
-
-
