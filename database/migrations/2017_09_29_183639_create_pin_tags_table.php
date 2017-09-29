@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateInTagsTable extends Migration
+class CreatePinTagsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreateInTagsTable extends Migration
      */
     public function up()
     {
-        Schema::create('in_tags', function (Blueprint $table) {
+        Schema::create('pin_tags', function (Blueprint $table) {
             $table->increments('id');
             $table->string('userId');
             $table->string('tag');
@@ -28,6 +28,6 @@ class CreateInTagsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('in_tags');
+        Schema::drop('pin_tags');
     }
 }

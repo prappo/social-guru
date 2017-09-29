@@ -79,7 +79,7 @@
                                                 <!-- /react-text --></button>
                                         </div>
                                         <input id="tagQuery" type="text" class="form-control"
-                                               placeholder="Write one tag and press enter" value=""></div>
+                                               placeholder="Write one tag and press Add tag button" value=""></div>
                                     <!-- /.table-responsive -->
                                 </div>
                                 <!-- /.box-body -->

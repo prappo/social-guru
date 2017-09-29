@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\pinTags;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Auth;
 use seregazhuk\PinterestBot\Factories\PinterestBot;
 
 class PinterestController extends Controller
@@ -14,8 +16,12 @@ class PinterestController extends Controller
 
     public function index()
     {
-        $pinterest = PinterestBot::create();
-        $pinterest->auth->login(Data::get('pinUser'), Data::get('pinPass'));
+        if (!Data::myPackage('pinterest')) {
+            return view('errors.404');
+        }
+
+//        $pinterest = PinterestBot::create();
+//        $pinterest->auth->login(Data::get('pinUser'), Data::get('pinPass'));
 //        $pins = $pinterest->pins->search('food')->toArray();
 //        $searchInPins = $pinterest->pins->searchInMyPins('islam')->toArray();
 //        $searchInPeople = $pinterest->pinners->search('food')->toArray();
@@ -26,15 +32,15 @@ class PinterestController extends Controller
 
 
         // Get lists of your boards
-        $boards = $pinterest->boards->forMe();
-        print_r($boards);
+//        $boards = $pinterest->boards->forMe();
+//        print_r($boards);
 
 // Create a pin
 //        $pinterest->pins->create('https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png', $boards[0]['id'], 'Pin description');
 
 // Wait 5 seconds
 //        $pinterest->wait(5);
-
+        return view('pinBot');
 
     }
 
@@ -246,6 +252,94 @@ class PinterestController extends Controller
     public function autoFollow()
     {
 
+    }
+
+    public function addTag(Request $request)
+    {
+        if ($request->tag == "") {
+            return "Please write something";
+        }
+        try {
+            $pinTag = new pinTags();
+            $pinTag->userId = Auth::user()->id;
+            $pinTag->tag = $request->tag;
+            $pinTag->conversation = 0;
+            $pinTag->save();
+            return "success";
+        } catch (\Exception $exception) {
+            return $exception->getMessage();
+        }
+    }
+
+    public function getTags()
+    {
+        try {
+            $tags = pinTags::where('userId', Auth::user()->id)->get();
+            foreach ($tags as $tag) {
+                echo '
+                <div class="btn-group button-tag">
+                                                    <button type="button" class="btn btn-default label-button">
+                                                        ' . $tag->tag . '
+                                                    </button>
+                                                    <button type="button" class="btn btn-default dropdown-toggle"
+                                                            data-toggle="dropdown" aria-expanded="false"><span
+                                                                class="caret"></span><span class="sr-only">Toggle Dropdown</span>
+                                                    </button>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <li class="no-action"><a href="#"><i
+                                                                        class="fa fa-users text-twitter"></i>
+                                                                ' . $tag->conversion . ' conversions
+                                                            </a></li>
+
+                                                        <li class="divider"></li>
+
+                                                        <li><a  data-id="' . $tag->id . '" class="removeActiveTag"><i
+                                                                        class="fa fa-close text-twitter"></i>
+                                                                Remove Tag
+                                                            </a></li>
+                                                    </ul>
+                                                </div>
+                                                
+                ';
+            }
+            echo '
+            <script>
+            $(".removeActiveTag").click(function () {
+            
+            var id = $(this).attr("data-id");
+            $.ajax({
+                type: "POST",
+                url: "' . url('/pinterest/tag/remove') . '",
+                data: {
+                    "id": id
+                },
+                success: function (data) {
+                    if (data == "success") {
+                        getTags();
+                    }
+                },
+                error: function (data) {
+                    alert("Something went wrong");
+                    console.log(data.responseText);
+                }
+            });
+        });
+            </script>
+            ';
+
+        } catch (\Exception $exception) {
+            return "Something went wrong";
+        }
+    }
+
+    public function deleteTag(Request $request)
+    {
+        try {
+            pinTags::where('id', $request->id)->delete();
+            return "success";
+        } catch (\Exception $exception) {
+            return $exception->getMessage();
+        }
     }
 
 

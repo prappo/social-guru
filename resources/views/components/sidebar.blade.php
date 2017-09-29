@@ -255,8 +255,8 @@
                         {{--<span>Notifications</span></a>--}}
                         {{--</li>--}}
 
-                        <li><a href="{{ url('/pinterest/scraper') }}"><i class="fa fa-search"></i>
-                                <span>{{trans('sidebar.Scraper')}}</span></a>
+                        <li><a href="{{ url('/pinterest') }}"><i class="fa fa-user"></i>
+                                <span>My Account</span></a>
                         </li>
 
                         {!! \App\Http\Controllers\Plugins::menu("pinterest") !!}
