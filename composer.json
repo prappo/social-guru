@@ -21,7 +21,8 @@
         "athlon1600/youtube-downloader": "^1.0",
         "nwidart/laravel-modules": "^1.19",
         "eden/sqlite": "^4.0",
-        "seregazhuk/pinterest-bot": "^5.4"
+        "seregazhuk/pinterest-bot": "^5.4",
+        "dg/rss-php": "^1.2"
 
 
     },

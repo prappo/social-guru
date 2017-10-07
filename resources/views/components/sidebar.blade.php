@@ -265,24 +265,24 @@
                 </li>
             @endif
             {{--linkedin menu--}}
-            @if(\App\Http\Controllers\Data::myPackage('ln'))
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-linkedin"></i>
-                        <span>{{trans('sidebar.Linkedin')}}</span>
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu" style="display: none">
-                        <li><a href="{{ url('/linkedin/updates') }}"><i class="fa fa-refresh"></i>
-                                <span>{{trans('sidebar.All updates')}}</span></a>
-                        </li>
-                        <li><a href="{{ url('/linkedin/mass_comment') }}"><i class="fa fa-comment"></i>
-                                <span>{{trans('sidebar.Mass Comment')}}</span></a></li>
-                        {!! \App\Http\Controllers\Plugins::menu("linkedin") !!}
-                    </ul>
+            {{--@if(\App\Http\Controllers\Data::myPackage('ln'))--}}
+                {{--<li class="treeview">--}}
+                    {{--<a href="#">--}}
+                        {{--<i class="fa fa-linkedin"></i>--}}
+                        {{--<span>{{trans('sidebar.Linkedin')}}</span>--}}
+                        {{--<i class="fa fa-angle-left pull-right"></i>--}}
+                    {{--</a>--}}
+                    {{--<ul class="treeview-menu" style="display: none">--}}
+                        {{--<li><a href="{{ url('/linkedin/updates') }}"><i class="fa fa-refresh"></i>--}}
+                                {{--<span>{{trans('sidebar.All updates')}}</span></a>--}}
+                        {{--</li>--}}
+                        {{--<li><a href="{{ url('/linkedin/mass_comment') }}"><i class="fa fa-comment"></i>--}}
+                                {{--<span>{{trans('sidebar.Mass Comment')}}</span></a></li>--}}
+                        {{--{!! \App\Http\Controllers\Plugins::menu("linkedin") !!}--}}
+                    {{--</ul>--}}
 
-                </li>
-            @endif
+                {{--</li>--}}
+            {{--@endif--}}
             {{--tumblr menu--}}
             @if(\App\Http\Controllers\Data::myPackage('tu'))
                 <li class="treeview">

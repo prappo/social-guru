@@ -17,6 +17,11 @@
                         <li class="active"><a href="#settings" data-toggle="tab" aria-expanded="true">Settings</a>
                         </li>
                         <li class="pull-left header"><i class="fa fa-pinterest"></i> Pinterest</li>
+                        <li class="pull-right header"><button class="btn btn-block toogleActivation bg-green">
+                                <i class="fa fa-stop"></i>
+                                Service running
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </button> </li>
                     </ul>
                     <div class="tab-content no-padding">
                         <!-- Morris chart - Sales -->
@@ -263,7 +268,103 @@
 
 
                         <div class=" tab-pane" id="report">
-                            Report
+                            <div style="padding:15px" class="row">
+
+                                <div class="col-md-4 col-xs-12">
+                                    <div class="small-box bg-instagram">
+                                        <div class="inner">
+                                            <h3>0</h3>
+                                            <p>Today conversions</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="fa fa-user-plus"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-xs-12">
+                                    <div class="small-box bg-instagram">
+                                        <div class="inner">
+                                            <h3>0</h3>
+                                            <p>Week conversions</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="fa fa-users"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-xs-12">
+                                    <div class="small-box bg-instagram">
+                                        <div class="inner">
+                                            <h3>0</h3>
+                                            <p>Total conversions</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="fa fa-trophy"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <hr>
+                            <div style="padding:15px" class="row">
+
+
+                                <div class="col-lg-6 col-md-12">
+                                    <div class="col-md-12">
+                                        <h4><i class="fa fa-pinterest"></i> Last Week's Conversions</h4>
+                                        <h5 class="text-center">You do not have any data yet.</h5>
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-12">
+                                    <div class="col-md-12">
+                                        <h4><i class="fa fa-pinterest"></i> Last Month's Conversions</h4>
+                                        <h5 class="text-center">You do not have any data yet.</h5>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <hr>
+                            <div style="padding:25px" class="row">
+                                <table id="mytable" class="table table-bordered table-striped" cellspacing="0"
+                                       width="100%">
+                                    <thead>
+                                    <tr>
+                                        <th>Content ID</th>
+                                        <th>Content Link</th>
+                                        <th>Related Tag</th>
+                                        <th>Status</th>
+
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+
+                                        <td></td>
+
+
+                                    </tr>
+
+                                    </tbody>
+
+                                    <tfoot>
+                                    <tr>
+                                        <th>Content ID</th>
+                                        <th>Content Link</th>
+                                        <th>Related Tag</th>
+                                        <th>Status</th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+
                         </div>
 
                     </div>

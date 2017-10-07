@@ -11,6 +11,7 @@ use App\User;
 use Carbon\Carbon;
 use DateTime;
 use DateTimeZone;
+use DOMDocument;
 use Facebook\Facebook;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -282,9 +283,11 @@ class Prappo extends Controller
     }
 
 
-
-    public function prappo(){
-        return "this is prappo";
+    public function prappo()
+    {
+//        $rss = \Feed::loadRss('https://bootstrapthemes.co/feed');
+//        print_r($rss);
+        echo "<img src='https://www.google.com/s2/favicons?domain=https://teamtreehouse.com/'>";
     }
 
     public static function comment($id, $text)

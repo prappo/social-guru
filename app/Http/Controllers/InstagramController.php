@@ -200,11 +200,8 @@ class InstagramController extends Controller
 
         $i = $instagram;
 
-        $datas = $i->searchUsers('prappo');
-//        print_r($datas);
-        foreach ($datas->users as $data) {
-            echo $data->username;
-        }
+        $data = $i->searchTags('food');
+        print_r($data);
     }
 
     /**
@@ -861,7 +858,7 @@ class InstagramController extends Controller
                                                                 <!-- react-text: 181 --> <!-- /react-text -->
                                                                 <!-- react-text: 182 -->conversions<!-- /react-text -->
                                                             </a></li>
-                                                        <li><a href="https://www.twitter.com/' . $followers->username . '" target="_blank"><i
+                                                        <li><a href="https://www.instagram.com/' . $followers->username . '" target="_blank"><i
                                                                         class="fa fa-external-link text-twitter"></i>
                                                                 <!-- react-text: 186 --> Profile<!-- /react-text --></a>
                                                         </li>
@@ -1021,6 +1018,77 @@ class InstagramController extends Controller
         } catch (\Exception $exception) {
             return $exception->getMessage();
         }
+
+    }
+
+    public function searchTags(Request $request)
+    {
+        if ($request->tag == "") {
+            return "Please enter the tag name";
+        }
+        $instagram = new \InstagramAPI\Instagram();
+        $username = Data::get('inUser');
+        $password = Data::get('inPass');
+
+        try {
+            $instagram->setUser($username, $password);
+            $instagram->login(true);
+        } catch (\Exception $exception) {
+            return $exception->getMessage();
+        }
+
+        $datas = $instagram->searchTags($request->tag);
+
+        foreach ($datas->results as $data) {
+            echo '
+                <div class="btn-group button-tag">
+                                                    <button type="button" class="btn btn-default label-button">
+                                                        ' . $data->name . '
+                                                    </button>
+                                                    <button type="button" class="btn btn-default dropdown-toggle"
+                                                            data-toggle="dropdown" aria-expanded="false"><span
+                                                                class="caret"></span><span class="sr-only">Toggle Dropdown</span>
+                                                    </button>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <li class="no-action"><a href="#"><i
+                                                                        class="fa fa-users text-twitter"></i>
+                                                                ' . $data->media_count . ' Count
+                                                            </a></li>
+
+                                                        <li class="divider"></li>
+
+                                                        <li><a data-tag="' . $data->name . '"  data-id="' . $data->name . '" class="addSearchTag"><i
+                                                                        class="fa fa-plus text-twitter"></i>
+                                                                Add Tag
+                                                            </a></li>
+                                                    </ul>
+                                                </div>
+                                                
+                ';
+        }
+        echo '
+        <script>
+        $(".addSearchTag").click(function() {
+            var data = $(this).attr("data-id");
+            $.ajax({
+                type:"POST",
+                url:"'.url('/instagram/tag/add').'",
+                data:{
+                    "tag":data
+                },
+                success:function(data) {
+                  getTags();
+                },
+                error:function(data) {
+                  alert("Something went wrong");
+                  console.log(data.responseText);
+                }
+            })
+          
+        })
+        </script>
+        ';
+
 
     }
 

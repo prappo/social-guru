@@ -63,8 +63,8 @@
                                             <i class="fa fa-linkedin"></i>
                                         @endif
 
-                                        @if(\App\Http\Controllers\Data::hasPackage($d->id,'slackBot'))
-                                            <i class="fa fa-slack"></i>
+                                        @if(\App\Http\Controllers\Data::hasPackage($d->id,'pinterest'))
+                                            <i class="fa fa-pinterest"></i>
                                         @endif
                                     </td>
                                     <td>

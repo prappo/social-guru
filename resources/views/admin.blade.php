@@ -40,36 +40,66 @@
                             {{--<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>--}}
                         </div>
                     </div>
-                    <!-- ./col -->
-                    <div class="col-lg-3 col-xs-6">
-                        <!-- small box -->
-                        <div class="small-box bg-yellow">
-                            <div class="inner">
-                                <h3>{{\App\Notify::all()->count()}}</h3>
 
-                                <p>Total Notifications</p>
-                            </div>
-                            <div class="icon">
-                                <i class="fa fa-bell-o"></i>
-                            </div>
-
-                        </div>
-                    </div>
-                    <!-- ./col -->
                     <div class="col-lg-3 col-xs-6">
                         <!-- small box -->
                         <div class="small-box bg-red">
                             <div class="inner">
-                                <h3>{{\App\chatbot::all()->count()}}</h3>
+                                <h3>{{\App\Allpost::all()->count()}}</h3>
 
-                                <p>Total Bot questions</p>
+                                <p>Pinterest Posts</p>
                             </div>
                             <div class="icon">
-                                <i class="ion ion-pie-graph"></i>
+                                <i class="fa fa-pinterest"></i>
                             </div>
-
+                            {{--<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>--}}
                         </div>
                     </div>
+
+                    <div class="col-lg-3 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-red-gradient">
+                            <div class="inner">
+                                <h3>{{\App\Allpost::all()->count()}}</h3>
+
+                                <p>Instagram Posts</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-instagram"></i>
+                            </div>
+                            {{--<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>--}}
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    {{--<div class="col-lg-3 col-xs-6">--}}
+                        {{--<!-- small box -->--}}
+                        {{--<div class="small-box bg-yellow">--}}
+                            {{--<div class="inner">--}}
+                                {{--<h3>{{\App\Notify::all()->count()}}</h3>--}}
+
+                                {{--<p>Total Notifications</p>--}}
+                            {{--</div>--}}
+                            {{--<div class="icon">--}}
+                                {{--<i class="fa fa-bell-o"></i>--}}
+                            {{--</div>--}}
+
+                        {{--</div>--}}
+                    {{--</div>--}}
+                    <!-- ./col -->
+                    {{--<div class="col-lg-3 col-xs-6">--}}
+                        {{--<!-- small box -->--}}
+                        {{--<div class="small-box bg-red">--}}
+                            {{--<div class="inner">--}}
+                                {{--<h3>{{\App\chatbot::all()->count()}}</h3>--}}
+
+                                {{--<p>Total Bot questions</p>--}}
+                            {{--</div>--}}
+                            {{--<div class="icon">--}}
+                                {{--<i class="ion ion-pie-graph"></i>--}}
+                            {{--</div>--}}
+
+                        {{--</div>--}}
+                    {{--</div>--}}
                     <!-- ./col -->
                 </div>
                 <div class="row">
@@ -135,20 +165,20 @@
                     <!-- ./col -->
                 </div>
                 <div class="row">
-                    <div class="col-lg-3 col-xs-6">
-                        <!-- small box -->
-                        <div class="small-box bg-gray">
-                            <div class="inner">
-                                <h3>{{\App\Wp::all()->count()}}</h3>
+                    {{--<div class="col-lg-3 col-xs-6">--}}
+                        {{--<!-- small box -->--}}
+                        {{--<div class="small-box bg-gray">--}}
+                            {{--<div class="inner">--}}
+                                {{--<h3>{{\App\Wp::all()->count()}}</h3>--}}
 
-                                <p>Total Wordpress Posts</p>
-                            </div>
-                            <div class="icon">
-                                <i class="fa fa-wordpress"></i>
-                            </div>
+                                {{--<p>Total Wordpress Posts</p>--}}
+                            {{--</div>--}}
+                            {{--<div class="icon">--}}
+                                {{--<i class="fa fa-wordpress"></i>--}}
+                            {{--</div>--}}
 
-                        </div>
-                    </div>
+                        {{--</div>--}}
+                    {{--</div>--}}
                     <!-- ./col -->
                     <div class="col-lg-3 col-xs-6">
                         <!-- small box -->
@@ -165,20 +195,20 @@
                         </div>
                     </div>
                     <!-- ./col -->
-                    <div class="col-lg-3 col-xs-6">
-                        <!-- small box -->
-                        <div class="small-box bg-gray-light">
-                            <div class="inner">
-                                <h3>{{\App\Tu::all()->count()}}</h3>
+                    {{--<div class="col-lg-3 col-xs-6">--}}
+                        {{--<!-- small box -->--}}
+                        {{--<div class="small-box bg-gray-light">--}}
+                            {{--<div class="inner">--}}
+                                {{--<h3>{{\App\Tu::all()->count()}}</h3>--}}
 
-                                <p>Total Tumblr Post</p>
-                            </div>
-                            <div class="icon">
-                                <i class="fa fa-tumblr"></i>
-                            </div>
+                                {{--<p>Total Tumblr Post</p>--}}
+                            {{--</div>--}}
+                            {{--<div class="icon">--}}
+                                {{--<i class="fa fa-tumblr"></i>--}}
+                            {{--</div>--}}
 
-                        </div>
-                    </div>
+                        {{--</div>--}}
+                    {{--</div>--}}
                     <!-- ./col -->
                     <div class="col-lg-3 col-xs-6">
                         <!-- small box -->

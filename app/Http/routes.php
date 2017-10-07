@@ -267,6 +267,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('/instagram/unfollowall', 'InstagramController@unfollowAll');
         Route::post('/instagram/auto/comment', 'InstagramController@autoComment');
         Route::post('/instagram/scraper', 'InstagramController@scraper');
+        Route::post('instagram/find/tags','InstagramController@searchTags');
 
         Route::get('/instagram/test', 'InstagramController@test');
 

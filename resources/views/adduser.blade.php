@@ -52,17 +52,19 @@
                                             <input id="tw" type="checkbox">
                                             <i class="fa fa-twitter"></i> Twitter
                                         </label>
-                                    </div><div class="checkbox">
-                                        <label>
-                                            <input id="tu" type="checkbox">
-                                            <i class="fa fa-tumblr"></i> Tumblr
-                                        </label>
-                                    </div><div class="checkbox">
-                                        <label>
-                                            <input id="wp" type="checkbox">
-                                            <i class="fa fa-wordpress"></i> Wordpress
-                                        </label>
-                                    </div><div class="checkbox">
+                                    </div>
+                                    {{--<div class="checkbox">--}}
+                                        {{--<label>--}}
+                                            {{--<input id="tu" type="checkbox">--}}
+                                            {{--<i class="fa fa-tumblr"></i> Tumblr--}}
+                                        {{--</label>--}}
+                                    {{--</div><div class="checkbox">--}}
+                                        {{--<label>--}}
+                                            {{--<input id="wp" type="checkbox">--}}
+                                            {{--<i class="fa fa-wordpress"></i> Wordpress--}}
+                                        {{--</label>--}}
+                                    {{--</div>--}}
+                                    <div class="checkbox">
                                         <label>
                                             <input id="ln" type="checkbox">
                                             <i class="fa fa-linkedin"></i> Linkedin
@@ -73,25 +75,25 @@
                                             <i class="fa fa-instagram"></i> Instagram
                                         </label>
                                     </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input id="fbBot" type="checkbox">
-                                            <i class="fa fa-comment"></i> Facebook Messenger Bot
-                                        </label>
-                                    </div>
+                                    {{--<div class="checkbox">--}}
+                                        {{--<label>--}}
+                                            {{--<input id="fbBot" type="checkbox">--}}
+                                            {{--<i class="fa fa-comment"></i> Facebook Messenger Bot--}}
+                                        {{--</label>--}}
+                                    {{--</div>--}}
 
-                                    <div class="checkbox">
-                                        <label>
-                                            <input id="slackBot" type="checkbox">
-                                            <i class="fa fa-slack"></i> Slack Bot
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input id="contacts" type="checkbox">
-                                            <i class="fa fa-list-alt"></i> Contacts
-                                        </label>
-                                    </div>
+                                    {{--<div class="checkbox">--}}
+                                        {{--<label>--}}
+                                            {{--<input id="slackBot" type="checkbox">--}}
+                                            {{--<i class="fa fa-slack"></i> Slack Bot--}}
+                                        {{--</label>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="checkbox">--}}
+                                        {{--<label>--}}
+                                            {{--<input id="contacts" type="checkbox">--}}
+                                            {{--<i class="fa fa-list-alt"></i> Contacts--}}
+                                        {{--</label>--}}
+                                    {{--</div>--}}
 
                                 </div>
                             </div><!-- /.box-body -->
