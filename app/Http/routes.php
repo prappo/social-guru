@@ -267,7 +267,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('/instagram/unfollowall', 'InstagramController@unfollowAll');
         Route::post('/instagram/auto/comment', 'InstagramController@autoComment');
         Route::post('/instagram/scraper', 'InstagramController@scraper');
-        Route::post('instagram/find/tags','InstagramController@searchTags');
+        Route::post('instagram/find/tags', 'InstagramController@searchTags');
 
         Route::get('/instagram/test', 'InstagramController@test');
 
@@ -299,6 +299,13 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('/pinterest/tag/get', 'PinterestController@getTags');
         Route::post('/pinterest/tag/add', 'PinterestController@addTag');
 
+
+//        RSS routes
+        Route::get('/rss/add', 'RssController@index');
+        Route::get('/rss/feeds', 'RssController@getSites');
+        Route::post('/rss/add/site', 'RssController@addSite');
+        Route::post('/rss/delete/site', 'RssController@deleteSite');
+        Route::post('/rss/feed/get', 'RssController@getFeed');
 
 //        virtual assistant routes
 

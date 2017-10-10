@@ -387,6 +387,21 @@
 
             <li class="treeview">
                 <a href="#">
+                    <i class="fa fa-rss"></i>
+                    <span>RSS</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu" style="display: none">
+                    <li><a href="{{ url('/rss/add') }}"><i class="fa fa-plus"></i>
+                            <span>Add RSS URL</span></a></li>
+                    <li><a href="{{ url('/rss/feeds') }}"><i class="fa fa-rss-square"></i>
+                            <span>RSS Feeds</span></a></li>
+                    {!! \App\Http\Controllers\Plugins::menu("rss") !!}
+                </ul>
+            </li>
+
+            <li class="treeview">
+                <a href="#">
                     <i class="fa fa-gear"></i>
                     <span>{{trans('sidebar.Settings')}}</span><i class="fa fa-angle-left pull-right"></i>
 
