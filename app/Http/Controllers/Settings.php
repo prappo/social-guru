@@ -599,7 +599,7 @@ class Settings extends Controller
     public function updateTheme(Request $request)
     {
         try {
-            User::where('id', Auth::user()->id)->update([
+            User::query()->update([
                 'theme' => $request->theme
             ]);
             return "success";

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\RssSites;
+use App\whereToPost;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -74,5 +75,45 @@ class RssController extends Controller
         } catch (\Exception $exception) {
             return $exception->getMessage();
         }
+    }
+
+    public function storeFeeds()
+    {
+
+
+    }
+
+    public function whereToPost(Request $request)
+    {
+
+        try {
+            $whereToPost = new whereToPost();
+            $whereToPost->userId = Auth::user()->id;
+            $whereToPost->link = $request->link;
+            $whereToPost->fb = $request->fb;
+            $whereToPost->tw = $request->fb;
+            $whereToPost->in = $request->in;
+            $whereToPost->li = $request->li;
+            $whereToPost->save();
+            return "success";
+        } catch (\Exception $exception) {
+            return $exception->getMessage();
+        }
+    }
+
+    public function rssTargetIndex()
+    {
+
+        if (Data::get('liAccessToken') != "") {
+            try {
+                $liCompanies = LinkedinController::companies()['values'];
+            } catch (Exception $exception) {
+                $liCompanies = "";
+            }
+
+        } else {
+            $liCompanies = "";
+        }
+        return view('rssTarget', compact('liCompanies'));
     }
 }

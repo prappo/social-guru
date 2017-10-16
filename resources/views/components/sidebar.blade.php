@@ -396,6 +396,8 @@
                             <span>Add RSS URL</span></a></li>
                     <li><a href="{{ url('/rss/feeds') }}"><i class="fa fa-rss-square"></i>
                             <span>RSS Feeds</span></a></li>
+                    <li><a href="{{ url('/rss/target') }}"><i class="fa fa-bolt"></i>
+                            <span>RSS Feeds Target</span></a></li>
                     {!! \App\Http\Controllers\Plugins::menu("rss") !!}
                 </ul>
             </li>

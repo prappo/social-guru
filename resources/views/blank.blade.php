@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Profile | Optimus')
+@section('title','Profile | Social Guru')
 
 @section('content')
     <div class="wrapper">

@@ -80,6 +80,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('/fbgwrite', 'Write@fbgwrite');
         Route::post('/tuwrite', 'Write@tuWrite');
         Route::post('/linkedin/share', 'write@liWrite');
+        Route::get('linkedin/callback', 'LinkedinController@callback');
         Route::post('/post/save', 'Write@postSave');
 
         Route::post('/delpost', 'Write@delPost');
@@ -303,6 +304,7 @@ Route::group(['middleware' => 'web'], function () {
 //        RSS routes
         Route::get('/rss/add', 'RssController@index');
         Route::get('/rss/feeds', 'RssController@getSites');
+        Route::get('/rss/target', 'RssController@rssTargetIndex');
         Route::post('/rss/add/site', 'RssController@addSite');
         Route::post('/rss/delete/site', 'RssController@deleteSite');
         Route::post('/rss/feed/get', 'RssController@getFeed');

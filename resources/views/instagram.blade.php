@@ -96,21 +96,21 @@
                                 <!-- /.box-footer -->
                             </div>
 
-                            <div class="box box-info">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title"><i class="fa fa-users"></i><!-- react-text: 153 -->Super
-                                        Targeting<!-- /react-text --><!-- react-text: 154 --> <!-- /react-text -->
-                                        <small>Add any user here to interact with the people who follow them</small>
-                                    </h3>
-                                    <div class="box-tools pull-right">
-                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                                                    class="fa fa-minus"></i></button>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="box-body">
-                                        <div>
-                                            <div id="showFollowers">
+                            {{--<div class="box box-info">--}}
+                                {{--<div class="box-header with-border">--}}
+                                    {{--<h3 class="box-title"><i class="fa fa-users"></i><!-- react-text: 153 -->Super--}}
+                                        {{--Targeting<!-- /react-text --><!-- react-text: 154 --> <!-- /react-text -->--}}
+                                        {{--<small>Add any user here to interact with the people who follow them</small>--}}
+                                    {{--</h3>--}}
+                                    {{--<div class="box-tools pull-right">--}}
+                                        {{--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i--}}
+                                                    {{--class="fa fa-minus"></i></button>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--<div>--}}
+                                    {{--<div class="box-body">--}}
+                                        {{--<div>--}}
+                                            {{--<div id="showFollowers">--}}
                                                 {{--<div class="btn-group button-tag">--}}
                                                 {{--<button type="button" class="btn btn-default label-button"><img--}}
                                                 {{--class="img-circle" width="20"--}}
@@ -146,25 +146,25 @@
                                                 {{--</ul>--}}
                                                 {{--</div>--}}
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="box-footer">
-                                        <div class="targetUserSearch">
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="box-footer">--}}
+                                        {{--<div class="targetUserSearch">--}}
 
-                                            <div class="input-group">
-                                                <div class="input-group-btn">
-                                                    <button class="btn btn-twitter btn-flat"
-                                                            id="searchFollowers"><i class="fa fa-tag"></i>
-                                                        <!-- react-text: 257 --> Search Users <!-- /react-text -->
-                                                    </button>
-                                                </div>
-                                                <input type="text" id="twUserName" class="form-control"
-                                                       placeholder="Search by usernames" value=""></div>
+                                            {{--<div class="input-group">--}}
+                                                {{--<div class="input-group-btn">--}}
+                                                    {{--<button class="btn btn-twitter btn-flat"--}}
+                                                            {{--id="searchFollowers"><i class="fa fa-tag"></i>--}}
+                                                        {{--<!-- react-text: 257 --> Search Users <!-- /react-text -->--}}
+                                                    {{--</button>--}}
+                                                {{--</div>--}}
+                                                {{--<input type="text" id="twUserName" class="form-control"--}}
+                                                       {{--placeholder="Search by usernames" value=""></div>--}}
 
-                                            <div class="suggestedTargetUsers">
-                                                <div class="box-body no-padding">
-                                                    <ul id="twUserList" class="users-list clearfix">
+                                            {{--<div class="suggestedTargetUsers">--}}
+                                                {{--<div class="box-body no-padding">--}}
+                                                    {{--<ul id="twUserList" class="users-list clearfix">--}}
 
                                                         {{--<li>--}}
                                                         {{--<img src="https://pbs.twimg.com/profile_images/661903977244573696/XwtxYjX4_normal.jpg"--}}
@@ -176,52 +176,52 @@
                                                         {{--</li>--}}
 
 
-                                                    </ul>
-                                                    <!-- /.users-list -->
-                                                </div>
-                                            </div>
-                                            <div class="resetSearch"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                                    {{--</ul>--}}
+                                                    {{--<!-- /.users-list -->--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                            {{--<div class="resetSearch"></div>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
 
-                            <div class="box box-info">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title"><i class="fa fa-tags"></i>
-                                        <small>Tags search section</small>
-                                    </h3>
+                            {{--<div class="box box-info">--}}
+                                {{--<div class="box-header with-border">--}}
+                                    {{--<h3 class="box-title"><i class="fa fa-tags"></i>--}}
+                                        {{--<small>Tags search section</small>--}}
+                                    {{--</h3>--}}
 
-                                    <div class="box-tools pull-right">
-                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                                                    class="fa fa-minus"></i>
-                                        </button>
+                                    {{--<div class="box-tools pull-right">--}}
+                                        {{--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i--}}
+                                                    {{--class="fa fa-minus"></i>--}}
+                                        {{--</button>--}}
 
-                                    </div>
-                                </div>
+                                    {{--</div>--}}
+                                {{--</div>--}}
 
 
-                                <!-- /.box-header -->
-                                <div class="box-body">
-                                    <div class="input-group">
-                                        <div class="input-group-btn">
-                                            <button class="btn btn-twitter btn-flat" id="tagSearchBtn"><i
-                                                        class="fa fa-tag"></i><!-- react-text: 25 -->
-                                                <!-- /react-text --><!-- react-text: 26 -->Search Tag
-                                                <!-- /react-text -->
-                                                <!-- react-text: 27 --> <!-- /react-text --><!-- react-text: 28 -->
-                                                <!-- /react-text --></button>
-                                        </div>
-                                        <input id="tagSearchQuery" type="text" class="form-control"
-                                               placeholder="Write one tag and press Search tag button" value=""></div>
-                                    <!-- /.table-responsive -->
-                                </div>
-                                <!-- /.box-body -->
-                                <div class="box-footer clearfix">
+                                {{--<!-- /.box-header -->--}}
+                                {{--<div class="box-body">--}}
+                                    {{--<div class="input-group">--}}
+                                        {{--<div class="input-group-btn">--}}
+                                            {{--<button class="btn btn-twitter btn-flat" id="tagSearchBtn"><i--}}
+                                                        {{--class="fa fa-tag"></i><!-- react-text: 25 -->--}}
+                                                {{--<!-- /react-text --><!-- react-text: 26 -->Search Tag--}}
+                                                {{--<!-- /react-text -->--}}
+                                                {{--<!-- react-text: 27 --> <!-- /react-text --><!-- react-text: 28 -->--}}
+                                                {{--<!-- /react-text --></button>--}}
+                                        {{--</div>--}}
+                                        {{--<input id="tagSearchQuery" type="text" class="form-control"--}}
+                                               {{--placeholder="Write one tag and press Search tag button" value=""></div>--}}
+                                    {{--<!-- /.table-responsive -->--}}
+                                {{--</div>--}}
+                                {{--<!-- /.box-body -->--}}
+                                {{--<div class="box-footer clearfix">--}}
 
-                                </div>
-                                <!-- /.box-footer -->
-                            </div>
+                                {{--</div>--}}
+                                {{--<!-- /.box-footer -->--}}
+                            {{--</div>--}}
 
                             <div class="box-body">
                                 <div>

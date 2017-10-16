@@ -60,6 +60,7 @@
 @endsection
 @section('js')
     <script>
+
         $('#addSite').click(function () {
             $('#addSite').html('<i class="fa fa-globe"></i> Please Wait ....');
             $.ajax({

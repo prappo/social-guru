@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Settings | Optimus')
+@section('title','Settings | Social Guru')
 
 @section('content')
     <div class="wrapper">
@@ -11,6 +11,7 @@
         <div class="content-wrapper">
             <section class="content">
                 {{-- Select theme--}}
+                @if(Auth::user()->type == "admin")
                 <div id="themSelector" class="row">
                     <div class="box">
 
@@ -170,6 +171,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
                 <div class="row">
                     {{--tumblr settings--}}
                     @if(\App\Http\Controllers\Data::myPackage('tu'))

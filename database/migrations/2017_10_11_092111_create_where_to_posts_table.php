@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRssSitesTable extends Migration
+class CreateWhereToPostsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,15 +12,14 @@ class CreateRssSitesTable extends Migration
      */
     public function up()
     {
-        Schema::create('rss_sites', function (Blueprint $table) {
+        Schema::create('where_to_posts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('userId');
-            $table->string('site');
-            $table->string('title')->nullable();
-            $table->string('link')->nullable();
-            $table->string('description')->nullable();
-            $table->string('time')->nullable();
-            $table->string('image')->nullable();
+            $table->string('link');
+            $table->string('fb');
+            $table->string('tw');
+            $table->string('in');
+            $table->string('li');
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ class CreateRssSitesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('rss_sites');
+        Schema::drop('where_to_posts');
     }
 }
