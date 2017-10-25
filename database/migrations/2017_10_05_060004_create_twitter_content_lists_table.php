@@ -18,7 +18,7 @@ class CreateTwitterContentListsTable extends Migration
             $table->string('content_id');
             $table->string('content_link');
             $table->string('tag_id');
-            $table->string('type')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

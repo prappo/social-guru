@@ -283,11 +283,13 @@
 
                                     @if(\App\Http\Controllers\Data::myPackage('pinterest'))
                                         @if(!empty(\App\Http\Controllers\Data::get('pinPass')))
-                                            <label class="btn btn-danger bg-red">
-                                                <input id="pinCheck" type="checkbox" autocomplete="off"><i
-                                                        class="fa fa-pinterest"></i>
-                                                Pinterest
-                                            </label>
+                                            @if($boards != 'Not available')
+                                                <label class="btn btn-danger bg-red">
+                                                    <input id="pinCheck" type="checkbox" autocomplete="off"><i
+                                                            class="fa fa-pinterest"></i>
+                                                    Pinterest
+                                                </label>
+                                            @endif
                                         @endif
                                     @endif
 

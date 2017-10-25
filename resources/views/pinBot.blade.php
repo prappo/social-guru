@@ -17,11 +17,24 @@
                         <li class="active"><a href="#settings" data-toggle="tab" aria-expanded="true">Settings</a>
                         </li>
                         <li class="pull-left header"><i class="fa fa-pinterest"></i> Pinterest</li>
-                        <li class="pull-right header"><button class="btn btn-block toogleActivation bg-green">
-                                <i class="fa fa-stop"></i>
-                                Service running
-                                <i class="fa fa-spinner fa-spin"></i>
-                            </button> </li>
+                        <li class="pull-right header">
+                            @if(\App\Service::where('userId',Auth::user()->id)->value('pin') == "start")
+                                <button id="btnServiceStop" class="btn btn-block toogleActivation bg-green">
+                                    <i class="fa fa-stop"></i>
+                                    Service running
+                                    <i class="fa fa-spinner fa-spin"></i>
+                                </button>
+                            @else
+
+                                <button id="btnServiceStart" class="btn btn-block toogleActivation bg-red">
+                                    <i class="fa fa-play"></i>
+                                    Start service
+                                    {{--<i class="fa fa-spinner fa-spin"></i>--}}
+                                </button>
+
+                            @endif
+
+                        </li>
                     </ul>
                     <div class="tab-content no-padding">
                         <!-- Morris chart - Sales -->
@@ -274,7 +287,7 @@
                                     <div class="small-box bg-instagram">
                                         <div class="inner">
                                             <h3>0</h3>
-                                            <p>Today conversions</p>
+                                            <p>Today Like</p>
                                         </div>
                                         <div class="icon">
                                             <i class="fa fa-user-plus"></i>
@@ -285,7 +298,7 @@
                                     <div class="small-box bg-instagram">
                                         <div class="inner">
                                             <h3>0</h3>
-                                            <p>Week conversions</p>
+                                            <p>Week Like</p>
                                         </div>
                                         <div class="icon">
                                             <i class="fa fa-users"></i>
@@ -295,8 +308,8 @@
                                 <div class="col-md-4 col-xs-12">
                                     <div class="small-box bg-instagram">
                                         <div class="inner">
-                                            <h3>0</h3>
-                                            <p>Total conversions</p>
+                                            <h3>{{\App\PinterestContentList::where('userId',Auth::user()->id)->where('status','pending')->count()}}</h3>
+                                            <p>Total Like</p>
                                         </div>
                                         <div class="icon">
                                             <i class="fa fa-trophy"></i>
@@ -341,16 +354,19 @@
                                     </thead>
 
                                     <tbody>
+                                    @foreach(\App\PinterestContentList::where('userID',Auth::user()->id)->where('status','done')->get() as $data)
+                                        <tr>
+                                            <td>{{$data->content_id}}</td>
+                                            <td><a href="{{$data->content_link}}"
+                                                   target="_blank">{{$data->content_link}}</a></td>
+                                            <td>{{$data->tag_id}}</td>
 
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-
-                                        <td></td>
+                                            <td>{{$data->status}}</td>
 
 
-                                    </tr>
+                                        </tr>
+
+                                    @endforeach
 
                                     </tbody>
 
@@ -409,6 +425,48 @@
                     'tag': tagQuery
                 }, success: function (data) {
                     getTags();
+                },
+                error: function (data) {
+                    alert("Something went wrong");
+                    console.log(data.responseText);
+                }
+            });
+        });
+
+        $('#btnServiceStart').click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '{{url('/service/start')}}',
+                data: {
+                    'type': 'pin'
+                }, success: function (data) {
+                    if (data == "success") {
+                        location.reload();
+                    } else {
+                        alert("Something went wrong");
+                        console.log(data);
+                    }
+                },
+                error: function (data) {
+                    alert("Something went wrong");
+                    console.log(data.responseText);
+                }
+            });
+        });
+
+        $('#btnServiceStop').click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '{{url('/service/stop')}}',
+                data: {
+                    'type': 'pin'
+                }, success: function (data) {
+                    if (data == "success") {
+                        location.reload();
+                    } else {
+                        alert("Something went wrong");
+                        console.log(data);
+                    }
                 },
                 error: function (data) {
                     alert("Something went wrong");

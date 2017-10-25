@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\InFollowers;
+use App\InstagramContentList;
 use App\InTags;
+use App\Service;
+use App\Setting;
 use Facebook\HttpClients\FacebookGuzzleHttpClient;
 use Guzzle\Http\Client;
 use Illuminate\Http\Request;
@@ -906,6 +909,9 @@ class InstagramController extends Controller
     {
         try {
             InTags::where('userId', Auth::user()->id)->where('id', $request->id)->delete();
+            $tag = InTags::where('userId', Auth::user()->id)->where('id', $request->id)->value('tag');
+
+            InstagramContentList::where('userId', Auth::user()->id)->where('tag_id', $tag)->delete();
             return "success";
         } catch (\Exception $exception) {
             return $exception->getMessage();
@@ -915,11 +921,14 @@ class InstagramController extends Controller
 
     public function addTag(Request $request)
     {
+        if (InTags::where('userId', Auth::user()->id)->where('tag', $request->tag)->exists()) {
+            return "Tag already Exists";
+        }
         try {
             $tags = new InTags();
             $tags->userId = Auth::user()->id;
             $tags->tag = $request->tag;
-            $tags->conversation = 0;
+            $tags->status = "pending";
             $tags->save();
             return "success";
         } catch (\Exception $exception) {
@@ -945,7 +954,7 @@ class InstagramController extends Controller
                                                     <ul class="dropdown-menu" role="menu">
                                                         <li class="no-action"><a href="#"><i
                                                                         class="fa fa-users text-twitter"></i>
-                                                                ' . $tag->conversion . ' conversions
+                                                               Status: ' . $tag->status . ' 
                                                             </a></li>
 
                                                         <li class="divider"></li>
@@ -1072,7 +1081,7 @@ class InstagramController extends Controller
             var data = $(this).attr("data-id");
             $.ajax({
                 type:"POST",
-                url:"'.url('/instagram/tag/add').'",
+                url:"' . url('/instagram/tag/add') . '",
                 data:{
                     "tag":data
                 },
@@ -1091,6 +1100,7 @@ class InstagramController extends Controller
 
 
     }
+
 
 
 }

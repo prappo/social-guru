@@ -474,7 +474,7 @@ class TwitterController extends Controller
             $addTag = new TwTags();
             $addTag->userId = Auth::user()->id;
             $addTag->tag = $request->tag;
-            $addTag->conversation = 0;
+            $addTag->status = 'pending';
             $addTag->save();
             return "success";
         } catch (\Exception $exception) {
@@ -499,7 +499,7 @@ class TwitterController extends Controller
                                                     <ul class="dropdown-menu" role="menu">
                                                         <li class="no-action"><a href="#"><i
                                                                         class="fa fa-users text-twitter"></i>
-                                                                ' . $tag->conversion . ' conversions
+                                                                Status ' . $tag->status . '
                                                             </a></li>
 
                                                         <li class="divider"></li>

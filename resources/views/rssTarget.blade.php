@@ -19,6 +19,24 @@
 
 
                     <div class="box-body">
+
+                        @if(\App\Service::where('userId',Auth::user()->id)->value('rss') == "start")
+                            <button id="btnServiceStop" class="btn  toogleActivation bg-green">
+                                <i class="fa fa-stop"></i>
+                                Service running
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </button>
+                        @else
+
+                            <button id="btnServiceStart" class="btn  toogleActivation bg-red">
+                                <i class="fa fa-play"></i>
+                                Start service
+                                {{--<i class="fa fa-spinner fa-spin"></i>--}}
+                            </button>
+
+                        @endif
+
+                        <hr>
                         <div class="input-group input-group-xs">
                             <input id="url" type="text" placeholder="Input your site here" class="form-control">
                             <span class="input-group-btn">
@@ -29,6 +47,8 @@
 
                         <div class="box-body">
                             <div class="form-group">
+
+
                                 <div class="form-group">
                                     <label>Target Social Media</label>
                                 </div>
@@ -41,7 +61,10 @@
                                             </label>
                                         </div>
                                         <div id="fbPages" style="display: none">
+                                            Facebook Pages
                                             <select id="facebookPages">
+
+                                                <option>no</option>
                                                 @foreach(\App\FacebookPages::where('userId',Auth::user()->id)->get() as $fbPages)
                                                     <option id="{{$fbPages->pageId}}">{{$fbPages->pageName}}</option>
                                                 @endforeach
@@ -50,7 +73,10 @@
 
                                         <div id="fbGroups" style="display: none">
                                             <hr>
+
+                                            Facebook Groups
                                             <select id="facebookGroups">
+                                                <option>no</option>
                                                 @foreach(\App\facebookGroups::where('userId',Auth::user()->id)->get() as $fbPages)
                                                     <option id="{{$fbPages->pageId}}">{{$fbPages->pageName}}</option>
                                                 @endforeach
@@ -91,7 +117,7 @@
 
                                                     @if($liCompanies != "")
                                                         @foreach($liCompanies as $liCompany)
-                                                            <option value="{{ $liCompany['id'] }}">{{ $liCompany['name'] }}</option>
+                                                            <option id="{{ $liCompany['id'] }}">{{ $liCompany['name'] }}</option>
                                                         @endforeach
                                                     @endif
                                                 </select>
@@ -116,6 +142,90 @@
                             <button id="addTarget" class="btn btn-block btn-success"><i class="fa fa-plus"></i> Add
                                 Target
                             </button>
+
+                            <hr>
+                            <div style="padding:25px" class="row">
+                                <table id="mytable" class="table table-bordered table-striped" cellspacing="0"
+                                       width="100%">
+                                    <thead>
+                                    <tr>
+                                        <th>Site</th>
+                                        <th>FB Page</th>
+                                        <th>FB Group</th>
+                                        <th>Linkedin</th>
+                                        <th>Twitter</th>
+                                        <th>Instagram</th>
+
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    @foreach(\App\rssTarget::where('userId',Auth::user()->id)->get() as $data)
+                                        <tr>
+                                            <td><b>{{$data->site}}</b></td>
+                                            <td align="center">
+                                                @if($data->fbPageName == "no")
+                                                    <i class="fa fa-close" style="color:red"></i>
+                                                @else
+                                                    <i class="fa fa-check" style="color: green"></i>
+                                                    {{$data->fbPageName}}
+                                                @endif
+                                            </td>
+                                            <td align="center">
+                                                @if($data->fbGroupName == "no")
+                                                    <i class="fa fa-close" style="color:red"></i>
+                                                @else
+                                                    <i class="fa fa-check" style="color: green"></i>
+                                                    {{$data->fbGroupName}}
+                                                @endif
+                                            </td>
+
+                                            <td align="center">
+                                                @if($data->liCompanyName == "no")
+                                                    <i class="fa fa-close" style="color:red"></i>
+                                                @else
+                                                    <i class="fa fa-check" style="color: green"></i>
+                                                    {{$data->liCompanyName}}
+                                                @endif
+                                            </td>
+
+                                            <td align="center">
+                                                @if($data->tw == "no")
+                                                    <i class="fa fa-close" style="color:red"></i>
+                                                @else
+                                                    <i class="fa fa-check" style="color: green"></i>
+                                                    {{$data->tw}}
+                                                @endif
+                                            </td>
+
+                                            <td align="center">
+                                                @if($data->in == "no")
+                                                    <i class="fa fa-close" style="color:red"></i>
+                                                @else
+                                                    <i class="fa fa-check" style="color: green"></i>
+                                                    {{$data->in}}
+                                                @endif
+                                            </td>
+
+
+                                        </tr>
+
+                                    @endforeach
+
+                                    </tbody>
+
+                                    <tfoot>
+                                    <tr>
+                                        <th>Site</th>
+                                        <th>FB Page</th>
+                                        <th>FB Group</th>
+                                        <th>Linkedin</th>
+                                        <th>Twitter</th>
+                                        <th>Instagram</th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
 
                         </div>
                     </div>
@@ -207,11 +317,89 @@
             }
 
             if ($("#in").is(':checked')) {
-
+                instagram = "yes";
+            } else {
+                instagram = "no";
             }
-            swal('Success', 'Done !', 'success');
-            location.reload();
-        })
+
+            if ($('#ln').is(':checked')) {
+                liCompanyId = $('#liCompanies').children(":selected").attr("id");
+                liCompanyName = $('#liCompanies').val();
+            } else {
+                liCompanyName = "no";
+                liCompanyId = "no";
+            }
+            $.ajax({
+                type: 'POST',
+                url: '{{url('/rss/add/target')}}',
+                data: {
+                    'fbPageId': fbPageId,
+                    'fbPageName': fbPageName,
+                    'fbGroupId': fbGroupId,
+                    'fbGroupName': fbGroupName,
+                    'tw': tw,
+                    'instagram': instagram,
+                    'liCompanyId': liCompanyId,
+                    'liCompanyName': liCompanyName,
+                    'in': instagram,
+                    'site': $('#url').val()
+                }, success: function (data) {
+                    if (data == "success") {
+                        alert("Success");
+                        location.reload();
+                    } else {
+                        alert(data)
+                    }
+                },
+                error: function (data) {
+                    alert("Something went wrong");
+                    console.log(data.responseText);
+                }
+            })
+        });
+
+
+        $('#btnServiceStart').click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '{{url('/service/start')}}',
+                data: {
+                    'type': 'rss'
+                }, success: function (data) {
+                    if (data == "success") {
+                        location.reload();
+                    } else {
+                        alert("Something went wrong");
+                        console.log(data);
+                    }
+                },
+                error: function (data) {
+                    alert("Something went wrong");
+                    console.log(data.responseText);
+                }
+            });
+        });
+
+        $('#btnServiceStop').click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '{{url('/service/stop')}}',
+                data: {
+                    'type': 'rss'
+                }, success: function (data) {
+                    if (data == "success") {
+                        location.reload();
+                    } else {
+                        alert("Something went wrong");
+                        console.log(data);
+                    }
+                },
+                error: function (data) {
+                    alert("Something went wrong");
+                    console.log(data.responseText);
+                }
+            });
+        });
 
     </script>
 @endsection

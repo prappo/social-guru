@@ -15,6 +15,7 @@ class CreateRssTargetsTable extends Migration
         Schema::create('rss_targets', function (Blueprint $table) {
             $table->increments('id');
             $table->string('userId');
+            $table->string('site');
             $table->string('fbPageId');
             $table->string('fbPageName');
             $table->string('fbGroupId');

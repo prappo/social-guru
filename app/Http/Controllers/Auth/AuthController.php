@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Package;
+use App\Setting;
 use App\User;
 use Validator;
 use App\Http\Controllers\Controller;
@@ -43,7 +45,7 @@ class AuthController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -58,15 +60,45 @@ class AuthController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return User
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+        $user = new User();
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->password = bcrypt($data['password']);
+        $user->type = 'user';
+        $user->status = 'active';
+        $user->save();
+        //create pakcage for user
+
+        $package = new Package();
+        $package->userId = User::where('email', $data['email'])->value('id');
+        $package->fb = "yes";
+        $package->tw = "yes";
+        $package->tu = "no";
+        $package->wp = "no";
+        $package->ln = "yes";
+        $package->in = "yes";
+        $package->fbBot = "no";
+        $package->slackBot = "no";
+        $package->pinterest = "yes";
+        $package->contacts = "no";
+        $package->save();
+
+        // creating settings data for this user
+        $settings = new Setting();
+        $settings->userId = User::where('email', $data['email'])->value('id');
+        $settings->save();
+
+//        return User::create([
+//            'name' => $data['name'],
+//            'email' => $data['email'],
+//            'password' => bcrypt($data['password']),
+//        ]);
+
+        return $user;
     }
 }

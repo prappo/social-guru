@@ -11,6 +11,17 @@ Route::any('/hook', 'Hook@fb');
 Route::post('/slack/hook', 'Hook@slack');
 Route::any('/schedule/fire', 'ScheduleController@fire');
 
+// Instagram robot
+Route::any('/service/instagram', 'ScheduleController@instagramService');
+Route::any('/service/twitter', 'ScheduleController@twitterService');
+Route::any('/service/pinterest', 'ScheduleController@pinterestService');
+
+Route::any('/robot/instagram', 'ScheduleController@grabInstagramContent');
+
+Route::any('/robot/twitter', 'ScheduleController@grabTwitterContent');
+Route::any('/robot/pinterest', 'ScheduleController@grabPinterestContent');
+
+
 Route::group(['middleware' => 'web'], function () {
     Route::auth();
 
@@ -308,6 +319,13 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('/rss/add/site', 'RssController@addSite');
         Route::post('/rss/delete/site', 'RssController@deleteSite');
         Route::post('/rss/feed/get', 'RssController@getFeed');
+        Route::post('/rss/add/target','RssController@rssTargetInsert');
+
+//        Service routes
+
+        Route::post('/service/start', 'ServiceController@startService');
+        Route::post('/service/stop', 'ServiceController@stopService');
+
 
 //        virtual assistant routes
 

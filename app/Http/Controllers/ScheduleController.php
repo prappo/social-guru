@@ -2,7 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\InstagramContentList;
+use App\InTags;
 use App\OptSchedul;
+use App\pinTags;
+use App\PinterestContentList;
+use App\Service;
+use App\Setting;
+use App\TwitterContentList;
+use App\TwTags;
 use App\User;
 use Carbon\Carbon;
 use DateTime;
@@ -11,6 +19,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
+use seregazhuk\PinterestBot\Factories\PinterestBot;
 
 class ScheduleController extends Controller
 {
@@ -287,4 +296,278 @@ class ScheduleController extends Controller
             }
         }
     }
+
+
+    public function grabInstagramContent()
+    {
+        $datas = InTags::take(1)->where('status', 'pending')->get();
+
+
+        $id = "";
+        $userId = "";
+        $tag = "";
+
+//        get single value form database
+
+        foreach ($datas as $data) {
+            $userId = $data->userId;
+            $tag = $data->tag;
+            $id = $data->id;
+        }
+
+        if ($tag == "") {
+            exit;
+        }
+
+
+// trying to login to instagram
+
+        $instagram = new \InstagramAPI\Instagram();
+        $username = Setting::where('userId', $userId)->value("inUser");
+        $password = Setting::where('userId', $userId)->value("inPass");
+
+
+        try {
+            $instagram->setUser($username, $password);
+            $instagram->login(true);
+        } catch (\Exception $exception) {
+            return $exception->getMessage();
+        }
+
+        $inDatas = $instagram->getHashtagFeed($tag);
+
+        foreach ($inDatas->items as $inData) {
+            if (!InstagramContentList::where('userId', $userId)->where('content_id', $inData->code)->exists()) {
+                $contentList = new InstagramContentList();
+                $contentList->userId = $userId;
+                $contentList->content_id = $inData->pk;
+                $contentList->content_link = "https://www.instagram.com/p/" . $inData->code;
+                $contentList->tag_id = $tag;
+                $contentList->status = "pending";
+                $contentList->save();
+            }
+
+        }
+        InTags::where('id', $id)->update([
+            'status' => 'done'
+        ]);
+
+
+    }
+
+    public function instagramService()
+    {
+
+        $datas = InstagramContentList::take(5)->where('status', 'pending')->get();
+
+
+//        get single value form database
+
+        foreach ($datas as $data) {
+            $userId = $data->userId;
+            $id = $data->id;
+            $contentId = $data->content_id;
+
+            if (Service::where('userId', $userId)->value('in') == "start") {
+                $instagram = new \InstagramAPI\Instagram();
+                $username = Setting::where('userId', $userId)->value("inUser");
+                $password = Setting::where('userId', $userId)->value("inPass");
+
+                try {
+                    $instagram->setUser($username, $password);
+                    $instagram->login(true);
+                    $instagram->like($contentId);
+                    InstagramContentList::where('id', $id)->update([
+                        'status' => 'done'
+                    ]);
+
+                } catch (\Exception $exception) {
+
+                }
+            }
+
+
+        }
+
+
+    }
+
+
+    public function twitterService()
+    {
+        $datas = TwitterContentList::take(3)->where('status', 'pending')->get();
+
+
+        foreach ($datas as $data) {
+            $userId = $data->userId;
+            $id = $data->id;
+            $contentId = $data->content_id;
+
+            if (Service::where('userId', $userId)->value('tw') == "start") {
+
+                $consumerKey = Setting::where('userId', $userId)->value('twConKey');
+                $consumerSecret = Setting::where('userId', $userId)->value('twConSec');
+                $accessToken = Setting::where('userId', $userId)->value('twToken');
+                $tokenSecret = Setting::where('userId', $userId)->value('twTokenSec');
+                $twitter = new \Twitter($consumerKey, $consumerSecret, $accessToken, $tokenSecret);
+                try {
+                    $twitter->request('favorites/create', 'POST', array('id' => $contentId));
+                    TwitterContentList::where('id', $id)->update([
+                        'status' => 'done'
+                    ]);
+
+
+                } catch (\Exception $exception) {
+                    return $exception->getMessage();
+                }
+
+            }
+
+
+        }
+
+    }
+
+    public function grabTwitterContent()
+    {
+        $datas = TwTags::take(1)->where('status', 'pending')->get();
+        $id = "";
+        $usreId = "";
+        $tag = "";
+        foreach ($datas as $data) {
+            $usreId = $data->userId;
+            $tag = $data->tag;
+            $id = $data->id;
+        }
+
+        if ($tag == "") {
+            exit;
+        }
+
+
+        $consumerKey = Setting::where('userId', $usreId)->value('twConKey');
+        $consumerSecret = Setting::where('userId', $usreId)->value('twConSec');
+        $accessToken = Setting::where('userId', $usreId)->value('twToken');
+        $tokenSecret = Setting::where('userId', $usreId)->value('twTokenSec');
+        $twitter = new \Twitter($consumerKey, $consumerSecret, $accessToken, $tokenSecret);
+
+        $tweets = $twitter->request('search/tweets', 'GET', array('q' => '#' . $tag, 'count' => 10));
+
+        foreach ($tweets->statuses as $tweet) {
+            if (!TwitterContentList::where('userId', $usreId)->where('content_id', $tweet->id)->exists()) {
+                $contentList = new TwitterContentList();
+                $contentList->userId = $usreId;
+                $contentList->content_id = $tweet->id;
+                $contentList->content_link = "https://twitter.com/" . $tweet->user->screen_name . "/status/" . $tweet->id;
+                $contentList->tag_id = $tag;
+                $contentList->status = "pending";
+                $contentList->save();
+            }
+        }
+
+        TwTags::where('id', $id)->update([
+            'status' => 'done'
+        ]);
+
+
+    }
+
+
+    public function grabPinterestContent()
+    {
+
+        $datas = pinTags::take(1)->where('status', 'pending')->get();
+        $id = "";
+        $userId = "";
+        $tag = "";
+
+        foreach ($datas as $data) {
+            $userId = $data->userId;
+            $tag = $data->tag;
+            $id = $data->id;
+        }
+
+        if ($tag == "") {
+            exit;
+        }
+
+        $pinterest = PinterestBot::create();
+        $pinterest->auth->login(Setting::where('userId', $userId)->value('pinUser'), Setting::where('userId', $userId)->value('pinPass'));
+
+        $pins = $pinterest->pins->search($tag)->toArray();
+
+        foreach ($pins as $pin) {
+            if (!PinterestContentList::where('userId', $userId)->where('content_id', $pin['id'])->exists()) {
+                $contentList = new PinterestContentList();
+                $contentList->userId = $userId;
+                $contentList->content_id = $pin['id'];
+                $contentList->content_link = "https://www.pinterest.com/pin/" . $pin['id'];
+                $contentList->tag_id = $tag;
+                $contentList->status = "pending";
+                $contentList->save();
+            }
+        }
+
+        pinTags::where('id', $id)->update([
+            'status' => 'done'
+        ]);
+
+    }
+
+    public function pinterestService()
+    {
+
+        $datas = PinterestContentList::take(3)->where('status', 'pending')->get();
+        echo "[-] Took 3 data <br>";
+        foreach ($datas as $data) {
+            $userId = $data->userId;
+            $id = $data->id;
+            $contentId = $data->content_id;
+            echo "[-] Reacting with {$contentId} <br>";
+
+            if (Service::where('userId', $userId)->value('pin') == "start") {
+                echo "[-] Trying to login <br>";
+
+                try {
+                    echo "[-] Trying to lik the content ID [ {$contentId} ]";
+                    PinterestContentList::where('id', $id)->update([
+                        'status' => 'done'
+                    ]);
+                    $pinterest = PinterestBot::create();
+                    $pinterest->auth->login(Setting::where('userId', $userId)->value('pinUser'), Setting::where('userId', $userId)->value('pinPass'));
+                    $pinterest->pins->like($contentId);
+
+                    echo "done <br>";
+                } catch (\Exception $exception) {
+
+                    echo "<p style='color:red'> Error for {$contentId} [ " . $exception->getMessage() . " ] </p>";
+                }
+
+
+            }
+            echo "[-] Task complete for {$contentId}";
+        }
+    }
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

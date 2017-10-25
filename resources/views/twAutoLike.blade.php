@@ -18,11 +18,21 @@
                         </li>
                         <li class="pull-left header"><i class="fa fa-twitter"></i> Twitter</li>
                         <li class="pull-right header">
-                            <button class="btn btn-block toogleActivation bg-green">
-                                <i class="fa fa-stop"></i>
-                                Service running
-                                <i class="fa fa-spinner fa-spin"></i>
-                            </button>
+                            @if(\App\Service::where('userId',Auth::user()->id)->value('tw') == "start")
+                                <button id="btnServiceStop" class="btn btn-block toogleActivation bg-green">
+                                    <i class="fa fa-stop"></i>
+                                    Service running
+                                    <i class="fa fa-spinner fa-spin"></i>
+                                </button>
+                            @else
+
+                                <button id="btnServiceStart" class="btn btn-block toogleActivation bg-red">
+                                    <i class="fa fa-play"></i>
+                                    Start service
+                                    {{--<i class="fa fa-spinner fa-spin"></i>--}}
+                                </button>
+
+                            @endif
                         </li>
                     </ul>
                     <div class="tab-content no-padding">
@@ -111,40 +121,40 @@
                                     <div class="box-body">
                                         <div>
                                             <div id="showFollowers">
-                                                <div class="btn-group button-tag">
-                                                    <button type="button" class="btn btn-default label-button"><img
-                                                                class="img-circle" width="20"
-                                                                src="https://pbs.twimg.com/profile_images/830129868373266432/a0_asx8X_normal.jpg"
-                                                                style="margin-right: 5px;"><!-- react-text: 166 -->
-                                                        travel<!-- /react-text --></button>
-                                                    <button type="button" class="btn btn-default dropdown-toggle"
-                                                            data-toggle="dropdown" aria-expanded="false"
-                                                            style="font-size: 16px;"><span class="caret"></span><span
-                                                                class="sr-only">Toggle Dropdown</span></button>
-                                                    <ul class="dropdown-menu" role="menu">
-                                                        <li class="no-action"><a href="#"><i
-                                                                        class="fa fa-users text-twitter"></i>
-                                                                <!-- react-text: 174 -->2.8M<!-- /react-text -->
-                                                                <!-- react-text: 175 --> <!-- /react-text -->
-                                                                <!-- react-text: 176 -->followers<!-- /react-text -->
-                                                            </a></li>
-                                                        <li class="no-action"><a href="#"><i
-                                                                        class="fa fa-user-plus text-twitter"></i>
-                                                                <!-- react-text: 180 -->0<!-- /react-text -->
-                                                                <!-- react-text: 181 --> <!-- /react-text -->
-                                                                <!-- react-text: 182 -->conversions<!-- /react-text -->
-                                                            </a></li>
-                                                        <li><a href="https://www.twitter.com/travel" target="_blank"><i
-                                                                        class="fa fa-external-link text-twitter"></i>
-                                                                <!-- react-text: 186 --> Profile<!-- /react-text --></a>
-                                                        </li>
-                                                        <li class="divider"></li>
-                                                        <li><a href="#" class="removeTag"><i
-                                                                        class="fa fa-close text-twitter"></i>
-                                                                <!-- react-text: 191 --> Remove User<!-- /react-text -->
-                                                            </a></li>
-                                                    </ul>
-                                                </div>
+                                                {{--<div class="btn-group button-tag">--}}
+                                                {{--<button type="button" class="btn btn-default label-button"><img--}}
+                                                {{--class="img-circle" width="20"--}}
+                                                {{--src="https://pbs.twimg.com/profile_images/830129868373266432/a0_asx8X_normal.jpg"--}}
+                                                {{--style="margin-right: 5px;"><!-- react-text: 166 -->--}}
+                                                {{--travel<!-- /react-text --></button>--}}
+                                                {{--<button type="button" class="btn btn-default dropdown-toggle"--}}
+                                                {{--data-toggle="dropdown" aria-expanded="false"--}}
+                                                {{--style="font-size: 16px;"><span class="caret"></span><span--}}
+                                                {{--class="sr-only">Toggle Dropdown</span></button>--}}
+                                                {{--<ul class="dropdown-menu" role="menu">--}}
+                                                {{--<li class="no-action"><a href="#"><i--}}
+                                                {{--class="fa fa-users text-twitter"></i>--}}
+                                                {{--<!-- react-text: 174 -->2.8M<!-- /react-text -->--}}
+                                                {{--<!-- react-text: 175 --> <!-- /react-text -->--}}
+                                                {{--<!-- react-text: 176 -->followers<!-- /react-text -->--}}
+                                                {{--</a></li>--}}
+                                                {{--<li class="no-action"><a href="#"><i--}}
+                                                {{--class="fa fa-user-plus text-twitter"></i>--}}
+                                                {{--<!-- react-text: 180 -->0<!-- /react-text -->--}}
+                                                {{--<!-- react-text: 181 --> <!-- /react-text -->--}}
+                                                {{--<!-- react-text: 182 -->Likes<!-- /react-text -->--}}
+                                                {{--</a></li>--}}
+                                                {{--<li><a href="https://www.twitter.com/travel" target="_blank"><i--}}
+                                                {{--class="fa fa-external-link text-twitter"></i>--}}
+                                                {{--<!-- react-text: 186 --> Profile<!-- /react-text --></a>--}}
+                                                {{--</li>--}}
+                                                {{--<li class="divider"></li>--}}
+                                                {{--<li><a href="#" class="removeTag"><i--}}
+                                                {{--class="fa fa-close text-twitter"></i>--}}
+                                                {{--<!-- react-text: 191 --> Remove User<!-- /react-text -->--}}
+                                                {{--</a></li>--}}
+                                                {{--</ul>--}}
+                                                {{--</div>--}}
 
                                             </div>
                                         </div>
@@ -278,10 +288,10 @@
                                     <div class="small-box bg-instagram">
                                         <div class="inner">
                                             <h3>0</h3>
-                                            <p>Today conversions</p>
+                                            <p>Today Like</p>
                                         </div>
                                         <div class="icon">
-                                            <i class="fa fa-user-plus"></i>
+                                            <i class="fa fa-twitter"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -289,21 +299,21 @@
                                     <div class="small-box bg-instagram">
                                         <div class="inner">
                                             <h3>0</h3>
-                                            <p>Week conversions</p>
+                                            <p>Week Like</p>
                                         </div>
                                         <div class="icon">
-                                            <i class="fa fa-users"></i>
+                                            <i class="fa fa-twitter"></i>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-xs-12">
                                     <div class="small-box bg-instagram">
                                         <div class="inner">
-                                            <h3>0</h3>
-                                            <p>Total conversions</p>
+                                            <h3>{{\App\TwitterContentList::where('userId',Auth::user()->id)->where('status','done')->count()}}</h3>
+                                            <p>Total Like</p>
                                         </div>
                                         <div class="icon">
-                                            <i class="fa fa-trophy"></i>
+                                            <i class="fa fa-twitter"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -313,20 +323,20 @@
                             <div style="padding:15px" class="row">
 
 
-                                <div class="col-lg-6 col-md-12">
-                                    <div class="col-md-12">
-                                        <h4><i class="fa fa-twitter"></i> Last Week's Conversions</h4>
-                                        <h5 class="text-center">You do not have any data yet.</h5>
+                                {{--<div class="col-lg-6 col-md-12">--}}
+                                {{--<div class="col-md-12">--}}
+                                {{--<h4><i class="fa fa-twitter"></i> Last Week's Conversions</h4>--}}
+                                {{--<h5 class="text-center">You do not have any data yet.</h5>--}}
 
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-12">
-                                    <div class="col-md-12">
-                                        <h4><i class="fa fa-twitter"></i> Last Month's Conversions</h4>
-                                        <h5 class="text-center">You do not have any data yet.</h5>
+                                {{--</div>--}}
+                                {{--</div>--}}
+                                {{--<div class="col-lg-6 col-md-12">--}}
+                                {{--<div class="col-md-12">--}}
+                                {{--<h4><i class="fa fa-twitter"></i> Last Month's Conversions</h4>--}}
+                                {{--<h5 class="text-center">You do not have any data yet.</h5>--}}
 
-                                    </div>
-                                </div>
+                                {{--</div>--}}
+                                {{--</div>--}}
 
 
                             </div>
@@ -345,16 +355,18 @@
                                     </thead>
 
                                     <tbody>
+                                    @foreach(\App\TwitterContentList::where('userId',Auth::user()->id)->where('status','done')->get() as $data)
+                                        <tr>
+                                            <td>{{$data->content_id}}</td>
+                                            <td><a target="_blank"
+                                                   href="{{$data->content_link}}"> {{$data->content_link}}</a></td>
+                                            <td>{{$data->tag_id}}</td>
 
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-
-                                        <td></td>
+                                            <td>{{$data->status}}</td>
 
 
-                                    </tr>
+                                        </tr>
+                                    @endforeach
 
                                     </tbody>
 
@@ -458,6 +470,48 @@
                 }
             });
         }
+
+        $('#btnServiceStart').click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '{{url('/service/start')}}',
+                data: {
+                    'type': 'tw'
+                }, success: function (data) {
+                    if (data == "success") {
+                        location.reload();
+                    } else {
+                        alert("Something went wrong");
+                        console.log(data);
+                    }
+                },
+                error: function (data) {
+                    alert("Something went wrong");
+                    console.log(data.responseText);
+                }
+            });
+        });
+
+        $('#btnServiceStop').click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '{{url('/service/stop')}}',
+                data: {
+                    'type': 'tw'
+                }, success: function (data) {
+                    if (data == "success") {
+                        location.reload();
+                    } else {
+                        alert("Something went wrong");
+                        console.log(data);
+                    }
+                },
+                error: function (data) {
+                    alert("Something went wrong");
+                    console.log(data.responseText);
+                }
+            });
+        });
 
 
     </script>

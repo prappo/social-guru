@@ -263,7 +263,7 @@ class PinterestController extends Controller
             $pinTag = new pinTags();
             $pinTag->userId = Auth::user()->id;
             $pinTag->tag = $request->tag;
-            $pinTag->conversation = 0;
+            $pinTag->status = 'pending';
             $pinTag->save();
             return "success";
         } catch (\Exception $exception) {

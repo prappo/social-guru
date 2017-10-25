@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\RssSites;
+use App\rssTarget;
 use App\whereToPost;
 use Illuminate\Http\Request;
 
@@ -116,4 +117,54 @@ class RssController extends Controller
         }
         return view('rssTarget', compact('liCompanies'));
     }
+
+    public function rssTargetInsert(Request $request)
+    {
+        if($request->site == ""){
+            return "Please enter Site URL";
+        }
+        try {
+            $rssTarget = new rssTarget();
+            $rssTarget->userId = Auth::user()->id;
+            $rssTarget->site = $request->site;
+            $rssTarget->fbPageId = $request->fbPageId;
+            $rssTarget->fbPageName = $request->fbPageName;
+            $rssTarget->fbGroupId = $request->fbGroupId;
+            $rssTarget->fbGroupName = $request->fbGroupName;
+            $rssTarget->tw = $request->tw;
+            $rssTarget->in = $request->in;
+            $rssTarget->liCompanyId = $request->liCompanyId;
+            $rssTarget->liCompanyName = $request->liCompanyName;
+            $rssTarget->save();
+            return "success";
+
+        } catch (\Exception $exception) {
+            return $exception->getMessage();
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -14,6 +14,11 @@ class CreateServicesTable extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('userId');
+            $table->string('rss')->nullable();
+            $table->string('tw')->nullable();
+            $table->string('pin')->nullable();
+            $table->string('in')->nullable();
             $table->timestamps();
         });
     }

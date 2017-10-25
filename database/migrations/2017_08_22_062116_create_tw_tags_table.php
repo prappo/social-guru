@@ -16,7 +16,7 @@ class CreateTwTagsTable extends Migration
             $table->increments('id');
             $table->string('userId');
             $table->string('tag');
-            $table->string('conversation');
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

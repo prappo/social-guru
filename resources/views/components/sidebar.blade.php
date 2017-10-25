@@ -284,36 +284,36 @@
                 {{--</li>--}}
             {{--@endif--}}
             {{--tumblr menu--}}
-            @if(\App\Http\Controllers\Data::myPackage('tu'))
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-tumblr-square"></i>
-                        <span>{{trans('sidebar.Tumblr')}}</span>
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu" style="display: none">
-                        <li><a href="{{ url('/tumblr') }}"><i class="fa fa-tumblr"></i>
-                                <span>{{trans('sidebar.Tumblr')}}</span></a></li>
-                        {!! \App\Http\Controllers\Plugins::menu("tumblr") !!}
-                    </ul>
-                </li>
-            @endif
+            {{--@if(\App\Http\Controllers\Data::myPackage('tu'))--}}
+                {{--<li class="treeview">--}}
+                    {{--<a href="#">--}}
+                        {{--<i class="fa fa-tumblr-square"></i>--}}
+                        {{--<span>{{trans('sidebar.Tumblr')}}</span>--}}
+                        {{--<i class="fa fa-angle-left pull-right"></i>--}}
+                    {{--</a>--}}
+                    {{--<ul class="treeview-menu" style="display: none">--}}
+                        {{--<li><a href="{{ url('/tumblr') }}"><i class="fa fa-tumblr"></i>--}}
+                                {{--<span>{{trans('sidebar.Tumblr')}}</span></a></li>--}}
+                        {{--{!! \App\Http\Controllers\Plugins::menu("tumblr") !!}--}}
+                    {{--</ul>--}}
+                {{--</li>--}}
+            {{--@endif--}}
             {{--wordpress menu--}}
-            @if(\App\Http\Controllers\Data::myPackage('wp'))
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-wordpress"></i>
-                        <span>{{trans('sidebar.Wordpress')}} </span>
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu" style="display: none">
-                        <li><a href="{{ url('/wordpress') }}"><i class="fa fa-wordpress"></i>
-                                <span>{{trans('sidebar.Wordpress')}}</span></a>
-                        </li>
-                        {!! \App\Http\Controllers\Plugins::menu("wordpress") !!}
-                    </ul>
-                </li>
-            @endif
+            {{--@if(\App\Http\Controllers\Data::myPackage('wp'))--}}
+                {{--<li class="treeview">--}}
+                    {{--<a href="#">--}}
+                        {{--<i class="fa fa-wordpress"></i>--}}
+                        {{--<span>{{trans('sidebar.Wordpress')}} </span>--}}
+                        {{--<i class="fa fa-angle-left pull-right"></i>--}}
+                    {{--</a>--}}
+                    {{--<ul class="treeview-menu" style="display: none">--}}
+                        {{--<li><a href="{{ url('/wordpress') }}"><i class="fa fa-wordpress"></i>--}}
+                                {{--<span>{{trans('sidebar.Wordpress')}}</span></a>--}}
+                        {{--</li>--}}
+                        {{--{!! \App\Http\Controllers\Plugins::menu("wordpress") !!}--}}
+                    {{--</ul>--}}
+                {{--</li>--}}
+            {{--@endif--}}
             {{--<li class="treeview">--}}
             {{--<a href="#">--}}
             {{--<i class="fa fa-calendar-check-o"></i>--}}
@@ -448,6 +448,15 @@
 
 
             @endif
+
+            <li class="treeview">
+                <a target="_blank" href="http://support.guru.social">
+                    <i class="fa fa-support"></i>
+                    <span>Support</span>
+
+                </a>
+
+            </li>
 
 
         </ul>

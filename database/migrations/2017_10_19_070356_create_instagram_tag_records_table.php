@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePinTagsTable extends Migration
+class CreateInstagramTagRecordsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreatePinTagsTable extends Migration
      */
     public function up()
     {
-        Schema::create('pin_tags', function (Blueprint $table) {
+        Schema::create('instagram_tag_records', function (Blueprint $table) {
             $table->increments('id');
             $table->string('userId');
             $table->string('tag');
@@ -28,6 +28,6 @@ class CreatePinTagsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('pin_tags');
+        Schema::drop('instagram_tag_records');
     }
 }

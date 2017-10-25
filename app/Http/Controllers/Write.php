@@ -56,9 +56,14 @@ class Write extends Controller
             if (Data::get('pinPass') == "") {
                 $boards = "Not available";
             } else {
-                $pinterest = PinterestBot::create();
-                $pinterest->auth->login(Data::get('pinUser'), Data::get('pinPass'));
-                $boards = $pinterest->boards->forMe();
+                try {
+                    $pinterest = PinterestBot::create();
+                    $pinterest->auth->login(Data::get('pinUser'), Data::get('pinPass'));
+                    $boards = $pinterest->boards->forMe();
+                } catch (Exception $exception) {
+                    $boards = "Not available";
+                }
+
             }
         }
 

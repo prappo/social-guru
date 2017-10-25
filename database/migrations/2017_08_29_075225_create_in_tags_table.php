@@ -16,7 +16,7 @@ class CreateInTagsTable extends Migration
             $table->increments('id');
             $table->string('userId');
             $table->string('tag');
-            $table->string('conversation')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }
