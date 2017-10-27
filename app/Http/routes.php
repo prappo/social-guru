@@ -139,6 +139,7 @@ Route::group(['middleware' => 'web'], function () {
 
         Route::get('/schedule/day', 'ScheduleController@scheduleDay');
         Route::post('/schedule/filter', 'ScheduleController@filter');
+        Route::get('/schedule/filter', 'ScheduleController@scheduleDay');
         Route::get('/schedule/filter/week', 'ScheduleController@filterThisWeek');
         Route::get('/schedule/filter/month', 'ScheduleController@filterThisMonth');
         Route::get('/schedule/filter/all', 'ScheduleController@allDays');
@@ -319,7 +320,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('/rss/add/site', 'RssController@addSite');
         Route::post('/rss/delete/site', 'RssController@deleteSite');
         Route::post('/rss/feed/get', 'RssController@getFeed');
-        Route::post('/rss/add/target','RssController@rssTargetInsert');
+        Route::post('/rss/add/target', 'RssController@rssTargetInsert');
 
 //        Service routes
 

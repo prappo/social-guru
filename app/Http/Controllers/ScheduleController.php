@@ -150,6 +150,9 @@ class ScheduleController extends Controller
 
     public function filter(Request $request)
     {
+        if($request->from == "" || $request->to == ""){
+            return "Invalid input <br><a href='".url('/schedule/day')."'>Go Back</a> ";
+        }
 
 //        $days =  $this->getDatesFromRange($request->from,$request->to);
         $data = $this->getDatesFromRange($request->from, $request->to);
