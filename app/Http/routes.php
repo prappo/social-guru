@@ -12,14 +12,16 @@ Route::post('/slack/hook', 'Hook@slack');
 Route::any('/schedule/fire', 'ScheduleController@fire');
 
 // Instagram robot
-Route::any('/service/instagram', 'ScheduleController@instagramService');
-Route::any('/service/twitter', 'ScheduleController@twitterService');
-Route::any('/service/pinterest', 'ScheduleController@pinterestService');
+Route::get('/service/instagram', 'ScheduleController@instagramService');
+Route::get('/service/twitter', 'ScheduleController@twitterService');
+Route::get('/service/pinterest', 'ScheduleController@pinterestService');
 
-Route::any('/robot/instagram', 'ScheduleController@grabInstagramContent');
+Route::get('/robot/instagram', 'ScheduleController@grabInstagramContent');
 
-Route::any('/robot/twitter', 'ScheduleController@grabTwitterContent');
-Route::any('/robot/pinterest', 'ScheduleController@grabPinterestContent');
+Route::get('/robot/twitter', 'ScheduleController@grabTwitterContent');
+Route::get('/robot/pinterest', 'ScheduleController@grabPinterestContent');
+Route::get('/schedule/get/request', 'ScheduleController@testRequest');
+Route::get('/schedule/check', 'ScheduleController@checkRequest');
 
 
 Route::group(['middleware' => 'web'], function () {
@@ -145,6 +147,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/schedule/filter/all', 'ScheduleController@allDays');
         Route::post('/schedule/time/update', 'ScheduleController@timeUpdate');
 
+
         Route::post('/logdel', 'OptLogs@logDel');
         Route::post('/alllogdel', 'OptLogs@delAll');
         Route::post('/sdel', 'ScheduleController@sdel');
@@ -230,6 +233,7 @@ Route::group(['middleware' => 'web'], function () {
 //        admin controllers
         Route::get('/admin', 'UserController@adminIndex');
         Route::get('/admin/options', 'AdminController@options');
+        Route::get('/admin/system/log', 'AdminController@log');
         Route::get('/language/add', 'AdminController@addLanguageIndex');
         Route::post('/language/add', 'AdminController@addLanguage');
         Route::post('/language/change', 'AdminController@changeLanguage');

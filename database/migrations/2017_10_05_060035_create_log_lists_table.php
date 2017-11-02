@@ -14,6 +14,11 @@ class CreateLogListsTable extends Migration
     {
         Schema::create('log_lists', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('userId')->nullable();
+            $table->string('userName')->nullable();
+            $table->string('social');
+            $table->string('message');
+            $table->string('type');
             $table->timestamps();
         });
     }

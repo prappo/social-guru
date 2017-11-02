@@ -15,6 +15,7 @@
                     <ul class="nav nav-tabs pull-right ui-sortable-handle">
 
                         <li class=""><a href="#report" data-toggle="tab" aria-expanded="false">Report</a></li>
+                        <li class=""><a href="#contents" data-toggle="tab" aria-expanded="false">Contents</a></li>
 
                         <li class="active"><a href="#settings" data-toggle="tab" aria-expanded="true">Settings</a>
                         </li>
@@ -397,36 +398,37 @@
 
                             </div>
                             <hr>
-                            <div style="padding:15px" class="row">
+                            {{--<div style="padding:15px" class="row">--}}
 
 
-                                <div class="col-lg-6 col-md-12">
-                                    <div class="col-md-12">
-                                        <h4><i class="fa fa-instagram"></i> Last Week's Conversions</h4>
-                                        <h5 class="text-center">You do not have any data yet.</h5>
+                                {{--<div class="col-lg-6 col-md-12">--}}
+                                    {{--<div class="col-md-12">--}}
+                                        {{--<h4><i class="fa fa-instagram"></i> Last Week's Conversions</h4>--}}
+                                        {{--<h5 class="text-center">You do not have any data yet.</h5>--}}
 
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-12">
-                                    <div class="col-md-12">
-                                        <h4><i class="fa fa-instagram"></i> Last Months's Conversions</h4>
-                                        <h5 class="text-center">You do not have any data yet.</h5>
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--<div class="col-lg-6 col-md-12">--}}
+                                    {{--<div class="col-md-12">--}}
+                                        {{--<h4><i class="fa fa-instagram"></i> Last Months's Conversions</h4>--}}
+                                        {{--<h5 class="text-center">You do not have any data yet.</h5>--}}
 
-                                    </div>
-                                </div>
+                                    {{--</div>--}}
+                                {{--</div>--}}
 
 
-                            </div>
-                            <hr>
+                            {{--</div>--}}
+                            {{--<hr>--}}
                             <div style="padding:25px" class="row">
                                 <table id="mytable" class="table table-bordered table-striped" cellspacing="0"
                                        width="100%">
                                     <thead>
                                     <tr>
-                                        <th>Content ID</th>
+
                                         <th>Content Link</th>
                                         <th>Related Tag</th>
                                         <th>Status</th>
+                                        <th>Time</th>
 
                                     </tr>
                                     </thead>
@@ -434,12 +436,12 @@
                                     <tbody>
                                     @foreach(\App\InstagramContentList::where('userId',Auth::user()->id)->where('status','done')->get() as $data)
                                         <tr>
-                                            <td>{{$data->content_id}}</td>
+
                                             <td><a href="{{$data->content_link}}" target="_blank"> {{$data->content_link}}</a></td>
                                             <td>{{$data->tag_id}}</td>
 
                                             <td>{{$data->status}}</td>
-
+                                            <td>{{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}}</td>
 
                                         </tr>
 
@@ -453,6 +455,57 @@
                                         <th>Content Link</th>
                                         <th>Related Tag</th>
                                         <th>Status</th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+
+                        </div>
+
+                        <div class=" tab-pane" id="contents">
+                            <div style="padding:25px" class="row">
+                                <h3>Total <kbd>{{\App\InstagramContentList::where('userId',Auth::user()->id)->count()}}</kbd> contents queued</h3> <br>
+
+                                <table id="mytable1" class="table table-bordered table-striped" cellspacing="0"
+                                       width="100%">
+                                    <thead>
+                                    <tr>
+
+                                        <th>Content Link</th>
+                                        <th>Related Tag</th>
+                                        <th>Status</th>
+                                        <th>Timing</th>
+                                        <th>Time & Date</th>
+
+
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    @foreach(\App\InstagramContentList::where('userId',Auth::user()->id)->orderBy('id', 'DESC')->get() as $data)
+                                        <tr>
+
+                                            <td><a href="{{$data->content_link}}" target="_blank"> {{$data->content_link}}</a></td>
+                                            <td>{{$data->tag_id}}</td>
+
+                                            <td>{{$data->status}}</td>
+                                            <td>{{\Carbon\Carbon::parse($data->created_at)->diffForHumans()}}</td>
+                                            <td>{{\Carbon\Carbon::parse($data->created_at)->toDateTimeString()}}</td>
+
+                                        </tr>
+
+                                    @endforeach
+
+                                    </tbody>
+
+                                    <tfoot>
+                                    <tr>
+
+                                        <th>Content Link</th>
+                                        <th>Related Tag</th>
+                                        <th>Status</th>
+                                        <th>Timing</th>
+                                        <th>Time & Date</th>
                                     </tr>
                                     </tfoot>
                                 </table>

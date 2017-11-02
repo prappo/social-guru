@@ -41,42 +41,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if (Data::get('fbAppSec') != "" || Data::get('wpPassword') != "" || Data::get('tuTokenSec') != "" || Data::get('twTokenSec') != "" || Data::get('inPass') != "") {
-
-        } else {
-            return redirect('/settings');
-        }
-
-        $fbPostCount = Fb::where('userId',Auth::user()->id)->count();
-        $twPostCount = Tw::where('userId',Auth::user()->id)->count();
-        $tuPostCount = Tu::where('userId',Auth::user()->id)->count();
-        $wpPostCount = Wp::where('userId',Auth::user()->id)->count();
-        $fbgCount = facebookGroups::where('userId',Auth::user()->id)->count();
-        $fbPageCount = FacebookPages::where('userId',Auth::user()->id)->count();
-        $allPost = Allpost::where('userId',Auth::user()->id)->count();
-
-        $fbPages = FacebookPages::where('userId',Auth::user()->id)->count();
-        $fbGroups = facebookGroups::where('userId',Auth::user()->id)->count();
-        $tuBlogs = TuBlogs::where('userId',Auth::user()->id)->count();
-        $schedules = OptSchedul::where('userId',Auth::user()->id)->count();
-        $logs = OptLog::where('userId',Auth::user()->id)->count();
 
 
-        return view('home', compact(
-            'fbPostCount',
-            'twPostCount',
-            'tuPostCount',
-            'wpPostCount',
-            'fbgCount',
-            'fbPageCount',
-            'allPost',
-            'fbPages',
-            'fbGroups',
-            'tuBlogs',
-            'schedules',
-            'logs'
-
-        ));
+        return view('home');
     }
 
     /**

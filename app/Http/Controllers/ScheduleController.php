@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\InstagramContentList;
 use App\InTags;
+use App\LogList;
 use App\OptSchedul;
 use App\pinTags;
 use App\PinterestContentList;
@@ -150,8 +151,8 @@ class ScheduleController extends Controller
 
     public function filter(Request $request)
     {
-        if($request->from == "" || $request->to == ""){
-            return "Invalid input <br><a href='".url('/schedule/day')."'>Go Back</a> ";
+        if ($request->from == "" || $request->to == "") {
+            return "Invalid input <br><a href='" . url('/schedule/day') . "'>Go Back</a> ";
         }
 
 //        $days =  $this->getDatesFromRange($request->from,$request->to);
@@ -360,8 +361,17 @@ class ScheduleController extends Controller
 
     public function instagramService()
     {
+        // Make sure the url fired successfully
+        $log = new LogList();
+        $log->userName = "System";
+        $log->userId = "System";
+        $log->social = "instagram";
+        $log->message = "Url fired at " . Carbon::now();
+        $log->type = "log";
+        $log->save();
 
-        $datas = InstagramContentList::take(5)->where('status', 'pending')->get();
+
+        $datas = InstagramContentList::take(1)->where('status', 'pending')->get();
 
 
 //        get single value form database
@@ -371,20 +381,40 @@ class ScheduleController extends Controller
             $id = $data->id;
             $contentId = $data->content_id;
 
+
             if (Service::where('userId', $userId)->value('in') == "start") {
                 $instagram = new \InstagramAPI\Instagram();
                 $username = Setting::where('userId', $userId)->value("inUser");
                 $password = Setting::where('userId', $userId)->value("inPass");
 
                 try {
+
                     $instagram->setUser($username, $password);
                     $instagram->login(true);
-                    $instagram->like($contentId);
+                    $info = $instagram->like($contentId);
                     InstagramContentList::where('id', $id)->update([
                         'status' => 'done'
                     ]);
 
+                    $log = new LogList();
+                    $log->userName = User::where('id', $userId)->value('name');
+                    $log->userId = $userId;
+                    $log->social = "instagram";
+                    $log->message = "Successfully liked " . $contentId;
+                    $log->type = "success";
+                    $log->save();
+                    print_r($info);
+
                 } catch (\Exception $exception) {
+                    $log = new LogList();
+                    $log->userName = User::where('id', $userId)->value('name');
+                    $log->userId = $userId;
+                    $log->social = "instagram";
+                    $log->message = "Instagram is refusing the connection from your VPS. Technical details : [ " . $exception->getMessage() . " ] ";
+                    $log->type = "error";
+                    $log->save();
+                    print_r($exception->getMessage());
+
 
                 }
             }
@@ -419,9 +449,23 @@ class ScheduleController extends Controller
                         'status' => 'done'
                     ]);
 
+                    $log = new LogList();
+                    $log->userName = User::where('id', $userId)->value('name');
+                    $log->userId = $userId;
+                    $log->social = "twitter";
+                    $log->message = "Successfully liked " . $contentId;
+                    $log->type = "success";
+                    $log->save();
+
 
                 } catch (\Exception $exception) {
-                    return $exception->getMessage();
+                    $log = new LogList();
+                    $log->userName = User::where('id', $userId)->value('name');
+                    $log->userId = $userId;
+                    $log->social = "Instagram";
+                    $log->message = $exception->getMessage();
+                    $log->type = "error";
+                    $log->save();
                 }
 
             }
@@ -552,7 +596,19 @@ class ScheduleController extends Controller
         }
     }
 
+    public function testRequest()
+    {
+        $log = new LogList();
+        $log->save();
+        return "success";
+    }
 
+    public function checkRequest()
+    {
+        foreach (LogList::take(20)->orderBy('id', 'DESC')->get() as $log) {
+            echo Carbon::parse($log->created_at)->diffForHumans() . "<br>";
+        }
+    }
 }
 
 

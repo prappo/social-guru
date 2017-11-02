@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Lang;
+use App\LogList;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -139,5 +140,13 @@ class AdminController extends Controller
         } catch (\Exception $exception) {
             return $exception->getMessage();
         }
+    }
+
+    public function log(){
+        if (Auth::user()->type != "admin") {
+            return "permission denied";
+        }
+        $datas = LogList::orderBy('id', 'DESC')->get();
+        return view('systemLog',compact('datas'));
     }
 }

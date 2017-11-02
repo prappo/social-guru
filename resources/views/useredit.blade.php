@@ -126,7 +126,7 @@
 
                                 </div>
                                 <div class="box-footer">
-                                    <button id="save" class="btn btn-success"><i class="fa fa-save"></i> Save Packages
+                                    <button id="save" class="btn btn-success"><i class="fa fa-save"></i> Update User
                                     </button>
                                 </div>
 

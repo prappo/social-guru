@@ -37,7 +37,11 @@
                         <li><a href="{{ url('/admin/options') }}"><i class="fa fa-key"></i>
                                 <span>{{trans('sidebar.Admin Options')}}</span></a></li>
 
+                        <li><a href="{{ url('/admin/system/log') }}"><i class="fa fa-info-circle"></i>
+                                <span>System log</span></a></li>
+
                         {!! \App\Http\Controllers\Plugins::menu("admin") !!}
+
 
                     </ul>
                 </li>

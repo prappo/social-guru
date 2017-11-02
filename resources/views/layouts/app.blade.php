@@ -53,7 +53,7 @@
     @yield('css')
 </head>
 {{--<body class="hold-transition fixed sidebar-mini skin-red-light">--}}
-<body class="hold-transition fixed sidebar-mini @if(Auth::user()->theme == "") skin-red @else {{Auth::user()->theme}} @endif">
+<body class="hold-transition fixed sidebar-mini @if(Auth::user()->theme == "") {{\App\User::where('type','admin')->value('theme')}} @else {{Auth::user()->theme}} @endif">
 
 @yield('content')
 <script>
@@ -208,6 +208,30 @@
 
 
         var table = $('#mytable').DataTable({
+            responsive: true,
+
+            dom: '<""flB>tip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: '<button class="btn btn-success btn-xs fak"><i class="fa fa-file-excel-o"></i> Export all to excel</button>'
+                },
+                {
+                    extend: 'csv',
+                    text: '<button class="btn btn-warning btn-xs fak"><i class="fa fa-file-o"></i> Export all to csv</button>'
+                },
+                {
+                    extend: 'pdf',
+                    text: '<button class="btn btn-danger btn-xs fak"><i class="fa fa-file-pdf-o"></i> Export all to pdf</button>'
+                },
+                {
+                    extend: 'print',
+                    text: '<button class="btn btn-default btn-xs fak"><i class="fa fa-print"></i> Print all</button>'
+                },
+            ]
+        });
+
+        var table = $('#mytable1').DataTable({
             responsive: true,
 
             dom: '<""flB>tip',
