@@ -19,13 +19,13 @@
 
                         <li class="active"><a href="#settings" data-toggle="tab" aria-expanded="true">Settings</a>
                         </li>
-                        <li class="pull-left header"><i class="fa fa-instagram"></i> Instagram</li>
+                        <li class="pull-left header"><i class="fa fa-instagram"></i> {{$username}}</li>
 
                         {{--Check if the service is running or not--}}
 
                         <li class="pull-right header">
 
-                            @if(\App\Service::where('userId',Auth::user()->id)->value('in') == "start")
+                            @if(\App\Service::where('userId',$userId)->value('in') == "start")
                                 <button id="btnServiceStop" class="btn btn-block toogleActivation bg-green">
                                     <i class="fa fa-stop"></i>
                                     Service running
@@ -110,6 +110,9 @@
                                 </div>
                                 <!-- /.box-body -->
                                 <div class="box-footer clearfix">
+                                    <button id="delAccount" class="btn btn-danger"><i class="fa fa-trash"></i> Delete
+                                        this account
+                                    </button>
 
                                 </div>
                                 <!-- /.box-footer -->
@@ -365,7 +368,7 @@
                                 <div class="col-md-4 col-xs-12">
                                     <div class="small-box bg-instagram">
                                         <div class="inner">
-                                            <h3>0</h3>
+                                            <h3>{{\App\InstagramContentList::where('userId',$userId)->where('status','done')->whereBetween('created_at',array(\Carbon\Carbon::now()->toDateString(),\Carbon\Carbon::now()->toDateString()))->count()}}</h3>
                                             <p>Today Likes</p>
                                         </div>
                                         <div class="icon">
@@ -376,7 +379,7 @@
                                 <div class="col-md-4 col-xs-12">
                                     <div class="small-box bg-instagram">
                                         <div class="inner">
-                                            <h3>0</h3>
+                                            <h3>{{\App\InstagramContentList::where('userId',$userId)->where('status','done')->whereBetween('created_at',array(\Carbon\Carbon::now()->startOfWeek(),\Carbon\Carbon::now()->endOfWeek()))->count()}}</h3>
                                             <p>Week Likes</p>
                                         </div>
                                         <div class="icon">
@@ -387,7 +390,7 @@
                                 <div class="col-md-4 col-xs-12">
                                     <div class="small-box bg-instagram">
                                         <div class="inner">
-                                            <h3>{{\App\InstagramContentList::where('userId',Auth::user()->id)->where('status','done')->count()}}</h3>
+                                            <h3>{{\App\InstagramContentList::where('userId',$userId)->where('status','done')->count()}}</h3>
                                             <p>Total Likes</p>
                                         </div>
                                         <div class="icon">
@@ -401,20 +404,20 @@
                             {{--<div style="padding:15px" class="row">--}}
 
 
-                                {{--<div class="col-lg-6 col-md-12">--}}
-                                    {{--<div class="col-md-12">--}}
-                                        {{--<h4><i class="fa fa-instagram"></i> Last Week's Conversions</h4>--}}
-                                        {{--<h5 class="text-center">You do not have any data yet.</h5>--}}
+                            {{--<div class="col-lg-6 col-md-12">--}}
+                            {{--<div class="col-md-12">--}}
+                            {{--<h4><i class="fa fa-instagram"></i> Last Week's Conversions</h4>--}}
+                            {{--<h5 class="text-center">You do not have any data yet.</h5>--}}
 
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                                {{--<div class="col-lg-6 col-md-12">--}}
-                                    {{--<div class="col-md-12">--}}
-                                        {{--<h4><i class="fa fa-instagram"></i> Last Months's Conversions</h4>--}}
-                                        {{--<h5 class="text-center">You do not have any data yet.</h5>--}}
+                            {{--</div>--}}
+                            {{--</div>--}}
+                            {{--<div class="col-lg-6 col-md-12">--}}
+                            {{--<div class="col-md-12">--}}
+                            {{--<h4><i class="fa fa-instagram"></i> Last Months's Conversions</h4>--}}
+                            {{--<h5 class="text-center">You do not have any data yet.</h5>--}}
 
-                                    {{--</div>--}}
-                                {{--</div>--}}
+                            {{--</div>--}}
+                            {{--</div>--}}
 
 
                             {{--</div>--}}
@@ -434,10 +437,11 @@
                                     </thead>
 
                                     <tbody>
-                                    @foreach(\App\InstagramContentList::where('userId',Auth::user()->id)->where('status','done')->get() as $data)
+                                    @foreach(\App\InstagramContentList::where('userId',$userId)->where('status','done')->get() as $data)
                                         <tr>
 
-                                            <td><a href="{{$data->content_link}}" target="_blank"> {{$data->content_link}}</a></td>
+                                            <td><a href="{{$data->content_link}}"
+                                                   target="_blank"> {{$data->content_link}}</a></td>
                                             <td>{{$data->tag_id}}</td>
 
                                             <td>{{$data->status}}</td>
@@ -464,7 +468,8 @@
 
                         <div class=" tab-pane" id="contents">
                             <div style="padding:25px" class="row">
-                                <h3>Total <kbd>{{\App\InstagramContentList::where('userId',Auth::user()->id)->count()}}</kbd> contents queued</h3> <br>
+                                <h3>Total <kbd>{{\App\InstagramContentList::where('userId',$userId)->count()}}</kbd>
+                                    contents queued</h3> <br>
 
                                 <table id="mytable1" class="table table-bordered table-striped" cellspacing="0"
                                        width="100%">
@@ -482,10 +487,11 @@
                                     </thead>
 
                                     <tbody>
-                                    @foreach(\App\InstagramContentList::where('userId',Auth::user()->id)->orderBy('id', 'DESC')->get() as $data)
+                                    @foreach(\App\InstagramContentList::where('userId',$userId)->orderBy('id', 'DESC')->get() as $data)
                                         <tr>
 
-                                            <td><a href="{{$data->content_link}}" target="_blank"> {{$data->content_link}}</a></td>
+                                            <td><a href="{{$data->content_link}}"
+                                                   target="_blank"> {{$data->content_link}}</a></td>
                                             <td>{{$data->tag_id}}</td>
 
                                             <td>{{$data->status}}</td>
@@ -532,7 +538,9 @@
             $.ajax({
                 type: 'POST',
                 url: '{{url('/instagram/tag/get')}}',
-                data: {},
+                data: {
+                    'userId': '{{$userId}}'
+                },
                 success: function (data) {
                     $('#tagsSection').html(data);
                 },
@@ -553,7 +561,8 @@
                 type: 'POST',
                 url: '{{url('/instagram/tag/add')}}',
                 data: {
-                    'tag': tagQuery
+                    'tag': tagQuery,
+                    'userId': '{{$userId}}'
                 }, success: function (data) {
                     getTags();
                 },
@@ -607,7 +616,9 @@
             $.ajax({
                 type: 'GET',
                 url: '{{url('/instagram/followers/get/now')}}',
-                data: {},
+                data: {
+                    'userId': '{{$userId}}'
+                },
                 success: function (data) {
                     $('#showFollowers').html(data);
                 },
@@ -623,7 +634,8 @@
                 type: 'POST',
                 url: '{{url('/service/start')}}',
                 data: {
-                    'type': 'in'
+                    'type': 'in',
+                    'userId': '{{$userId}}'
                 }, success: function (data) {
                     if (data == "success") {
                         location.reload();
@@ -644,7 +656,8 @@
                 type: 'POST',
                 url: '{{url('/service/stop')}}',
                 data: {
-                    'type': 'in'
+                    'type': 'in',
+                    'userId': '{{$userId}}'
                 }, success: function (data) {
                     if (data == "success") {
                         location.reload();
@@ -659,6 +672,26 @@
                 }
             });
         });
+
+        $('#delAccount').click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '{{url('/instagram/account/delete')}}',
+                data: {
+                    'userId': '{{$userId}}'
+                },
+                success: function (data) {
+                    if (data == "success") {
+                        location.replace('{{url('/instagram/add')}}');
+                    } else {
+                        alert(data);
+                    }
+                }, error: function (data) {
+                    alert("Something went wrong");
+                    console.log(data.responseText);
+                }
+            })
+        })
 
 
     </script>

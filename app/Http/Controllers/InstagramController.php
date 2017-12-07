@@ -44,6 +44,15 @@ class InstagramController extends Controller
         return view('instagram');
     }
 
+    public function accountIndex($username)
+    {
+        if (!Data::myPackage('in')) {
+            return view('errors.404');
+        }
+        $userId = Setting::where('inUser', $username)->value('userId');
+        return view('instagram', compact('userId', 'username'));
+    }
+
     /**
      * Home page
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -833,10 +842,10 @@ class InstagramController extends Controller
 
     }
 
-    public function getInFollowers()
+    public function getInFollowers(Request $request)
     {
         try {
-            foreach (InFollowers::where('userId', Auth::user()->id)->get() as $followers) {
+            foreach (InFollowers::where('userId', $request->userId)->get() as $followers) {
                 echo '
                  <div class="btn-group button-tag">
                                                     <button type="button" class="btn btn-default label-button"><img
@@ -908,10 +917,10 @@ class InstagramController extends Controller
     public function removeTag(Request $request)
     {
         try {
-            InTags::where('userId', Auth::user()->id)->where('id', $request->id)->delete();
+            InTags::where('userId', $request->userId)->where('id', $request->id)->delete();
             $tag = InTags::where('userId', Auth::user()->id)->where('id', $request->id)->value('tag');
 
-            InstagramContentList::where('userId', Auth::user()->id)->where('tag_id', $tag)->delete();
+            InstagramContentList::where('userId', $request->userId)->where('tag_id', $tag)->delete();
             return "success";
         } catch (\Exception $exception) {
             return $exception->getMessage();
@@ -921,12 +930,12 @@ class InstagramController extends Controller
 
     public function addTag(Request $request)
     {
-        if (InTags::where('userId', Auth::user()->id)->where('tag', $request->tag)->exists()) {
+        if (InTags::where('userId', $request->userId)->where('tag', $request->tag)->exists()) {
             return "Tag already Exists";
         }
         try {
             $tags = new InTags();
-            $tags->userId = Auth::user()->id;
+            $tags->userId = $request->userId;
             $tags->tag = $request->tag;
             $tags->status = "pending";
             $tags->save();
@@ -937,10 +946,10 @@ class InstagramController extends Controller
 
     }
 
-    public function getTags()
+    public function getTags(Request $request)
     {
         try {
-            $tags = InTags::where('userId', Auth::user()->id)->get();
+            $tags = InTags::where('userId', $request->userId)->get();
             foreach ($tags as $tag) {
                 echo '
                 <div class="btn-group button-tag">
@@ -977,7 +986,8 @@ class InstagramController extends Controller
                 type: "POST",
                 url: "' . url('/instagram/tag/remove') . '",
                 data: {
-                    "id": id
+                    "id": id,
+                    "userId": ' . $request->userId . '
                 },
                 success: function (data) {
                     if (data == "success") {
@@ -1003,7 +1013,7 @@ class InstagramController extends Controller
     {
         try {
             $follower = new InFollowers();
-            $follower->userId = Auth::user()->id;
+            $follower->userId = $request->userId;
             $follower->username = $request->username;
             $follower->followers = $request->followers;
             $follower->profile_pic = $request->image;
@@ -1022,7 +1032,7 @@ class InstagramController extends Controller
     public function deleteFollower(Request $request)
     {
         try {
-            InFollowers::where('userId', Auth::user()->id)->where('id', $request->id)->delete();
+            InFollowers::where('userId', $request->userId)->where('id', $request->id)->delete();
             return "success";
         } catch (\Exception $exception) {
             return $exception->getMessage();
@@ -1101,6 +1111,44 @@ class InstagramController extends Controller
 
     }
 
+
+    public function addAccountIndex()
+    {
+        return view('instagramAddAccount');
+    }
+
+    public function addAccount(Request $request)
+    {
+        if ($request->user == "") {
+            return "Please input Username";
+        }
+        if ($request->pass == "") {
+            return "Please input Password";
+        }
+        try {
+            $settings = new Setting();
+            $settings->userId = rand(1000, 9999);
+            $settings->parent = Auth::user()->id;
+            $settings->inUser = $request->user;
+            $settings->inPass = $request->inPass;
+            $settings->type = "instagram";
+            $settings->save();
+            return "success";
+        } catch (\Exception $exception) {
+            return $exception->getMessage();
+        }
+    }
+
+    public function deleteAccount(Request $request)
+    {
+        try {
+            Setting::where('userId', $request->userId)->delete();
+            InTags::where('userId', $request->userId)->delete();
+            return "success";
+        } catch (\Exception $exception) {
+            return $exception->getMessage();
+        }
+    }
 
 
 }

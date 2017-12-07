@@ -171,10 +171,17 @@
                         {{--</li>--}}
 
                         <li>
-                            <a href="{{ url('/twitter') }}"><i class="fa fa-user"></i>
-                                <span>{{trans('sidebar.My account')}}</span>
+                            <a href="{{ url('/twitter/add') }}"><i class="fa fa-plus"></i>
+                                <span>Add Account</span>
                             </a>
                         </li>
+                        @foreach(\App\Setting::where('parent',Auth::user()->id)->where('type','twitter')->get() as $account)
+                            <li>
+                                <a href="{{ url('/twitter/account/'.$account->twUser) }}"><i class="fa fa-user"></i>
+                                    <span>{{$account->twUser}}</span>
+                                </a>
+                            </li>
+                        @endforeach
                         {{--<li><a href="{{ url('/twitter/message/send') }}"><i class="fa fa-envelope"></i>--}}
                         {{--<span>{{trans('sidebar.Send Direct Message')}}</span></a>--}}
                         {{--</li>--}}
@@ -195,37 +202,37 @@
             {{--instagram menu--}}
             @if(\App\Http\Controllers\Data::myPackage('in'))
                 {{--<li class="treeview">--}}
-                    {{--<a href="#">--}}
-                        {{--<i class="fa fa-instagram"></i>--}}
-                        {{--<span>{{trans('sidebar.Instagram')}}</span>--}}
-                        {{--<i class="fa fa-angle-left pull-right"></i>--}}
-                    {{--</a>--}}
-                    {{--<ul class="treeview-menu" style="display: none">--}}
-                        {{--<li><a href="{{ url('/instagram/me') }}"><i class="fa fa-user"></i>--}}
-                                {{--<span>{{trans('sidebar.My account')}}</span></a>--}}
-                        {{--<li><a href="{{ url('/instagram/home') }}"><i class="fa fa-home"></i>--}}
-                                {{--<span>{{trans('sidebar.Home')}}</span></a>--}}
-                        {{--<li><a href="{{ url('/instagram/popular') }}"><i--}}
-                                        {{--class="fa fa-heart"></i><span>{{trans('sidebar.Popular Feed')}} </span></a>--}}
-                        {{--<li><a href="{{ url('/instagram/followers') }}"><i--}}
-                                        {{--class="fa fa-star"></i><span>{{trans('sidebar.Followers')}} </span></a>--}}
-                        {{--<li><a href="{{ url('/instagram/following') }}"><i--}}
-                                        {{--class="fa fa-star"></i><span>{{trans('sidebar.Following')}} </span></a>--}}
-                        {{--<li><a href="{{ url('/instagram/following/activity') }}"><i--}}
-                                        {{--class="fa fa-users"></i><span>{{trans('sidebar.Following Activity')}} </span></a>--}}
-                        {{--<li><a href="{{ url('/instagram/auto/follow') }}"><i--}}
-                                        {{--class="fa fa-user-plus"></i><span>{{trans('sidebar.Auto follow')}} </span></a>--}}
-                        {{--<li><a href="{{ url('/instagram/auto/unfollow') }}"><i--}}
-                                        {{--class="fa fa-user-times"></i><span>{{trans('sidebar.Auto unfollow')}} </span></a>--}}
-                        {{--<li><a href="{{ url('/instagram/auto/comments') }}"><i--}}
-                                        {{--class="fa fa-comment"></i><span>{{trans('sidebar.Auto comment')}} </span></a>--}}
-                        {{--                        <li><a href="{{ url('/instagram/auto/message') }}"><i class="fa fa-envelope"></i><span> Auto Message</span></a>--}}
-                        {{--<li><a href="{{ url('/instagram/scraper') }}"><i class="fa fa-search"></i>--}}
-                                {{--<span>{{trans('sidebar.Scraper')}}</span></a>--}}
-                        {{--</li>--}}
-                        {{--{!! \App\Http\Controllers\Plugins::menu("instagram") !!}--}}
+                {{--<a href="#">--}}
+                {{--<i class="fa fa-instagram"></i>--}}
+                {{--<span>{{trans('sidebar.Instagram')}}</span>--}}
+                {{--<i class="fa fa-angle-left pull-right"></i>--}}
+                {{--</a>--}}
+                {{--<ul class="treeview-menu" style="display: none">--}}
+                {{--<li><a href="{{ url('/instagram/me') }}"><i class="fa fa-user"></i>--}}
+                {{--<span>{{trans('sidebar.My account')}}</span></a>--}}
+                {{--<li><a href="{{ url('/instagram/home') }}"><i class="fa fa-home"></i>--}}
+                {{--<span>{{trans('sidebar.Home')}}</span></a>--}}
+                {{--<li><a href="{{ url('/instagram/popular') }}"><i--}}
+                {{--class="fa fa-heart"></i><span>{{trans('sidebar.Popular Feed')}} </span></a>--}}
+                {{--<li><a href="{{ url('/instagram/followers') }}"><i--}}
+                {{--class="fa fa-star"></i><span>{{trans('sidebar.Followers')}} </span></a>--}}
+                {{--<li><a href="{{ url('/instagram/following') }}"><i--}}
+                {{--class="fa fa-star"></i><span>{{trans('sidebar.Following')}} </span></a>--}}
+                {{--<li><a href="{{ url('/instagram/following/activity') }}"><i--}}
+                {{--class="fa fa-users"></i><span>{{trans('sidebar.Following Activity')}} </span></a>--}}
+                {{--<li><a href="{{ url('/instagram/auto/follow') }}"><i--}}
+                {{--class="fa fa-user-plus"></i><span>{{trans('sidebar.Auto follow')}} </span></a>--}}
+                {{--<li><a href="{{ url('/instagram/auto/unfollow') }}"><i--}}
+                {{--class="fa fa-user-times"></i><span>{{trans('sidebar.Auto unfollow')}} </span></a>--}}
+                {{--<li><a href="{{ url('/instagram/auto/comments') }}"><i--}}
+                {{--class="fa fa-comment"></i><span>{{trans('sidebar.Auto comment')}} </span></a>--}}
+                {{--                        <li><a href="{{ url('/instagram/auto/message') }}"><i class="fa fa-envelope"></i><span> Auto Message</span></a>--}}
+                {{--<li><a href="{{ url('/instagram/scraper') }}"><i class="fa fa-search"></i>--}}
+                {{--<span>{{trans('sidebar.Scraper')}}</span></a>--}}
+                {{--</li>--}}
+                {{--{!! \App\Http\Controllers\Plugins::menu("instagram") !!}--}}
 
-                    {{--</ul>--}}
+                {{--</ul>--}}
 
                 {{--</li>--}}
             @endif
@@ -259,9 +266,15 @@
                         {{--<span>Notifications</span></a>--}}
                         {{--</li>--}}
 
-                        <li><a href="{{ url('/pinterest') }}"><i class="fa fa-user"></i>
-                                <span>My Account</span></a>
+                        <li><a href="{{ url('/pinterest/add') }}"><i class="fa fa-plus"></i>
+                                <span>Add Account</span></a>
                         </li>
+                        @foreach(\App\Setting::where('parent',Auth::user()->id)->where('type','pinterest')->get() as $account)
+                            <li><a href="{{ url('/pinterest/account')."/".$account->pinUser }}"><i
+                                            class="fa fa-user"></i>
+                                    <span>{{$account->pinUser}}</span></a>
+                            </li>
+                        @endforeach
 
                         {!! \App\Http\Controllers\Plugins::menu("pinterest") !!}
                     </ul>
@@ -270,53 +283,53 @@
             @endif
             {{--linkedin menu--}}
             {{--@if(\App\Http\Controllers\Data::myPackage('ln'))--}}
-                {{--<li class="treeview">--}}
-                    {{--<a href="#">--}}
-                        {{--<i class="fa fa-linkedin"></i>--}}
-                        {{--<span>{{trans('sidebar.Linkedin')}}</span>--}}
-                        {{--<i class="fa fa-angle-left pull-right"></i>--}}
-                    {{--</a>--}}
-                    {{--<ul class="treeview-menu" style="display: none">--}}
-                        {{--<li><a href="{{ url('/linkedin/updates') }}"><i class="fa fa-refresh"></i>--}}
-                                {{--<span>{{trans('sidebar.All updates')}}</span></a>--}}
-                        {{--</li>--}}
-                        {{--<li><a href="{{ url('/linkedin/mass_comment') }}"><i class="fa fa-comment"></i>--}}
-                                {{--<span>{{trans('sidebar.Mass Comment')}}</span></a></li>--}}
-                        {{--{!! \App\Http\Controllers\Plugins::menu("linkedin") !!}--}}
-                    {{--</ul>--}}
+            {{--<li class="treeview">--}}
+            {{--<a href="#">--}}
+            {{--<i class="fa fa-linkedin"></i>--}}
+            {{--<span>{{trans('sidebar.Linkedin')}}</span>--}}
+            {{--<i class="fa fa-angle-left pull-right"></i>--}}
+            {{--</a>--}}
+            {{--<ul class="treeview-menu" style="display: none">--}}
+            {{--<li><a href="{{ url('/linkedin/updates') }}"><i class="fa fa-refresh"></i>--}}
+            {{--<span>{{trans('sidebar.All updates')}}</span></a>--}}
+            {{--</li>--}}
+            {{--<li><a href="{{ url('/linkedin/mass_comment') }}"><i class="fa fa-comment"></i>--}}
+            {{--<span>{{trans('sidebar.Mass Comment')}}</span></a></li>--}}
+            {{--{!! \App\Http\Controllers\Plugins::menu("linkedin") !!}--}}
+            {{--</ul>--}}
 
-                {{--</li>--}}
+            {{--</li>--}}
             {{--@endif--}}
             {{--tumblr menu--}}
             {{--@if(\App\Http\Controllers\Data::myPackage('tu'))--}}
-                {{--<li class="treeview">--}}
-                    {{--<a href="#">--}}
-                        {{--<i class="fa fa-tumblr-square"></i>--}}
-                        {{--<span>{{trans('sidebar.Tumblr')}}</span>--}}
-                        {{--<i class="fa fa-angle-left pull-right"></i>--}}
-                    {{--</a>--}}
-                    {{--<ul class="treeview-menu" style="display: none">--}}
-                        {{--<li><a href="{{ url('/tumblr') }}"><i class="fa fa-tumblr"></i>--}}
-                                {{--<span>{{trans('sidebar.Tumblr')}}</span></a></li>--}}
-                        {{--{!! \App\Http\Controllers\Plugins::menu("tumblr") !!}--}}
-                    {{--</ul>--}}
-                {{--</li>--}}
+            {{--<li class="treeview">--}}
+            {{--<a href="#">--}}
+            {{--<i class="fa fa-tumblr-square"></i>--}}
+            {{--<span>{{trans('sidebar.Tumblr')}}</span>--}}
+            {{--<i class="fa fa-angle-left pull-right"></i>--}}
+            {{--</a>--}}
+            {{--<ul class="treeview-menu" style="display: none">--}}
+            {{--<li><a href="{{ url('/tumblr') }}"><i class="fa fa-tumblr"></i>--}}
+            {{--<span>{{trans('sidebar.Tumblr')}}</span></a></li>--}}
+            {{--{!! \App\Http\Controllers\Plugins::menu("tumblr") !!}--}}
+            {{--</ul>--}}
+            {{--</li>--}}
             {{--@endif--}}
             {{--wordpress menu--}}
             {{--@if(\App\Http\Controllers\Data::myPackage('wp'))--}}
-                {{--<li class="treeview">--}}
-                    {{--<a href="#">--}}
-                        {{--<i class="fa fa-wordpress"></i>--}}
-                        {{--<span>{{trans('sidebar.Wordpress')}} </span>--}}
-                        {{--<i class="fa fa-angle-left pull-right"></i>--}}
-                    {{--</a>--}}
-                    {{--<ul class="treeview-menu" style="display: none">--}}
-                        {{--<li><a href="{{ url('/wordpress') }}"><i class="fa fa-wordpress"></i>--}}
-                                {{--<span>{{trans('sidebar.Wordpress')}}</span></a>--}}
-                        {{--</li>--}}
-                        {{--{!! \App\Http\Controllers\Plugins::menu("wordpress") !!}--}}
-                    {{--</ul>--}}
-                {{--</li>--}}
+            {{--<li class="treeview">--}}
+            {{--<a href="#">--}}
+            {{--<i class="fa fa-wordpress"></i>--}}
+            {{--<span>{{trans('sidebar.Wordpress')}} </span>--}}
+            {{--<i class="fa fa-angle-left pull-right"></i>--}}
+            {{--</a>--}}
+            {{--<ul class="treeview-menu" style="display: none">--}}
+            {{--<li><a href="{{ url('/wordpress') }}"><i class="fa fa-wordpress"></i>--}}
+            {{--<span>{{trans('sidebar.Wordpress')}}</span></a>--}}
+            {{--</li>--}}
+            {{--{!! \App\Http\Controllers\Plugins::menu("wordpress") !!}--}}
+            {{--</ul>--}}
+            {{--</li>--}}
             {{--@endif--}}
             {{--<li class="treeview">--}}
             {{--<a href="#">--}}
@@ -381,9 +394,15 @@
 
                     </a>
                     <ul class="treeview-menu" style="display: none;">
-                        <li><a href="{{ url('/instagram') }}"><i class="fa fa-user"></i>
-                                <span>My Account</span></a>
+
+                        <li><a href="{{ url('/instagram/add') }}"><i class="fa fa-plus"></i>
+                                <span>Add Account</span></a>
                         </li>
+                        @foreach(\App\Setting::where('parent',Auth::user()->id)->where('type','instagram')->get() as $account)
+                            <li><a href="{{ url('/instagram/account/'.$account->inUser) }}"><i class="fa fa-user"></i>
+                                    <span>{{$account->inUser}}</span></a>
+                            </li>
+                        @endforeach
 
                     </ul>
                 </li>
@@ -398,8 +417,8 @@
                 <ul class="treeview-menu" style="display: none">
                     <li><a href="{{ url('/rss/add') }}"><i class="fa fa-plus"></i>
                             <span>Add RSS URL</span></a></li>
-                    <li><a href="{{ url('/rss/feeds') }}"><i class="fa fa-rss-square"></i>
-                            <span>RSS Feeds</span></a></li>
+                    {{--<li><a href="{{ url('/rss/feeds') }}"><i class="fa fa-rss-square"></i>--}}
+                            {{--<span>RSS Feeds</span></a></li>--}}
                     <li><a href="{{ url('/rss/target') }}"><i class="fa fa-bolt"></i>
                             <span>RSS Feeds Target</span></a></li>
                     {!! \App\Http\Controllers\Plugins::menu("rss") !!}

@@ -17,9 +17,11 @@
                         <li class=""><a href="#contents" data-toggle="tab" aria-expanded="false">Contents</a></li>
                         <li class="active"><a href="#settings" data-toggle="tab" aria-expanded="true">Settings</a>
                         </li>
-                        <li class="pull-left header"><i class="fa fa-twitter"></i> Twitter</li>
+                        <li class="pull-left header"><i class="fa fa-twitter"></i> {{$username}} || <button class="btn btn-danger" id="delAccount"><i class="fa fa-trash"></i> Delete
+                                this account
+                            </button></li>
                         <li class="pull-right header">
-                            @if(\App\Service::where('userId',Auth::user()->id)->value('tw') == "start")
+                            @if(\App\Service::where('userId',$userId)->value('tw') == "start")
                                 <button id="btnServiceStop" class="btn btn-block toogleActivation bg-green">
                                     <i class="fa fa-stop"></i>
                                     Service running
@@ -107,21 +109,21 @@
                                 <!-- /.box-footer -->
                             </div>
 
-                            <div class="box box-info">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title"><i class="fa fa-users"></i><!-- react-text: 153 -->Super
-                                        Targeting<!-- /react-text --><!-- react-text: 154 --> <!-- /react-text -->
-                                        <small>Add any user here to interact with the people who follow them</small>
-                                    </h3>
-                                    <div class="box-tools pull-right">
-                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                                                    class="fa fa-minus"></i></button>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="box-body">
-                                        <div>
-                                            <div id="showFollowers">
+                            {{--<div class="box box-info">--}}
+                                {{--<div class="box-header with-border">--}}
+                                    {{--<h3 class="box-title"><i class="fa fa-users"></i><!-- react-text: 153 -->Super--}}
+                                        {{--Targeting<!-- /react-text --><!-- react-text: 154 --> <!-- /react-text -->--}}
+                                        {{--<small>Add any user here to interact with the people who follow them</small>--}}
+                                    {{--</h3>--}}
+                                    {{--<div class="box-tools pull-right">--}}
+                                        {{--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i--}}
+                                                    {{--class="fa fa-minus"></i></button>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--<div>--}}
+                                    {{--<div class="box-body">--}}
+                                        {{--<div>--}}
+                                            {{--<div id="showFollowers">--}}
                                                 {{--<div class="btn-group button-tag">--}}
                                                 {{--<button type="button" class="btn btn-default label-button"><img--}}
                                                 {{--class="img-circle" width="20"--}}
@@ -157,25 +159,25 @@
                                                 {{--</ul>--}}
                                                 {{--</div>--}}
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="box-footer">
-                                        <div class="targetUserSearch">
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="box-footer">--}}
+                                        {{--<div class="targetUserSearch">--}}
 
-                                            <div class="input-group">
-                                                <div class="input-group-btn">
-                                                    <button class="btn btn-twitter btn-flat"
-                                                            id="searchFollowers"><i class="fa fa-tag"></i>
-                                                        <!-- react-text: 257 --> Search Users <!-- /react-text -->
-                                                    </button>
-                                                </div>
-                                                <input type="text" id="twUserName" class="form-control"
-                                                       placeholder="Search by usernames" value=""></div>
+                                            {{--<div class="input-group">--}}
+                                                {{--<div class="input-group-btn">--}}
+                                                    {{--<button class="btn btn-twitter btn-flat"--}}
+                                                            {{--id="searchFollowers"><i class="fa fa-tag"></i>--}}
+                                                        {{--<!-- react-text: 257 --> Search Users <!-- /react-text -->--}}
+                                                    {{--</button>--}}
+                                                {{--</div>--}}
+                                                {{--<input type="text" id="twUserName" class="form-control"--}}
+                                                       {{--placeholder="Search by usernames" value=""></div>--}}
 
-                                            <div class="suggestedTargetUsers">
-                                                <div class="box-body no-padding">
-                                                    <ul id="twUserList" class="users-list clearfix">
+                                            {{--<div class="suggestedTargetUsers">--}}
+                                                {{--<div class="box-body no-padding">--}}
+                                                    {{--<ul id="twUserList" class="users-list clearfix">--}}
 
                                                         {{--<li>--}}
                                                         {{--<img src="https://pbs.twimg.com/profile_images/661903977244573696/XwtxYjX4_normal.jpg"--}}
@@ -187,15 +189,15 @@
                                                         {{--</li>--}}
 
 
-                                                    </ul>
-                                                    <!-- /.users-list -->
-                                                </div>
-                                            </div>
-                                            <div class="resetSearch"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                                    {{--</ul>--}}
+                                                    {{--<!-- /.users-list -->--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                            {{--<div class="resetSearch"></div>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
 
                             {{--<div class="box box-info">--}}
                             {{--<div class="box-header with-border">--}}
@@ -288,7 +290,7 @@
                                 <div class="col-md-4 col-xs-12">
                                     <div class="small-box bg-instagram">
                                         <div class="inner">
-                                            <h3>0</h3>
+                                            <h3>{{\App\TwitterContentList::where('userId',$userId)->where('status','done')->whereBetween('created_at',array(\Carbon\Carbon::now()->toDateTimeString(),\Carbon\Carbon::now()->toDateString()))->count()}}</h3>
                                             <p>Today Like</p>
                                         </div>
                                         <div class="icon">
@@ -299,7 +301,7 @@
                                 <div class="col-md-4 col-xs-12">
                                     <div class="small-box bg-instagram">
                                         <div class="inner">
-                                            <h3>0</h3>
+                                            <h3>{{\App\TwitterContentList::where('userId',$userId)->where('status','done')->whereBetween('created_at',array(\Carbon\Carbon::now()->startOfWeek(),\Carbon\Carbon::now()->endOfWeek()))->count()}}</h3>
                                             <p>Week Like</p>
                                         </div>
                                         <div class="icon">
@@ -310,7 +312,7 @@
                                 <div class="col-md-4 col-xs-12">
                                     <div class="small-box bg-instagram">
                                         <div class="inner">
-                                            <h3>{{\App\TwitterContentList::where('userId',Auth::user()->id)->where('status','done')->count()}}</h3>
+                                            <h3>{{\App\TwitterContentList::where('userId',$userId)->where('status','done')->count()}}</h3>
                                             <p>Total Like</p>
                                         </div>
                                         <div class="icon">
@@ -324,20 +326,20 @@
                             {{--<div style="padding:15px" class="row">--}}
 
 
-                                {{--<div class="col-lg-6 col-md-12">--}}
-                                {{--<div class="col-md-12">--}}
-                                {{--<h4><i class="fa fa-twitter"></i> Last Week's Conversions</h4>--}}
-                                {{--<h5 class="text-center">You do not have any data yet.</h5>--}}
+                            {{--<div class="col-lg-6 col-md-12">--}}
+                            {{--<div class="col-md-12">--}}
+                            {{--<h4><i class="fa fa-twitter"></i> Last Week's Conversions</h4>--}}
+                            {{--<h5 class="text-center">You do not have any data yet.</h5>--}}
 
-                                {{--</div>--}}
-                                {{--</div>--}}
-                                {{--<div class="col-lg-6 col-md-12">--}}
-                                {{--<div class="col-md-12">--}}
-                                {{--<h4><i class="fa fa-twitter"></i> Last Month's Conversions</h4>--}}
-                                {{--<h5 class="text-center">You do not have any data yet.</h5>--}}
+                            {{--</div>--}}
+                            {{--</div>--}}
+                            {{--<div class="col-lg-6 col-md-12">--}}
+                            {{--<div class="col-md-12">--}}
+                            {{--<h4><i class="fa fa-twitter"></i> Last Month's Conversions</h4>--}}
+                            {{--<h5 class="text-center">You do not have any data yet.</h5>--}}
 
-                                {{--</div>--}}
-                                {{--</div>--}}
+                            {{--</div>--}}
+                            {{--</div>--}}
 
 
                             {{--</div>--}}
@@ -357,7 +359,7 @@
                                     </thead>
 
                                     <tbody>
-                                    @foreach(\App\TwitterContentList::where('userId',Auth::user()->id)->where('status','done')->get() as $data)
+                                    @foreach(\App\TwitterContentList::where('userId',$userId)->where('status','done')->get() as $data)
                                         <tr>
 
                                             <td><a target="_blank"
@@ -387,7 +389,8 @@
 
                         <div class=" tab-pane" id="contents">
                             <div style="padding:25px" class="row">
-                                <h3>Total <kbd>{{\App\TwitterContentList::where('userId',Auth::user()->id)->count()}}</kbd> contents queued</h3> <br>
+                                <h3>Total <kbd>{{\App\TwitterContentList::where('userId',$userId)->count()}}</kbd>
+                                    contents queued</h3> <br>
 
                                 <table id="mytable1" class="table table-bordered table-striped" cellspacing="0"
                                        width="100%">
@@ -405,10 +408,11 @@
                                     </thead>
 
                                     <tbody>
-                                    @foreach(\App\TwitterContentList::where('userId',Auth::user()->id)->orderBy('id', 'DESC')->get() as $data)
+                                    @foreach(\App\TwitterContentList::where('userId',$userId)->orderBy('id', 'DESC')->get() as $data)
                                         <tr>
 
-                                            <td><a href="{{$data->content_link}}" target="_blank"> {{$data->content_link}}</a></td>
+                                            <td><a href="{{$data->content_link}}"
+                                                   target="_blank"> {{$data->content_link}}</a></td>
                                             <td>{{$data->tag_id}}</td>
 
                                             <td>{{$data->status}}</td>
@@ -437,7 +441,6 @@
                         </div>
 
 
-
                     </div>
                 </div>
 
@@ -458,7 +461,9 @@
             $.ajax({
                 type: 'POST',
                 url: '{{url('/twitter/tag/get')}}',
-                data: {},
+                data: {
+                    'userId': '{{$userId}}'
+                },
                 success: function (data) {
                     $('#tagsSection').html(data);
                 },
@@ -479,7 +484,8 @@
                 type: 'POST',
                 url: '{{url('/twitter/tag/add')}}',
                 data: {
-                    'tag': tagQuery
+                    'tag': tagQuery,
+                    'userId':'{{$userId}}'
                 }, success: function (data) {
                     getTags();
                 },
@@ -515,7 +521,9 @@
             $.ajax({
                 type: 'GET',
                 url: '{{url('/twitter/followers/get')}}',
-                data: {},
+                data: {
+                    'userId': '{{$userId}}'
+                },
                 success: function (data) {
                     $('#showFollowers').html(data);
                 },
@@ -531,7 +539,8 @@
                 type: 'POST',
                 url: '{{url('/service/start')}}',
                 data: {
-                    'type': 'tw'
+                    'type': 'tw',
+                    'userId': '{{$userId}}'
                 }, success: function (data) {
                     if (data == "success") {
                         location.reload();
@@ -552,7 +561,8 @@
                 type: 'POST',
                 url: '{{url('/service/stop')}}',
                 data: {
-                    'type': 'tw'
+                    'type': 'tw',
+                    'userId': '{{$userId}}'
                 }, success: function (data) {
                     if (data == "success") {
                         location.reload();
@@ -567,6 +577,26 @@
                 }
             });
         });
+
+        $('#delAccount').click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '{{url('/twitter/account/delete')}}',
+                data: {
+                    'userId': '{{$userId}}'
+                },
+                success: function (data) {
+                    if (data == "success") {
+                        location.replace('{{url('/twitter/add')}}');
+                    } else {
+                        alert(data);
+                    }
+                }, error: function (data) {
+                    alert("Something went wrong");
+                    console.log(data.responseText);
+                }
+            })
+        })
 
 
     </script>

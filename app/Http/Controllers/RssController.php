@@ -49,6 +49,7 @@ class RssController extends Controller
             $rss->link = $link;
             $rss->description = $description;
             $rss->image = $image;
+            $rss->status = "pending";
             $rss->save();
             return "success";
         } catch (\Exception $exception) {
@@ -104,6 +105,7 @@ class RssController extends Controller
 
     public function rssTargetIndex()
     {
+        $datas = RssSites::where('userId', Auth::user()->id)->get();
 
         if (Data::get('liAccessToken') != "") {
             try {
@@ -115,12 +117,15 @@ class RssController extends Controller
         } else {
             $liCompanies = "";
         }
-        return view('rssTarget', compact('liCompanies'));
+        return view('rssTarget', compact('liCompanies', 'datas'));
     }
 
     public function rssTargetInsert(Request $request)
     {
-        if($request->site == ""){
+        if (rssTarget::where('userId', Auth::user()->id)->where('site', $request->site)->exists()) {
+            return "This site already added";
+        }
+        if ($request->site == "") {
             return "Please enter Site URL";
         }
         try {

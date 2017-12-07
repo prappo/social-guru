@@ -17,9 +17,9 @@
                         <li class=""><a href="#contents" data-toggle="tab" aria-expanded="false">Contents</a></li>
                         <li class="active"><a href="#settings" data-toggle="tab" aria-expanded="true">Settings</a>
                         </li>
-                        <li class="pull-left header"><i class="fa fa-pinterest"></i> Pinterest</li>
+                        <li class="pull-left header"><i class="fa fa-pinterest"></i> {{$username}}</li>
                         <li class="pull-right header">
-                            @if(\App\Service::where('userId',Auth::user()->id)->value('pin') == "start")
+                            @if(\App\Service::where('userId',$userId)->value('pin') == "start")
                                 <button id="btnServiceStop" class="btn btn-block toogleActivation bg-green">
                                     <i class="fa fa-stop"></i>
                                     Service running
@@ -287,7 +287,7 @@
                                 <div class="col-md-4 col-xs-12">
                                     <div class="small-box bg-instagram">
                                         <div class="inner">
-                                            <h3>0</h3>
+                                            <h3>{{\App\PinterestContentList::where('userId',$userId)->where('status','done')->whereBetweent('created_at',array(\Carbon\Carbon::now()->toDateString(),\Carbon\Carbon::now()->toDateString()))->count()}}</h3>
                                             <p>Today Like</p>
                                         </div>
                                         <div class="icon">
@@ -298,7 +298,7 @@
                                 <div class="col-md-4 col-xs-12">
                                     <div class="small-box bg-instagram">
                                         <div class="inner">
-                                            <h3>0</h3>
+                                            <h3>{{\App\PinterestContentList::where('userId',$userId)->where('status','done')->whereBetween('created_at',array(\Carbon\Carbon::now()->startOfWeek(),\Carbon\Carbon::now()->endOfWeek()))->count()}}</h3>
                                             <p>Week Like</p>
                                         </div>
                                         <div class="icon">
@@ -309,7 +309,7 @@
                                 <div class="col-md-4 col-xs-12">
                                     <div class="small-box bg-instagram">
                                         <div class="inner">
-                                            <h3>{{\App\PinterestContentList::where('userId',Auth::user()->id)->where('status','done')->count()}}</h3>
+                                            <h3>{{\App\PinterestContentList::where('userId',$userId)->where('status','done')->count()}}</h3>
                                             <p>Total Like</p>
                                         </div>
                                         <div class="icon">
@@ -323,20 +323,20 @@
                             {{--<div style="padding:15px" class="row">--}}
 
 
-                                {{--<div class="col-lg-6 col-md-12">--}}
-                                    {{--<div class="col-md-12">--}}
-                                        {{--<h4><i class="fa fa-pinterest"></i> Last Week's Conversions</h4>--}}
-                                        {{--<h5 class="text-center">You do not have any data yet.</h5>--}}
+                            {{--<div class="col-lg-6 col-md-12">--}}
+                            {{--<div class="col-md-12">--}}
+                            {{--<h4><i class="fa fa-pinterest"></i> Last Week's Conversions</h4>--}}
+                            {{--<h5 class="text-center">You do not have any data yet.</h5>--}}
 
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                                {{--<div class="col-lg-6 col-md-12">--}}
-                                    {{--<div class="col-md-12">--}}
-                                        {{--<h4><i class="fa fa-pinterest"></i> Last Month's Conversions</h4>--}}
-                                        {{--<h5 class="text-center">You do not have any data yet.</h5>--}}
+                            {{--</div>--}}
+                            {{--</div>--}}
+                            {{--<div class="col-lg-6 col-md-12">--}}
+                            {{--<div class="col-md-12">--}}
+                            {{--<h4><i class="fa fa-pinterest"></i> Last Month's Conversions</h4>--}}
+                            {{--<h5 class="text-center">You do not have any data yet.</h5>--}}
 
-                                    {{--</div>--}}
-                                {{--</div>--}}
+                            {{--</div>--}}
+                            {{--</div>--}}
 
 
                             {{--</div>--}}
@@ -355,7 +355,7 @@
                                     </thead>
 
                                     <tbody>
-                                    @foreach(\App\PinterestContentList::where('userID',Auth::user()->id)->where('status','done')->get() as $data)
+                                    @foreach(\App\PinterestContentList::where('userID',$userId)->where('status','done')->get() as $data)
                                         <tr>
                                             <td>{{$data->content_id}}</td>
                                             <td><a href="{{$data->content_link}}"
@@ -386,7 +386,8 @@
 
                         <div class=" tab-pane" id="contents">
                             <div style="padding:25px" class="row">
-                                <h3>Total <kbd>{{\App\PinterestContentList::where('userId',Auth::user()->id)->count()}}</kbd> contents queued</h3> <br>
+                                <h3>Total <kbd>{{\App\PinterestContentList::where('userId',$userId)->count()}}</kbd>
+                                    contents queued</h3> <br>
 
                                 <table id="mytable1" class="table table-bordered table-striped" cellspacing="0"
                                        width="100%">
@@ -404,10 +405,11 @@
                                     </thead>
 
                                     <tbody>
-                                    @foreach(\App\PinterestContentList::where('userId',Auth::user()->id)->orderBy('id', 'DESC')->get() as $data)
+                                    @foreach(\App\PinterestContentList::where('userId',$userId)->orderBy('id', 'DESC')->get() as $data)
                                         <tr>
 
-                                            <td><a href="{{$data->content_link}}" target="_blank"> {{$data->content_link}}</a></td>
+                                            <td><a href="{{$data->content_link}}"
+                                                   target="_blank"> {{$data->content_link}}</a></td>
                                             <td>{{$data->tag_id}}</td>
 
                                             <td>{{$data->status}}</td>
@@ -454,7 +456,9 @@
             $.ajax({
                 type: 'POST',
                 url: '{{url('/pinterest/tag/get')}}',
-                data: {},
+                data: {
+                    'userId': '{{$userId}}'
+                },
                 success: function (data) {
                     $('#tagsSection').html(data);
                 },
@@ -474,7 +478,8 @@
                 type: 'POST',
                 url: '{{url('/pinterest/tag/add')}}',
                 data: {
-                    'tag': tagQuery
+                    'tag': tagQuery,
+                    'userId': '{{$userId}}'
                 }, success: function (data) {
                     getTags();
                 },
@@ -490,7 +495,8 @@
                 type: 'POST',
                 url: '{{url('/service/start')}}',
                 data: {
-                    'type': 'pin'
+                    'type': 'pin',
+                    'userId': '{{$userId}}'
                 }, success: function (data) {
                     if (data == "success") {
                         location.reload();
@@ -511,7 +517,8 @@
                 type: 'POST',
                 url: '{{url('/service/stop')}}',
                 data: {
-                    'type': 'pin'
+                    'type': 'pin',
+                    'userId': '{{$userId}}'
                 }, success: function (data) {
                     if (data == "success") {
                         location.reload();

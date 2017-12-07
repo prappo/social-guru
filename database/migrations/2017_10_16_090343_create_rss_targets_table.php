@@ -25,6 +25,7 @@ class CreateRssTargetsTable extends Migration
             $table->string('liCompanyId');
             $table->string('liCompanyName');
             $table->string('in');
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

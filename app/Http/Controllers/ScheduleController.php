@@ -8,6 +8,9 @@ use App\LogList;
 use App\OptSchedul;
 use App\pinTags;
 use App\PinterestContentList;
+use App\RssData;
+use App\RssSites;
+use App\rssTarget;
 use App\Service;
 use App\Setting;
 use App\TwitterContentList;
@@ -15,6 +18,9 @@ use App\TwTags;
 use App\User;
 use Carbon\Carbon;
 use DateTime;
+use Facebook\Exceptions\FacebookResponseException;
+use Facebook\Exceptions\FacebookSDKException;
+use Facebook\Facebook;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Http\Request;
 
@@ -323,6 +329,11 @@ class ScheduleController extends Controller
             exit;
         }
 
+        if (Service::where('userId', $userId)->value('in') != "start") {
+            exit;
+
+        }
+
 
 // trying to login to instagram
 
@@ -491,6 +502,11 @@ class ScheduleController extends Controller
             exit;
         }
 
+        if (Service::where('userId', $usreId)->value('tw') != "start") {
+            exit;
+
+        }
+
 
         $consumerKey = Setting::where('userId', $usreId)->value('twConKey');
         $consumerSecret = Setting::where('userId', $usreId)->value('twConSec');
@@ -536,6 +552,11 @@ class ScheduleController extends Controller
 
         if ($tag == "") {
             exit;
+        }
+
+        if (Service::where('userId', $userId)->value('pin') != "start") {
+            exit;
+
         }
 
         $pinterest = PinterestBot::create();
@@ -608,6 +629,88 @@ class ScheduleController extends Controller
         foreach (LogList::take(20)->orderBy('id', 'DESC')->get() as $log) {
             echo Carbon::parse($log->created_at)->diffForHumans() . "<br>";
         }
+    }
+
+    public function grabRssContent()
+    {
+        $data = rssTarget::take(1)->where('status', 'pending')->get();
+        foreach ($data as $d) {
+
+
+            $userId = $d->userId;
+            $id = $d->id;
+
+            if (Service::where('userId', $userId)->value('rss') != "start") {
+                exit;
+            }
+
+            $rss = \Feed::loadRss($d->site);
+
+            foreach ($rss->item as $r) {
+                if (!RssData::where('link', $r->link)->exists()) {
+                    $site = new RssData();
+                    $site->userId = $userId;
+                    $site->title = $r->title;
+                    $site->link = $r->link;
+                    $site->description = $r->description;
+                    $site->date = $r->pubDate;
+                    $site->fb = "pending";
+                    $site->tw = "pending";
+                    $site->li = "pending";
+                    $site->time = $r->timestamp;
+                    $site->save();
+
+
+                }
+
+
+            }
+
+            RssSites::where('id', $id)->update([
+                'status' => 'done'
+            ]);
+        }
+
+
+    }
+
+    public function rssPostFacebook()
+    {
+        $datas = RssData::take(5)->where('fb', 'pending')->get();
+
+        foreach ($datas as $data) {
+            $fbAppId = Setting::where('userId', $data->userId)->value('fbAppId');
+            $appSec = Setting::where('userId', $data->userId)->value('fbAppSec');
+
+            $fb = new Facebook([
+                'app_id' => $fbAppId,
+                'app_secret' => $appSec,
+                'default_graph_version' => 'v2.6',
+            ]);
+
+            $pageId = "";
+            $accessToken = "";
+
+            try {
+                $content = [
+                    "message" => $data->description
+                ];
+                $post = $fb->post($pageId . "/feed", $content, $accessToken);
+
+            } catch (FacebookSDKException $fse) {
+
+                return $fse->getMessage();
+            }
+        }
+
+
+    }
+
+    public function resetRssSites()
+    {
+        RssSites::query()->update([
+            'status' => 'pending'
+        ]);
     }
 }
 

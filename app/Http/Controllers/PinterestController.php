@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\pinTags;
+use App\Setting;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -14,11 +15,13 @@ class PinterestController extends Controller
 {
 
 
-    public function index()
+    public function index($username)
     {
         if (!Data::myPackage('pinterest')) {
             return view('errors.404');
         }
+
+        $userId = Setting::where('pinUser', $username)->value('userId');
 
 //        $pinterest = PinterestBot::create();
 //        $pinterest->auth->login(Data::get('pinUser'), Data::get('pinPass'));
@@ -40,7 +43,7 @@ class PinterestController extends Controller
 
 // Wait 5 seconds
 //        $pinterest->wait(5);
-        return view('pinBot');
+        return view('pinBot',compact('username','userId'));
 
     }
 
@@ -261,7 +264,7 @@ class PinterestController extends Controller
         }
         try {
             $pinTag = new pinTags();
-            $pinTag->userId = Auth::user()->id;
+            $pinTag->userId = $request->userId;
             $pinTag->tag = $request->tag;
             $pinTag->status = 'pending';
             $pinTag->save();
@@ -271,10 +274,10 @@ class PinterestController extends Controller
         }
     }
 
-    public function getTags()
+    public function getTags(Request $request)
     {
         try {
-            $tags = pinTags::where('userId', Auth::user()->id)->get();
+            $tags = pinTags::where('userId', $request->userId)->get();
             foreach ($tags as $tag) {
                 echo '
                 <div class="btn-group button-tag">
@@ -336,6 +339,44 @@ class PinterestController extends Controller
     {
         try {
             pinTags::where('id', $request->id)->delete();
+            return "success";
+        } catch (\Exception $exception) {
+            return $exception->getMessage();
+        }
+    }
+
+
+    public function addAccountIndex()
+    {
+        if (!Data::myPackage('pinterest')) {
+            return view('errors.404');
+        }
+
+        return view('pinterestAddAccount');
+
+    }
+
+    public function addAccount(Request $request)
+    {
+        if (Setting::where('pinUser', $request->pinUser)->where('parent', Auth::user()->id)->exists()) {
+            return "This account already exist";
+        }
+        if ($request->pinUser == "") {
+            return "Please enter pinterest Username";
+        }
+
+        if ($request->pinPass == "") {
+            return "Please enter pinterest Password";
+        }
+
+        try {
+            $settings = new Setting();
+            $settings->userId = rand(1000, 9999);
+            $settings->pinUser = $request->pinUser;
+            $settings->pinPass = $request->pinPass;
+            $settings->parent = Auth::user()->id;
+            $settings->type = "pinterest";
+            $settings->save();
             return "success";
         } catch (\Exception $exception) {
             return $exception->getMessage();

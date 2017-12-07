@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\FacebookPublicPages;
 use App\Fbgr;
+use App\InstagramContentList;
 use App\Phones;
 use App\Setting;
 use App\Tu;
@@ -288,7 +289,12 @@ class Prappo extends Controller
 //        $rss = \Feed::loadRss('https://thenextweb.com/feed');
 //        print_r($rss);
 //        echo "<img src='https://www.google.com/s2/favicons?domain=https://teamtreehouse.com/'>";
-        return "working";
+//        $data = InstagramContentList::where('userId',2)->whereBetween('created_at',array(Carbon::now()->startOfMonth(),Carbon::now()->endOfMonth()))->count();
+//        print_r($data);
+
+        print_r(Carbon::now()->toDateString());
+
+//        print_r(Carbon::now()->startOfMonth()->toDateTimeString());
     }
 
     public static function comment($id, $text)

@@ -49,6 +49,8 @@ class CreateSettingsTable extends Migration
             $table->string('pinUser')->nullable();
             $table->string('pinPass')->nullable();
             $table->string('lang')->nullable();
+            $table->string('parent')->nullable();
+            $table->string('type')->nullable();
             $table->timestamps();
         });
     }

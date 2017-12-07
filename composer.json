@@ -22,7 +22,8 @@
         "nwidart/laravel-modules": "^1.19",
         "eden/sqlite": "^4.0",
         "seregazhuk/pinterest-bot": "^5.4",
-        "dg/rss-php": "^1.2"
+        "dg/rss-php": "^1.2",
+        "dawson/youtube": "^2.0"
 
 
     },

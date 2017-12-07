@@ -22,16 +22,15 @@ class TwitterController extends Controller
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
-    public function index()
+    public function index($username)
     {
         if (!Data::myPackage('tw')) {
             return view('errors.404');
         }
 
 
-        if (Data::get('twTokenSec') == "" || Data::get('twConKey') == "") {
-            return redirect('/settings');
-        }
+        $userId = Setting::where('twUser', $username)->value('userId');
+
 
 //        $consumerKey = Data::get('twConKey');
 //        $consumerSecret = Data::get('twConSec');
@@ -46,7 +45,7 @@ class TwitterController extends Controller
 //        return view('Twitter', compact('tw', 'twRep', 'me'));
 
 
-        return view('twAutoLike');
+        return view('twAutoLike', compact('userId', 'username'));
     }
 
     public function getInboxIndex()
@@ -466,13 +465,13 @@ class TwitterController extends Controller
 
     public function addTag(Request $request)
     {
-        if (TwTags::where('userId', Auth::user()->id)->where('tag', $request->tag)->exists()) {
+        if (TwTags::where('userId', $request->userId)->where('tag', $request->tag)->exists()) {
             return "Tag already added";
         }
 
         try {
             $addTag = new TwTags();
-            $addTag->userId = Auth::user()->id;
+            $addTag->userId = $request->userId;
             $addTag->tag = $request->tag;
             $addTag->status = 'pending';
             $addTag->save();
@@ -482,10 +481,10 @@ class TwitterController extends Controller
         }
     }
 
-    public function getTags()
+    public function getTags(Request $request)
     {
         try {
-            $tags = TwTags::where('userId', Auth::user()->id)->get();
+            $tags = TwTags::where('userId', $request->userId)->get();
             foreach ($tags as $tag) {
                 echo '
                 <div class="btn-group button-tag">
@@ -609,11 +608,11 @@ class TwitterController extends Controller
         }
     }
 
-    public function getFollowers()
+    public function getFollowers(Request $request)
     {
 
         try {
-            foreach (TwFollowers::where('userId', Auth::user()->id)->get() as $followers) {
+            foreach (TwFollowers::where('userId', $request->userId)->get() as $followers) {
                 echo '
                  <div class="btn-group button-tag">
                                                     <button type="button" class="btn btn-default label-button"><img
@@ -660,7 +659,8 @@ class TwitterController extends Controller
                   type:"POST",
                   url:"' . url('/twitter/follower/delete') . '",
                   data:{
-                      "id":id
+                      "id":id,
+                      "userId":"' . $request->userId . '"
                   },
                   success:function(data){
                   if(data=="success"){
@@ -683,11 +683,11 @@ class TwitterController extends Controller
 
     public function addFollowers(Request $request)
     {
-        if (!TwFollowers::where('username', $request->username)->where('userId', Auth::user()->id)->exists()) {
+        if (!TwFollowers::where('username', $request->username)->where('userId', $request->userId)->exists()) {
             try {
 
                 $follower = new TwFollowers();
-                $follower->userId = Auth::user()->id;
+                $follower->userId = $request->userId;
                 $follower->username = $request->username;
                 $follower->profile_pic = $request->image;
                 $follower->followers = $request->followers;
@@ -710,7 +710,67 @@ class TwitterController extends Controller
     public function deleteFollower(Request $request)
     {
         try {
-            TwFollowers::where('userId', Auth::user()->id)->where('id', $request->id)->delete();
+            TwFollowers::where('userId', $request->userId)->where('id', $request->id)->delete();
+            return "success";
+        } catch (\Exception $exception) {
+            return $exception->getMessage();
+        }
+    }
+
+    public function addAccountIndex()
+    {
+        if (!Data::myPackage('tw')) {
+            return view('errors.404');
+        }
+
+        return view('twitterAddAccount');
+    }
+
+    public function addAccount(Request $request)
+    {
+        if ($request->twConKey == "") {
+            return "Input twitter consumer key";
+        }
+
+        if ($request->twConSec == "") {
+            return "Input twitter consumer secret";
+        }
+
+        if ($request->twToken == "") {
+            return "Input twitter token";
+        }
+
+        if ($request->twTokenSec == "") {
+            return "Input twitter token secret";
+        }
+
+        if ($request->twUser == "") {
+            return "Input twitter username";
+        }
+
+
+        try {
+            $settings = new Setting();
+            $settings->userId = rand(1000, 9999);
+            $settings->twConKey = $request->twConKey;
+            $settings->twConSec = $request->twConSec;
+            $settings->twToken = $request->twToken;
+            $settings->twTokenSec = $request->twTokenSec;
+            $settings->twUser = $request->twUser;
+            $settings->type = "twitter";
+            $settings->parent = Auth::user()->id;
+            $settings->save();
+            return "success";
+        } catch (\Exception $exception) {
+            return $exception->getMessage();
+        }
+    }
+
+    public function delAccount(Request $request)
+    {
+        try {
+            Setting::where('userId', $request->userId)->delete();
+            TwTags::where('userId', $request->userId)->delete();
             return "success";
         } catch (\Exception $exception) {
             return $exception->getMessage();

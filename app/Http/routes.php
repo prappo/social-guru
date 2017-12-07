@@ -23,6 +23,12 @@ Route::get('/robot/pinterest', 'ScheduleController@grabPinterestContent');
 Route::get('/schedule/get/request', 'ScheduleController@testRequest');
 Route::get('/schedule/check', 'ScheduleController@checkRequest');
 
+//Rss
+
+Route::get('/robot/rss', 'ScheduleController@grabRssContent');
+// Reset all sites status "done" to "pending"
+Route::get('/rss/sites/reset', 'ScheduleController@resetRssSites');
+
 
 Route::group(['middleware' => 'web'], function () {
     Route::auth();
@@ -83,6 +89,12 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('/twitter/follower/delete', 'TwitterController@deleteFollower');
 
         Route::get('/twitter/auto/like', 'TwitterController@autoLikeIndex');
+
+        Route::get('/twitter/add', 'TwitterController@addAccountIndex');
+        Route::post('/twitter/add', 'TwitterController@addAccount');
+
+        Route::get('/twitter/account/{username}', 'TwitterController@index');
+        Route::post('/twitter/account/delete', 'TwitterController@delAccount');
 
         Route::get('/tumblr', 'TumblrController@index');
         Route::get('/wordpress', 'WordpressController@index');
@@ -252,6 +264,12 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/instagram/info/{id}', 'InstagramController@getMediaInfo');
         Route::get('/instagram/followers/get/now', 'InstagramController@getInFollowers');
 
+        Route::get('/instagram/add', 'InstagramController@addAccountIndex');
+        Route::post('/instagram/add', 'InstagramController@addAccount');
+
+        Route::get('/instagram/account/{username}', 'InstagramController@accountIndex');
+        Route::post('/instagram/account/delete', 'InstagramController@deleteAccount');
+
 
         // instagram post
 
@@ -292,6 +310,7 @@ Route::group(['middleware' => 'web'], function () {
 
         Route::get('/youtube/download', 'Youtube@downloadIndex');
         Route::post('/youtube/download', 'Youtube@download');
+        Route::get('/youtube', 'YoutubeController@index');
 
         // plugins
         Route::get('/plugin/list', 'Plugins@index');
@@ -307,7 +326,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/shop/plugins', 'ShopController@getPlugins');
 
 //        pinterest rotues
-        Route::get('/pinterest', 'PinterestController@index');
+//        Route::get('/pinterest', 'PinterestController@index');
         Route::get('/pinterest/scraper', 'PinterestController@scraperIndex');
         Route::post('/pinterest/search', 'PinterestController@scraper');
         Route::get('/pinterest/home', 'PinterestController@home');
@@ -315,6 +334,12 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('/pinterest/tag/remove', 'PinterestController@deleteTag');
         Route::post('/pinterest/tag/get', 'PinterestController@getTags');
         Route::post('/pinterest/tag/add', 'PinterestController@addTag');
+
+        Route::get('/pinterest/add', 'PinterestController@addAccountIndex');
+
+        Route::post('/pinterest/add', 'PinterestController@addAccount');
+
+        Route::get('/pinterest/account/{username}', 'PinterestController@index');
 
 
 //        RSS routes

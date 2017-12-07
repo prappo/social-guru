@@ -21,6 +21,7 @@ class CreateRssSitesTable extends Migration
             $table->string('description')->nullable();
             $table->string('time')->nullable();
             $table->string('image')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

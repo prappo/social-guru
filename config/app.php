@@ -157,6 +157,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         // for module
         Nwidart\Modules\LaravelModulesServiceProvider::class,
+        // youtube
+        Dawson\Youtube\YoutubeServiceProvider::class,
         
 
     ],
@@ -205,6 +207,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
         'Module' => Nwidart\Modules\Facades\Module::class,
+        'Youtube' => Dawson\Youtube\Facades\Youtube::class,
 
 
 

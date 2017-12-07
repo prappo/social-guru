@@ -12,14 +12,14 @@ class ServiceController extends Controller
 {
     public function startService(Request $request)
     {
-        if (Service::where('userId', Auth::user()->id)->exists()) {
-            Service::where('userId', Auth::user()->id)->update([
+        if (Service::where('userId', $request->userId)->exists()) {
+            Service::where('userId', $request->userId)->update([
                 $request->type => 'start'
             ]);
             return "success";
         } else {
             $service = new Service();
-            $service->userId = Auth::user()->id;
+            $service->userId = $request->userId;
             if ($request->type == "fb") {
                 $service->fb = "start";
             } elseif ($request->type == "tw") {
@@ -36,14 +36,14 @@ class ServiceController extends Controller
 
     public function stopService(Request $request)
     {
-        if (Service::where('userId', Auth::user()->id)->exists()) {
-            Service::where('userId', Auth::user()->id)->update([
+        if (Service::where('userId', $request->userId)->exists()) {
+            Service::where('userId', $request->userId)->update([
                 $request->type => 'stop'
             ]);
             return "success";
         } else {
             $service = new Service();
-            $service->userId = Auth::user()->id;
+            $service->userId = $request->userId;
             if ($request->type == "fb") {
                 $service->fb = "stop";
             } elseif ($request->type == "tw") {

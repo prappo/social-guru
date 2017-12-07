@@ -37,12 +37,22 @@
                         @endif
 
                         <hr>
-                        <div class="input-group input-group-xs">
-                            <input id="url" type="text" placeholder="Input your site here" class="form-control">
-                            <span class="input-group-btn">
-                      <button type="button" class="btn btn-info btn-flat"><i class="fa fa-globe"></i></button>
-                    </span>
-                        </div>
+                        {{--<div class="input-group input-group-xs">--}}
+                            {{--<input id="url" type="text" placeholder="Input your site here" class="form-control">--}}
+                            {{--<span class="input-group-btn">--}}
+                      {{--<button type="button" class="btn btn-info btn-flat"><i class="fa fa-globe"></i></button>--}}
+                    {{--</span>--}}
+                        {{--</div>--}}
+
+
+                            <div class="form-group">
+
+                                <select id="url" class="form-control">
+                                    @foreach($datas as $data)
+                                        <option id="{{$data->id}}">{{$data->site}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
 
                         <div class="box-body">
@@ -126,16 +136,16 @@
                                     @endif
                                 @endif
 
-                                @if(\App\Http\Controllers\Data::myPackage('in'))
-                                    @if(!empty(\App\Http\Controllers\Data::get('inPass')))
-                                        <div class="checkbox">
-                                            <label>
-                                                <input id="in" type="checkbox">
-                                                <i class="fa fa-instagram"></i> Instagram
-                                            </label>
-                                        </div>
-                                    @endif
-                                @endif
+                                {{--@if(\App\Http\Controllers\Data::myPackage('in'))--}}
+                                    {{--@if(!empty(\App\Http\Controllers\Data::get('inPass')))--}}
+                                        {{--<div class="checkbox">--}}
+                                            {{--<label>--}}
+                                                {{--<input id="in" type="checkbox">--}}
+                                                {{--<i class="fa fa-instagram"></i> Instagram--}}
+                                            {{--</label>--}}
+                                        {{--</div>--}}
+                                    {{--@endif--}}
+                                {{--@endif--}}
 
 
                             </div>
@@ -154,7 +164,7 @@
                                         <th>FB Group</th>
                                         <th>Linkedin</th>
                                         <th>Twitter</th>
-                                        <th>Instagram</th>
+                                        {{--<th>Instagram</th>--}}
 
                                     </tr>
                                     </thead>
@@ -198,14 +208,14 @@
                                                 @endif
                                             </td>
 
-                                            <td align="center">
-                                                @if($data->in == "no")
-                                                    <i class="fa fa-close" style="color:red"></i>
-                                                @else
-                                                    <i class="fa fa-check" style="color: green"></i>
-                                                    {{$data->in}}
-                                                @endif
-                                            </td>
+                                            {{--<td align="center">--}}
+                                                {{--@if($data->in == "no")--}}
+                                                    {{--<i class="fa fa-close" style="color:red"></i>--}}
+                                                {{--@else--}}
+                                                    {{--<i class="fa fa-check" style="color: green"></i>--}}
+                                                    {{--{{$data->in}}--}}
+                                                {{--@endif--}}
+                                            {{--</td>--}}
 
 
                                         </tr>
@@ -221,7 +231,7 @@
                                         <th>FB Group</th>
                                         <th>Linkedin</th>
                                         <th>Twitter</th>
-                                        <th>Instagram</th>
+                                        {{--<th>Instagram</th>--}}
                                     </tr>
                                     </tfoot>
                                 </table>
